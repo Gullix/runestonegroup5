@@ -5,7 +5,7 @@
 #from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
-import thread
+import _thread
 import time
 import bluetooth
 from bluetooth import *
@@ -20,7 +20,7 @@ def btConnect(threadName, port):
   for addr, name in nearby_devices:
     print("  %s - %s" % (addr, name))
     '''
-  server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+  server_sock=BluetoothSocket( RFCOMM )
   server_sock.bind(("",PORT_ANY))
   server_sock.listen(1)
 
