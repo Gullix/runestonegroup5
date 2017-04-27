@@ -14,6 +14,7 @@ public class RobotBob {
 		LCD.drawString("Plugin Test", 0, 4);
 		//Delay.msDelay(5000);
 		//Motor.B.rotateTo( 360 *4);
+		//hello
 		EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S3);
 		SampleProvider sampleProvider = colorSensor.getColorIDMode();
 		float[] samples = new float[sampleProvider.sampleSize()];
