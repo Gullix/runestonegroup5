@@ -36,7 +36,7 @@ public class Main {
 			String command = new String(buf, StandardCharsets.UTF_8);
 			LCD.drawString(command, 0, 2);
 
-			if ("forw".equals(command)) {
+			if ((char)buf[0] == 'f') {
 				pilot.travel(200);
 			}
 
