@@ -1,13 +1,11 @@
 package Robot;
 
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 
 import lejos.hardware.Bluetooth;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.Motor;
-import lejos.remote.nxt.NXTCommConnector;
 import lejos.remote.nxt.NXTConnection;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
@@ -16,16 +14,18 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 
 public class RobotBob {
-
+	
 	public static void main(String[] args) {
+		LCD.clearDisplay();
 		LCD.drawString("Plugin Test", 0, 4);
-		String PyServer= "00:0C:78:76:64:DB";
-		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
-		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C, 56f).offset(-60);
-		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
-		
-		MovePilot pilot = new MovePilot(chassis);
+		//Maxwell server ~> 00:0C:78:76:64:DB
+		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect("24:0A:64:7C:89:B2",2);
 		RobotMove rm = new RobotMove();
+		
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		MovePilot pilot = new MovePilot(chassis);
 		//Delay.msDelay(5000);
 		//Motor.B.rotateTo( 360 *4);
 		//hello
@@ -44,12 +44,12 @@ public class RobotBob {
 		//String name = "noadress";
 		//name = btDevice.getBluetoothAddress();
 		
-		NXTCommConnector nxtCom = Bluetooth.getNXTCommConnector();
+		
+		
+    	/*LCD.drawString("connecting", 0, 2);
+    	
 		LCD.clearDisplay();
-    	LCD.drawString("connecting", 0, 2);
-    	NXTConnection mConnection= nxtCom.connect(PyServer,2);
-		LCD.clearDisplay();
-    	LCD.drawString("trying", 0, 2);
+    	LCD.drawString("trying", 0, 2);*/
       
 		try{
 			byte[] bMessage = "Hello server from Bob".getBytes(StandardCharsets.UTF_8);
@@ -58,7 +58,7 @@ public class RobotBob {
 			mConnection.read(sMessage, 1024);
 			LCD.clearDisplay();
 			String str = new String(sMessage, StandardCharsets.UTF_8);
-			LCD.drawString(str + "", 0, 2);
+			LCD.drawString(str + " ", 0, 2);
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
 			while(talkWithServer){
@@ -92,6 +92,8 @@ public class RobotBob {
 					  		throw new IllegalArgumentException("Command not found\n");
 					  }
 				  }
+				//System.out.println("");
+				mConnection.write("ack".getBytes(), 3);
 			  }
 		  } catch (IOException e) {
 			  	LCD.clearDisplay();
