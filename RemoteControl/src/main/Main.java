@@ -33,26 +33,28 @@ public class Main {
 		while (!finished) {
 			byte[] buf = new byte[1024];
 			conn.read(buf, buf.length);
-			String command = new String(buf, StandardCharsets.UTF_8);
+			
+			String command = new String(buf).trim();
+			
 			LCD.drawString(command, 0, 2);
 
-			if ((char)buf[0] == 'f') {
+			if (command.equals("forw")) {
 				pilot.travel(200);
 			}
 
-			if ((char)buf[0] == 'b') {
+			if (command.equals("back")) {
 				pilot.travel(-200);
 			}
 
-			if ((char)buf[0] == 'l') {
+			if (command.equals("left")) {
 				pilot.arc(0, 90);
 			}
 
-			if ((char)buf[0] == 'r') {
+			if (command.equals("right")) {
 				pilot.arc(0, -90);
 			}
 			
-			if ((char)buf[0] == 'd') {
+			if (command.equals("done")) {
 				finished = true;
 			}
 			
