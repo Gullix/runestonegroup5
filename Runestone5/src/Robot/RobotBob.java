@@ -6,8 +6,13 @@ import java.nio.charset.StandardCharsets;
 
 import lejos.hardware.Bluetooth;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.Motor;
 import lejos.remote.nxt.NXTCommConnector;
 import lejos.remote.nxt.NXTConnection;
+import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
+import lejos.robotics.chassis.WheeledChassis;
+import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 
 public class RobotBob {
@@ -15,6 +20,11 @@ public class RobotBob {
 	public static void main(String[] args) {
 		LCD.drawString("Plugin Test", 0, 4);
 		String PyServer= "00:0C:78:76:64:DB";
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C, 56f).offset(-60);
+		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		
+		MovePilot pilot = new MovePilot(chassis);
 		RobotMove rm = new RobotMove();
 		//Delay.msDelay(5000);
 		//Motor.B.rotateTo( 360 *4);
@@ -60,21 +70,22 @@ public class RobotBob {
 					mConnection.close();
 					break;
 				} else {
-					switch(str){
+					String[] arr = str.split(",");
+					switch(arr[0].trim()){
 						case("MOVE"):
-							rm._move();
+							rm._move(arr[1], arr[2], pilot);
 							break;
 							
 					  	case("PICKUP"):
-					  		rm._pickup();
+					  		rm._pickup(arr[1]);
 					  		break;
 					  		
 					  	case("DONE"):
-					  		rm._done();
+					  		rm._done(arr[1]);
 					  		break;
 					  	
 					  	case("GOTO"):
-					  		rm._goto();
+					  		rm._goto(arr[1]);
 					  		break;
 					  	
 					  	default: 

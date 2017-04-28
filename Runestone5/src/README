@@ -1,0 +1,9 @@
+From the website you can press a button such "MOVE" and then tell the robot to move
+in a particular direction. 
+
+Levels ~> 	MOVE: to move it manually 
+			PICKUP: should bring bricks into warehouse and viceversa 
+		  	DONE: close connection 
+		  	GOTO: double coordinates system! Simply goes into a direction
+		  	
+MOVE ~> LEFT, RIGHT, FORWARD, BACKWARD
