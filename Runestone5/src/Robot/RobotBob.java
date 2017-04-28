@@ -1,19 +1,13 @@
 package Robot;
 
-import java.io.DataOutputStream;
-import java.io.OutputStream;
+import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 
 import lejos.hardware.Bluetooth;
-import lejos.hardware.LocalBTDevice;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.motor.Motor;
-import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.remote.nxt.NXTCommConnector;
 import lejos.remote.nxt.NXTConnection;
-import lejos.robotics.Color;
-import lejos.robotics.SampleProvider;
-import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 
 public class RobotBob {
@@ -21,7 +15,7 @@ public class RobotBob {
 	public static void main(String[] args) {
 		LCD.drawString("Plugin Test", 0, 4);
 		String PyServer= "00:0C:78:76:64:DB";
-		
+		RobotMove rm = new RobotMove();
 		//Delay.msDelay(5000);
 		//Motor.B.rotateTo( 360 *4);
 		//hello
@@ -47,51 +41,52 @@ public class RobotBob {
 		LCD.clearDisplay();
     	LCD.drawString("trying", 0, 2);
       
-		  try{
-			String message = "hello server from Bob";
-			byte[] bMessage = message.getBytes(StandardCharsets.UTF_8);
-			  mConnection.write(bMessage,bMessage.length);
-			  byte[] sMessage = new byte[1024];
-			  mConnection.read(sMessage, 1024);
-			  LCD.clearDisplay();
-			  
-			  String str = new String(sMessage, StandardCharsets.UTF_8);
-			  LCD.drawString(str + "", 0, 2);
-			  Delay.msDelay(3000);
-			 
-	        }
-	        catch(Exception e){
-	        	LCD.clearDisplay();
-	        	LCD.drawString("exception", 0, 2);
-	    		Delay.msDelay(3000);
-	        }
-		  boolean talkWithServer = true;
-		  try{
-          while(talkWithServer){
-        	  byte[] sMessage = new byte[1024];
-			  mConnection.read(sMessage, 1024);
-			  String str = new String(sMessage, StandardCharsets.UTF_8);
-			  if (str.equals("DONE")){
-				 talkWithServer = false;
-				 mConnection.close();
-				 break;
-			  }
-			  else{
-				  switch(str){
-				  case("FORWARD"):
-					  
-					  break;
-				  case("LEFT"):
-					  
+		try{
+			byte[] bMessage = "Hello server from Bob".getBytes(StandardCharsets.UTF_8);
+			mConnection.write(bMessage,bMessage.length);
+			byte[] sMessage = new byte[1024];
+			mConnection.read(sMessage, 1024);
+			LCD.clearDisplay();
+			String str = new String(sMessage, StandardCharsets.UTF_8);
+			LCD.drawString(str + "", 0, 2);
+			Delay.msDelay(3000);
+			boolean talkWithServer = true;
+			while(talkWithServer){
+				sMessage = new byte[1024];
+				mConnection.read(sMessage, 1024);
+				str = new String(sMessage, StandardCharsets.UTF_8);
+				if (str.equals("DONE")){
+					talkWithServer = false;
+					mConnection.close();
+					break;
+				} else {
+					switch(str){
+						case("MOVE"):
+							rm._move();
+							break;
+							
+					  	case("PICKUP"):
+					  		rm._pickup();
+					  		break;
+					  		
+					  	case("DONE"):
+					  		rm._done();
+					  		break;
+					  	
+					  	case("GOTO"):
+					  		rm._goto();
+					  		break;
+					  	
+					  	default: 
+					  		throw new IllegalArgumentException("Command not found\n");
+					  }
 				  }
 			  }
-          }
-		  }
-          
-          
-          catch(Exception e){
-        	  
-          }
-	}  
-          
+		  } catch (IOException e) {
+			  	LCD.clearDisplay();
+			  	LCD.drawString("I/O exception", 0, 2);
+		  		Delay.msDelay(3000);
+		  		e.printStackTrace();
+		}
+	}      
 }
