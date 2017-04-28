@@ -72,3 +72,6 @@ hs_err_pid*
 
 # For mac 
 .DS_Store
+
+# For web
+.idea
