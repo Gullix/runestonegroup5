@@ -31,10 +31,10 @@ def run_remote_control():
 		while True:
 			sys.stdout.write(">>> ")
 			command = sys.stdin.readline().strip()
-			while command not in commands:
-				print "Valid commands are:", ", ".join(commands)
-				sys.stdout.write(">>> ")
-				command = sys.stdin.readline().strip()
+#			while command not in commands:
+#				print "Valid commands are:", ", ".join(commands)
+#				sys.stdout.write(">>> ")
+#				command = sys.stdin.readline().strip()
 			print "sending '{}'".format(command)
 			client_sock.send(command)
 			if command != "done":
