@@ -74,4 +74,4 @@ hs_err_pid*
 .DS_Store
 
 # For web
-.idea
+.idea/
