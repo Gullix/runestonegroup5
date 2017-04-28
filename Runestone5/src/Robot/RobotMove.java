@@ -8,17 +8,17 @@ public class RobotMove implements Movements{
 	public void _move(String direction, String cm, MovePilot mp) {
 		double d = Double.parseDouble(cm.trim())*10;
 		switch(direction.trim()){
-		case "FORWARD":
+		case "F":
 			mp.travel(d);
 			break;
-		case "BACKWARD":
+		case "B":
 			mp.travel(-d);
 			break;
-		case "LEFT":
+		case "L":
 			mp.arc(0,90);
 			mp.travel(d);
 			break;
-		case "RIGHT":
+		case "R":
 			mp.arc(0,-90);
 			mp.travel(d);
 			break;

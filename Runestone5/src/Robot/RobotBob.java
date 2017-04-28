@@ -72,19 +72,19 @@ public class RobotBob {
 				} else {
 					String[] arr = str.split(",");
 					switch(arr[0].trim()){
-						case("MOVE"):
+						case("M"):
 							rm._move(arr[1], arr[2], pilot);
 							break;
 							
-					  	case("PICKUP"):
+					  	case("P"):
 					  		rm._pickup(arr[1]);
 					  		break;
 					  		
-					  	case("DONE"):
+					  	case("D"):
 					  		rm._done(arr[1]);
 					  		break;
 					  	
-					  	case("GOTO"):
+					  	case("G"):
 					  		rm._goto(arr[1]);
 					  		break;
 					  	
