@@ -7,6 +7,8 @@ import lejos.hardware.motor.*;
 import lejos.hardware.lcd.*;
 import lejos.remote.nxt.*;
 import lejos.utility.Delay;
+import lejos.robotics.navigation.*;
+import lejos.robotics.chassis.*;
 
 public class Main {
 	
@@ -20,6 +22,13 @@ public class Main {
 		
 		NXTCommConnector nxtcom = Bluetooth.getNXTCommConnector();
 		NXTConnection conn = nxtcom.connect(BluetoothCardMacAddress, 2);
+		
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C, 56f).offset(-60);
+		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		
+		MovePilot pilot = new MovePilot(chassis);
+		
 		boolean finished = false;
 		while (!finished) {
 			byte[] buf = new byte[1024];
@@ -27,14 +36,24 @@ public class Main {
 			String command = new String(buf, StandardCharsets.UTF_8);
 			LCD.drawString(command, 0, 2);
 
-			if ((char)buf[0] == 'f') {
-				LCD.drawString("Got forw", 0, 3);
-				Motor.B.rotate(300);
+			if ("forw".equals(command)) {
+				pilot.travel(200);
 			}
 
 			if ((char)buf[0] == 'b') {
-				LCD.drawString("Got back", 0, 3);
-				Motor.C.rotate(300);
+				pilot.travel(-200);
+			}
+
+			if ((char)buf[0] == 'l') {
+				pilot.arc(0, 90);
+			}
+
+			if ((char)buf[0] == 'r') {
+				pilot.arc(0, -90);
+			}
+			
+			if ((char)buf[0] == 'd') {
+				finished = true;
 			}
 			
 			if (!finished) {
@@ -46,12 +65,6 @@ public class Main {
 			conn.close();
 		} catch (Exception e) {}
 
-	}
-	
-	private static void forward(){
-	}
-	
-	private static void backward(){
 	}
 
 }
