@@ -6,7 +6,7 @@ public class RobotMove implements Movements{
 
 	@Override
 	public void _move(String direction, String cm, MovePilot mp) {
-		double d = Double.parseDouble(cm.trim());
+		double d = Double.parseDouble(cm.trim())*10;
 		switch(direction.trim()){
 		case "FORWARD":
 			mp.travel(d);
