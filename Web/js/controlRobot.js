@@ -1,5 +1,8 @@
+var wSocket;
 $(function(){
+    openWebSocket();
      remoteButtonsClickable();
+     remoteButtonsOff();
 });
 
 function remoteButtonsClickable(){
@@ -22,8 +25,18 @@ function remoteButtonsClickable(){
     }
 }
 function moveRobot(direction, distance){
-    var serverAdress = "/";
+   wSocket.send("direction" + "," + distance);
+}
+function openWebSocket(){
+     var serverAdress = "/";
     wSocket = new WebSocket(serverAdress);
-    wSocket.send(direction + "," + distance);
+wSocket.onopen= function(event){
+    remoteButtonsClickable(wSocket);
+}
+wSocket.onclose() = function(event){
 
 }
+}
+window.addEventListener("beforeunload", function (e) {
+  wSocket.close();                         //Webkit, Safari, Chrome
+});
