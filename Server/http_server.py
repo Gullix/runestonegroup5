@@ -1,37 +1,27 @@
 #!/usr/bin/env python3
 
-import http.server
-import os
+import asyncio
+import websockets
 
-PORT = 8000
+PORT = 8001
 
+async def interact(websock, path, data):
+    while True:
+        message = await websock.recv()
+        print("Http: Received: ", message)
 
-def make_request_handler(data):
-    class RequestHandler(http.server.SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
-            super(RequestHandler, self).__init__(*args, **kwargs)
-
-            self.data = data
-
-
-        def do_POST(self):
-            """Respond to a POST request."""
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(bytes(data["test"], 'utf-8'))
-
-    return RequestHandler
-
+        if message.upper() in {"F", "B", "L", "R"}:
+            print("Http: setting direction of robot to ", message)
+            data["robot"]["direction"] = message
 
 def run_server(data):
 
-    # change to Web directory so we can use SimpleHTTP to serve the files
-    WEB_DIR = os.path.join(os.path.dirname(__file__), "../Web")
-    os.chdir(WEB_DIR)
+    asyncio.set_event_loop(asyncio.new_event_loop())
 
-    httpd = http.server.HTTPServer(("", PORT), make_request_handler(data))
-    httpd.serve_forever()
+    start_server = websockets.serve(lambda sock, path: interact(sock, path, data), 'localhost', 8001)
+
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
 
 
 if __name__ == "__main__":

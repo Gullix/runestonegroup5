@@ -1,6 +1,6 @@
 def get_target(data, robot_sock):
 
-    target = "M,R,10"
-    data["robot"]["last_target"] = target
+    dir = data["robot"]["direction"]
+    target = "M," + dir + ",10"
 
     robot_sock.send(bytes(target, "utf-8"))

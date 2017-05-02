@@ -4,10 +4,10 @@ import socket
 import robot_controller
 
 MAC_ADDRESS = "00:0C:78:76:64:DB"
-PORT = 3
+PORT = 1
 
 ACTIONS = {
-    "GET_TARGET": robot_controller.get_target
+    "GET_COMMAND": robot_controller.get_target
 }
 
 def validate(message):
@@ -37,19 +37,22 @@ def run_server(data):
     print("Blue: Starting server...")
     server_sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
     server_sock.bind((MAC_ADDRESS, PORT))
+    server_sock.listen()
 
     while not data["close_requested"]:
 
-        print("Blue: Waiting for robot to connect...")
-        server_sock.listen()
-
         try:
-            print("Blue: Connecting to robot...")
+
+            print("Blue: Waiting for robot to connect...")
             robot_sock, address = server_sock.accept()
+            print("Blue: Connected to Robot!")
 
             while True:
+                print("Blue: Robot is busy...")
                 message = robot_sock.recv(1024)
-                action, valid = validate(message)
+
+                action, valid = validate(str(message, "utf-8"))
+                print("Blue: Recieved: ", str(message))
                 if valid:
                     # Run the corresponding function in robot_controller.py
                     ACTIONS[action](data, robot_sock)
