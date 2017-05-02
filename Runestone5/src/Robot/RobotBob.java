@@ -18,8 +18,15 @@ public class RobotBob {
 	public static void main(String[] args) {
 		LCD.clearDisplay();
 		LCD.drawString("Plugin Test", 0, 4);
+		String[] adresses = {"00:0C:78:76:64:DB","74:DF:BF:4A:17:61"};
+		String[] textAdresses = {"Bluetooth dongle","Robert"};
+		BtMac btAdr = new BtMac(textAdresses);
+		int  selectedIndex = btAdr.doOption();
+		String selectedServer = adresses[selectedIndex];
 		//Maxwell server ~> 00:0C:78:76:64:DB
-		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect("24:0A:64:7C:89:B2",2);
+		// "24:0A:64:7C:89:B2"
+		// ROBERT 74:DF:BF:4A:17:61
+		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(selectedServer,2);
 		RobotMove rm = new RobotMove();
 		
 		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
@@ -89,7 +96,11 @@ public class RobotBob {
 					  		break;
 					  	
 					  	default: 
-					  		throw new IllegalArgumentException("Command not found\n");
+					  		LCD.clearDisplay();
+					  		LCD.drawString("Command not found", 0, 2);
+					  		LCD.drawString(str, 0, 3);
+					  		Delay.msDelay(1000);
+					  		//throw new IllegalArgumentException("Command not found\n");
 					  }
 				  }
 				//System.out.println("");

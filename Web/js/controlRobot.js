@@ -23,6 +23,7 @@ function remoteButtonsClickable(){
 }
 function moveRobot(direction, distance){
     var serverAdress = "/";
-    $.get(serverAdress + direction);
+    wSocket = new WebSocket(serverAdress);
+    wSocket.send(direction + "," + distance);
 
 }
