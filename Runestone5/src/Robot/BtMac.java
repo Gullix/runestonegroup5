@@ -24,10 +24,10 @@ BtMac(String[] addresses){
 		
 		switch(option){
 		case("prev"):
-		prevAdress();
+		prevAddress();
 		break;
 		case("next"):
-			nextAdress();
+			nextAddress();
 			break;
 			
 		default:
