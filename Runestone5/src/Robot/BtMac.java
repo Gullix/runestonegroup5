@@ -5,16 +5,21 @@ import lejos.hardware.Key;
 import lejos.hardware.KeyListener;
 import lejos.hardware.lcd.LCD;
 
+
+//DISPLAYS the MAC addresses it can try to connect to
 public class BtMac {
-public int adressIndex;
-public String[] adresses;
+public int addressIndex;
+public String[] addresses;
 public String displayServer;
 
-BtMac(String[] adresses){
-	this.adresses =adresses;
-	this.adressIndex =0;
-	this.displayServer = adresses[0];
+// An array of the address names (in text), 
+BtMac(String[] addresses){
+	this.addresses =addresses;
+	this.addressIndex =0;
+	this.displayServer = addresses[0];
 	}
+
+
 	private void newOption(String option){
 		
 		switch(option){
@@ -31,51 +36,58 @@ BtMac(String[] adresses){
 		}	
 
 }
-	private void prevAdress(){
-		if (this.adressIndex <= 0){
-			   this.adressIndex = this.adresses.length -1; 
+	
+	// the NEXT/PREV list addresses goes around like a loop
+	// The previous address 
+	private void prevAddress(){
+		if (this.addressIndex <= 0){
+			   this.addressIndex = this.addresses.length -1; 
 			}
 			else{
-				this.adressIndex--;
+				this.addressIndex--;
 			}
-		this.displayServer = this.adresses[adressIndex];
+		this.displayServer = this.addresses[addressIndex];
 		
 	}
-	private void nextAdress(){
-		if (this.adressIndex >= this.adresses.length -1){
-			   this.adressIndex = 0; 
+	// the next address
+	private void nextAddress(){
+		if (this.addressIndex >= this.addresses.length -1){
+			   this.addressIndex = 0; 
 			}
 			else{
-				this.adressIndex++;
+				this.addressIndex++;
 			}
-		this.displayServer = this.adresses[adressIndex];
+		this.displayServer = this.addresses[addressIndex];
 	}
 	private void displayCurrentServer(){
 		LCD.clear(4);
 		LCD.drawString(this.displayServer, 0, 4);
 	}
 	public int doOption(){
-		Boolean flag = false;
 		displayCurrentServer();
+		
+		// press left button on brick
 		Button.LEFT.addKeyListener(new KeyListener(){
 		    @Override public void keyReleased(    final Key k){
 		    }
 		    @Override public void keyPressed(    final Key k){
-		     prevAdress();
+		     prevAddress();
 		     displayCurrentServer();
 		    }
 		  });
+		// press right button on brick
 		Button.RIGHT.addKeyListener(new KeyListener(){
 		    @Override public void keyReleased(    final Key k){
 		    }
 		    @Override public void keyPressed(    final Key k){
-		    	nextAdress();
+		    	nextAddress();
 		     displayCurrentServer();
 		    }
 		  });
+		// press enter button on brick
 		while(true){
 		if(Button.ENTER.isDown()){
-			return this.adressIndex;
+			return this.addressIndex;
 		}
 		}
        
