@@ -4,6 +4,7 @@ def new_shared_dict():
         "test": "TEST SUCCESSFUL",
         "close_requested": False,
         "robot": {
-            "last_target": None
+            "last_target": None,
+            "direction": "F"
         }
     }
