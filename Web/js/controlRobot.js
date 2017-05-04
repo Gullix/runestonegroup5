@@ -1,29 +1,46 @@
+var wSocket;
 $(function(){
+    openWebSocket();
      remoteButtonsClickable();
+     //remoteButtonsOff();
 });
 
 function remoteButtonsClickable(){
 
     var forward_button = document.getElementById("forward_button");
     forward_button.onclick = function(){
-        moveRobot("forward",10);
+        moveRobot("F",10);
+        console.log("forw")
     }
     var backward_button = document.getElementById("backward_button");
     backward_button.onclick = function(){
-        moveRobot("backward",10);
+        moveRobot("B",10);
+        console.log("back")
     }
     var left_button = document.getElementById("left_button");
-    forward_button.onclick = function(){
-        moveRobot("left",10);
+    left_button.onclick = function(){
+        moveRobot("L",10);
+        console.log("left")
     }
     var right_button = document.getElementById("right_button");
-    forward_button.onclick = function(){
-        moveRobot("right",10);
+    right_button.onclick = function(){
+        moveRobot("R",10);
+        console.log("righ")
     }
 }
 function moveRobot(direction, distance){
-    var serverAdress = "/";
-    wSocket = new WebSocket(serverAdress);
-    wSocket.send(direction + "," + distance);
-
+   wSocket.send(direction);
 }
+function openWebSocket(){
+     var serverAddress = "ws://" + location.hostname + ":" + 8001;
+    wSocket = new WebSocket(serverAddress);
+    wSocket.onopen= function(event){
+        remoteButtonsClickable(wSocket);
+    }
+    wSocket.onclose = function(event){
+
+    }
+}
+// window.addEventListener("beforeunload", function (e) {
+//   wSocket.close();                         //Webkit, Safari, Chrome
+// });
