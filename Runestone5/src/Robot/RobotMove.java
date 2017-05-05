@@ -5,22 +5,22 @@ import lejos.robotics.navigation.MovePilot;
 public class RobotMove implements Movements{
 
 	@Override
-	public void _move(String direction, String cm, MovePilot mp) {
-		double d = Double.parseDouble(cm.trim())*10;
-		switch(direction.trim()){
+	public void _move(Move m) {
+		double d = Double.parseDouble(m.getCm().trim())*10;
+		switch(m.getDirection().trim()){
 		case "F":
-			mp.travel(d);
+			m.getMp().travel(d);
 			break;
 		case "B":
-			mp.travel(-d);
+			m.getMp().travel(-d);
 			break;
 		case "L":
-			mp.arc(0,90);
-			mp.travel(d);
+			m.getMp().arc(0,90);
+			m.getMp().travel(d);
 			break;
 		case "R":
-			mp.arc(0,-90);
-			mp.travel(d);
+			m.getMp().arc(0,-90);
+			m.getMp().travel(d);
 			break;
 		
 		default: throw new IllegalArgumentException("Direction not found!\n");

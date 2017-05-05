@@ -34,6 +34,7 @@ public class RobotBob {
 		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
 		MovePilot pilot = new MovePilot(chassis);
 		
+		BobStack.getInstance();
 		if (selectedServer.equals("")){
 			//OFFLINE TESTING
 			String [] colorsAvailable = {"magenta", "cyan","yellow","red", "green","white", "blue"};
@@ -41,7 +42,7 @@ public class RobotBob {
 		   cCal.calibrateColors();
 		   Delay.msDelay(3000);
 		   while(!(cCal.seeColor("white"))){
-			   rm._move("F","5", pilot);
+			   rm._move(new Move("F","5", pilot));
 			   
 		   }
 		   
@@ -75,9 +76,10 @@ public class RobotBob {
 					break;
 				} else {
 					String[] arr = str.split(",");
+					Move m;
 					switch(arr[0].trim()){
 						case("M"):
-							rm._move(arr[1], arr[2], pilot);
+							rm._move(new Move(arr[1], arr[2], pilot));
 							break;
 							
 					  	case("P"):
