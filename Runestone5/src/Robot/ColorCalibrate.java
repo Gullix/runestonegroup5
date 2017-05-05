@@ -21,7 +21,6 @@ public class ColorCalibrate {
 	Port sensorPort = LocalEV3.get().getPort("S1");   
 	EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
 	this.colorRGBSensor = colorSensor.getRGBMode();
-	calibrateColors();
     }
 	public void calibrateColors(){
 		String[] calibrate = this.colorsText;
@@ -33,7 +32,7 @@ public class ColorCalibrate {
 	    	 LCD.drawString("Calibrate "  + calibrate[i],0,4);
 	    	 Delay.msDelay(3000);
 	    	 colorRGBSensor.fetchSample(sample, 0);
-	    	 // Robert this.colorValues[i] = ColorConversion.rgbToLab(sample);
+	    	 this.colorValues[i] = ColorConversion.RgbToLab(sample);
 	    	 LCD.drawString("Read done "  + calibrate[i],0,4);
 	    }
 	}
@@ -43,10 +42,13 @@ public class ColorCalibrate {
 		while(true){
 		colorRGBSensor.fetchSample(sample, 0);
 		int mostSimIndex =0;
-		// Rovert float[] sampleLab =  ColorConversion.rgbToLab(sample);
-		//Robert mostSimIndex = ColorConversion.MostSimilar(this.colorValues,sampleLab);
-		LCD.clear(4);
-   	    LCD.drawString("I see "  + colorsText[mostSimIndex],0,4);
+		float[] sampleLab =  ColorConversion.RgbToLab(sample);
+	    mostSimIndex = ColorConversion.MostSimilar(this.colorValues,sampleLab);
+	    float[] colorLabVal = this.colorValues[mostSimIndex];
+		LCD.clear();
+   	    LCD.drawString("I see "  + colorsText[mostSimIndex],0,1);
+   	    for( int i =0; i <3; i++)
+   	    LCD.drawString("s:" + ( (int) ( colorLabVal[i] * 100) )+  "r"  + ( (int) ( sampleLab[i] * 100) ) ,0,2+i);
    	    Delay.msDelay(1000);
 		}
 	}

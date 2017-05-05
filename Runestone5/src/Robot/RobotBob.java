@@ -29,26 +29,10 @@ public class RobotBob {
 		String selectedServer = addresses[selectedIndex];
 		if (selectedServer.equals("")){
 			//OFFLINE TESTING
-			Port sensorPort = LocalEV3.get().getPort("S1");   
-			EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
-			SensorMode colorRGBSensor = colorSensor.getRGBMode();
-			int sampleSize = colorRGBSensor.sampleSize();            
-			float[] sample = new float[sampleSize];
-            
-            
-            
-            
-            while(true){
-            	 LCD.clear();
-            	 colorRGBSensor.fetchSample(sample, 0);
-            for(int i =0; i<sampleSize; i++){
-            	float res = sample[i] * 255;
-            	int val = (int) res;
-            	LCD.drawString("" + val , 0, i);
-            	Delay.msDelay(1000);
-            }
-            Delay.msDelay(3000);
-            }
+			String [] colorsAvailable = {"magenta", "cyan","yellow","red", "green","white", "blue"};
+		   ColorCalibrate cCal = new ColorCalibrate(colorsAvailable);
+		   cCal.calibrateColors();
+		   cCal.identifyColor();
 		}
 		 
 		else{
