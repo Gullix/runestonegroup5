@@ -105,14 +105,14 @@ public class ColorCalibrate {
 	}
     public void dataFromFile(){
     	String sep = "-";
-    	Charset charset = Charset.forName("UTF8");
+    	Charset charset = Charset.forName("UTF_8");
     	File colorFile = new File("colorData.txt");
     	try{
     	List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
     	int listSize =dataList.size();
     	this.colorValues = new float[listSize][3];
     	this.colorsText = new String[listSize];
-    	for(int i =0; i< listSize;i ++){
+    	for(String element : dataList){
     		String element = dataList.get(i);
     		String[] elementSplit = element.split(sep);
     		String name= elementSplit[0].trim();
