@@ -1,7 +1,11 @@
 package Robot;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.List;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
@@ -25,26 +29,44 @@ public class ColorCalibrate {
 	EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
 	this.colorRGBSensor = colorSensor.getRGBMode();
     }
+	ColorCalibrate(){
+		Port sensorPort = LocalEV3.get().getPort("S1");   
+		EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
+		this.colorRGBSensor = colorSensor.getRGBMode();
+		dataFromFile();
+		
+	}
 	public void calibrateColors(){
+		int calibrationNumber = 10;
 		String[] calibrate = this.colorsText;
 		int colorlength = calibrate.length;
 		int sampleSize = this.colorRGBSensor.sampleSize();            
 		float[] sample = new float[sampleSize];
+		
+		
 		PrintWriter writer;
 		try{
-			writer = new PrintWriter("the-file-name.txt", "UTF-8");
+			writer = new PrintWriter("colorData.txt", "UTF-8");
 		
 		 for(int i =0; i< colorlength; i++){
 	    	 LCD.clear(4);
 	    	 LCD.drawString("Calibrate "  + calibrate[i],0,4);
 	    	 Delay.msDelay(3000);
-	    	 colorRGBSensor.fetchSample(sample, 0);
-	    	 float[] sampleLab =ColorConversion.RgbToLab(sample);
-	    	 this.colorValues[i] = sampleLab;
+	    	 float labSample_x =0;
+	     	 float labSample_y=0;
+	     	 float labSample_z=0;
+	    	 for(int j =0; j < calibrationNumber; j++){
+	    		 colorRGBSensor.fetchSample(sample, 0);
+		    	float[] labSample =ColorConversion.RgbToLab(sample);
+		    	labSample_x += labSample[0];
+		    	labSample_y += labSample[1];
+		    	labSample_z += labSample[2];
+		    	  }
+	    	 float[] averageLabCal = {labSample_x/ (float) calibrationNumber,labSample_y/ (float) calibrationNumber,labSample_z/ (float) calibrationNumber };
+	    	 this.colorValues[i] = averageLabCal;
 	    	 LCD.drawString("Read done "  + calibrate[i],0,4);
-	    	 
-	         writer.println(calibrate[i] + ":"+ sampleLab);
-	         writer.println("The second line");
+	    	 Delay.msDelay(1500);
+	         writer.println(calibrate[i] + "-" + averageLabCal[1] + "-" + averageLabCal[2] );
 		 }
 		 writer.close();
 		}
@@ -81,4 +103,32 @@ public class ColorCalibrate {
 		}
 		return false;
 	}
+    public void dataFromFile(){
+    	String sep = "-";
+    	Charset charset = Charset.forName("UTF8");
+    	File colorFile = new File("colorData.txt");
+    	try{
+    	List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
+    	int listSize =dataList.size();
+    	this.colorValues = new float[listSize][3];
+    	this.colorsText = new String[listSize];
+    	for(int i =0; i< listSize;i ++){
+    		String element = dataList.get(i);
+    		String[] elementSplit = element.split(sep);
+    		String name= elementSplit[0].trim();
+    		String val_x= elementSplit[1].trim();
+    		String val_y= elementSplit[2].trim();
+    		String val_z= elementSplit[3].trim();
+    	    this.colorValues[i][0]	= Float.parseFloat(val_x);
+    	    this.colorValues[i][1]	= Float.parseFloat(val_y);
+    	    this.colorValues[i][2]	= Float.parseFloat(val_z);
+    	    this.colorsText[i] = name;
+    	
+    	}
+    	}
+    	
+    	catch(Exception e){
+    		
+    	}
+    }
 }

@@ -16,17 +16,44 @@ import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
+import lejos.utility.TextMenu;
 
 public class RobotBob {
-	
-	public static void main(String[] args) {
+        public static void main(String[] args) {
 		LCD.clearDisplay();
 		LCD.drawString("Plugin Test", 0, 4);
-		String[] addresses = {"00:0C:78:76:64:DB","74:DF:BF:4A:17:61",""};
-		String[] textAddresses = {"Bluetooth dongle","Robert","NONE"};
-		BtMac btAdr = new BtMac(textAddresses);
-		int  selectedIndex = btAdr.doOption();
+		String[] addresses = {"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56",""};
+		String[] textAddresses = {"Bluetooth dongle","Robert","Emil","OFFLINE TEST"};
+		int numOfColors=10;
+		//BtMac btAdr = new BtMac(textAddresses);
+		//int  selectedIndex = btAdr.doOption();
+		//String selectedServer = addresses[selectedIndex];
+		RobotTextMenu robotMenu = new RobotTextMenu(textAddresses,"Choose bt");
+		int selectedIndex= robotMenu.selectOption();
 		String selectedServer = addresses[selectedIndex];
+		
+		String[] menuOptions ={"Use data fromTextFile","New Calibration"};
+		LCD.clear();
+		robotMenu = new RobotTextMenu(menuOptions,"ColorSensor");
+		selectedIndex= robotMenu.selectOption();
+		LCD.clear();
+		ColorCalibrate cCal;
+		switch(selectedIndex){
+		case(0):
+			
+			cCal = new ColorCalibrate();
+		    break;
+		default:
+			String [] colorsAvailable = new String[numOfColors];
+			for(int i =0; i < numOfColors; i++){
+				colorsAvailable[i] = (i+1) + "";
+			}
+			cCal = new ColorCalibrate(colorsAvailable);
+			cCal.calibrateColors();
+			
+			break;
+		}
+		
 		RobotMove rm = new RobotMove();
 		
 		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
@@ -37,14 +64,17 @@ public class RobotBob {
 		BobStack.getInstance();
 		if (selectedServer.equals("")){
 			//OFFLINE TESTING
-			String [] colorsAvailable = {"magenta", "cyan","yellow","red", "green","white", "blue"};
-		   ColorCalibrate cCal = new ColorCalibrate(colorsAvailable);
-		   cCal.calibrateColors();
-		   Delay.msDelay(3000);
-		   while(!(cCal.seeColor("white"))){
+			
+		   while(true){
+			   String catchMe = cCal.identifyColor();
+		   }
+		   
+		  /*
+		 while(!(cCal.seeColor("white"))){
 			   rm._move(new Move("F","5", pilot));
 			   
 		   }
+		  */
 		   
 			// end offline testing
 		}
@@ -112,5 +142,20 @@ public class RobotBob {
 		  		e.printStackTrace();
 		}
 		}
-	}      
+	}    
+	public static void menuHandler(){
+		String[] menuOptions ={"Use data fromTextFile","New Calibration"};
+		String menuTitle = "Color calibration";
+		TextMenu robotTextMenu = new TextMenu(menuOptions,0,menuTitle);
+		int selectedOption = robotTextMenu.select();
+		
+	}
+	public static void colorInitiation(int numOfColors){
+		String [] colorsAvailable = new String[numOfColors];
+		for(int i =0; i < numOfColors; i++){
+			colorsAvailable[i] = (i+1) + "";
+		}
+		ColorCalibrate cCal = new ColorCalibrate(colorsAvailable);
+		cCal.calibrateColors();
+	}
 }
