@@ -66,7 +66,7 @@ public class ColorCalibrate {
 	    	 this.colorValues[i] = averageLabCal;
 	    	 LCD.drawString("Read done "  + calibrate[i],0,4);
 	    	 Delay.msDelay(1500);
-	         writer.println(calibrate[i] + "-" + averageLabCal[1] + "-" + averageLabCal[2] );
+	         writer.println(calibrate[i] + "-" + averageLabCal[0] + "-" + averageLabCal[1] "-" + averageLabCal[2]);
 		 }
 		 writer.close();
 		}
@@ -112,8 +112,8 @@ public class ColorCalibrate {
     	int listSize =dataList.size();
     	this.colorValues = new float[listSize][3];
     	this.colorsText = new String[listSize];
-    	for(String element : dataList){
-    		String element = dataList.get(i);
+    	for(int i < 0; i <dataList.size(); i++){
+		String element =dataList.get(i);
     		String[] elementSplit = element.split(sep);
     		String name= elementSplit[0].trim();
     		String val_x= elementSplit[1].trim();
