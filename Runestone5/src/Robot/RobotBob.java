@@ -27,12 +27,25 @@ public class RobotBob {
 		BtMac btAdr = new BtMac(textAddresses);
 		int  selectedIndex = btAdr.doOption();
 		String selectedServer = addresses[selectedIndex];
+		RobotMove rm = new RobotMove();
+		
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		MovePilot pilot = new MovePilot(chassis);
+		
 		if (selectedServer.equals("")){
 			//OFFLINE TESTING
 			String [] colorsAvailable = {"magenta", "cyan","yellow","red", "green","white", "blue"};
 		   ColorCalibrate cCal = new ColorCalibrate(colorsAvailable);
 		   cCal.calibrateColors();
-		   cCal.identifyColor();
+		   Delay.msDelay(3000);
+		   while(!(cCal.seeColor("white"))){
+			   rm._move("F","5", pilot);
+			   
+		   }
+		   
+			// end offline testing
 		}
 		 
 		else{
@@ -44,12 +57,7 @@ public class RobotBob {
 			Delay.msDelay(5000);
 			return;
 		}
-		RobotMove rm = new RobotMove();
 		
-		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
-		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
-		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
-		MovePilot pilot = new MovePilot(chassis);
 		
       
 		try{
