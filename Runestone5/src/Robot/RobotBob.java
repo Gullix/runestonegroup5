@@ -61,6 +61,8 @@ public class RobotBob {
 		MovePilot pilot = new MovePilot(chassis);
 
 		BobStack.getInstance();
+		LineFollower lf = new LineFollower(cCal, pilot);
+		lf.go("BLACK");
 		if (selectedServer.equals("")){
 			//OFFLINE TESTING
 
@@ -109,7 +111,7 @@ public class RobotBob {
 						switch(arr[0].trim()){
 						case("M"):
 							m = new Move(arr[1],arr[2],pilot);
-						rm._move(m);
+							rm._move(m);
 						break;
 
 						case("P"):
