@@ -19,36 +19,39 @@ import lejos.utility.Delay;
 import lejos.utility.TextMenu;
 
 public class RobotBob {
+	
+	public static int NUM_COLORS = 20;
+	
+	public static final String[][] MAC_ADDRESSES = {
+			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
+			{"Robert","Emil","Bluetooth dongle","Offline Test"}
+	};
+	
 	public static void main(String[] args) {
-		LCD.clearDisplay();
-		LCD.drawString("Plugin Test", 0, 4);
-		String[] addresses = {"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56",""};
-		String[] textAddresses = {"Bluetooth dongle","Robert","Emil","OFFLINE TEST"};
-		int numOfColors=10;
-		//BtMac btAdr = new BtMac(textAddresses);
-		//int  selectedIndex = btAdr.doOption();
-		//String selectedServer = addresses[selectedIndex];
-		RobotTextMenu robotMenu = new RobotTextMenu(textAddresses,"Choose bt");
-		int selectedIndex= robotMenu.selectOption();
-		String selectedServer = addresses[selectedIndex];
-
-		String[] menuOptions ={"Use data fromTextFile","New Calibration"};
-		LCD.clear();
-		robotMenu = new RobotTextMenu(menuOptions,"ColorSensor");
-		selectedIndex= robotMenu.selectOption();
-		LCD.clear();
-		ColorCalibrate cCal;
 		
+		LCD.clearDisplay();
+		LCD.drawString("Starting...", 0, 1);
+		
+		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT");
+		int selectedIndex= btMenu.selectOption();
+		String selectedServer = MAC_ADDRESSES[0][selectedIndex];
+		LCD.clear();
+
+		RobotTextMenu calibrationMenu = new RobotTextMenu(
+				new String[] {"Use Text File","New Calibration"},
+				"Choose Calibration"
+		);
+		selectedIndex= btMenu.selectOption();
+		LCD.clear();
+		
+		ColorCalibrate cCal;
 		switch(selectedIndex){
 			case(0):
 				cCal = new ColorCalibrate();
 			break;
+			
 			default:
-				String [] colorsAvailable = new String[numOfColors];
-				for(int i =0; i < numOfColors; i++){
-					colorsAvailable[i] = (i+1) + "";
-				}
-				cCal = new ColorCalibrate(colorsAvailable);
+				cCal = new ColorCalibrate(ColorCalibrate.COLORS);
 				cCal.calibrateColors();
 			break;
 		}

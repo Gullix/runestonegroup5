@@ -21,13 +21,16 @@ public class ColorCalibrate {
 	private EV3ColorSensor colorSensor;
 	private Port sensorPort;
 	
-	public final static String[] COLORS = {"BLACK", "BLUE", "BROWN", "CYAN", "GREEN",
-											"PURPLE", "ORANGE", "RED", "YELLOW", "DARK_PURPLE",
-											"DARK_RED", "DARK_GREEN", "LIGHT_GREEN", "GREY",
-											"BEIGE", "NAVY_BLUE", "DARK_PEACH", "DARK_CYAN", 
-											"LIME", "PINK"};
+	public final static String[] COLORS = {
+			/* Colors on the 4x5 calibration sheet */
+			"BLACK", "BLUE", "BROWN", "CYAN",
+			"GREEN","PURPLE", "ORANGE", "RED",
+			"YELLOW", "DARK_PURPLE","DARK_RED", "DARK_GREEN",
+			"LIGHT_GREEN", "GREY", "BEIGE", "NAVY_BLUE",
+			"DARK_PEACH", "DARK_CYAN", "LIME", "PINK"
+	};
 	
-	ColorCalibrate(String[] colorsToCal){
+	ColorCalibrate(String[] colorsToCal) {
 		this.colorsText = colorsToCal;
 		this.colorValues = new float[colorsToCal.length][3];
 		sensorPort = LocalEV3.get().getPort("S1");   
