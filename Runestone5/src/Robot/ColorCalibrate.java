@@ -20,16 +20,23 @@ public class ColorCalibrate {
 	public String[] colorsText;
 	public SensorMode colorRGBSensor;
 	private Port sensorPort;
-	
+
+	private static final int CALIBRATE_SAMPLES = 10;
+	private static final int CALIBRATE_DELAY = 4000;
 	private static String SEPARATOR = "#";
 	
-	public final static String[] COLORS = {
+	public static final String[] FULL_COLORS = {
 			/* Colors on the 4x5 calibration sheet */
+			"WHITE",
 			"BLACK", "BLUE", "BROWN", "CYAN",
 			"GREEN","PURPLE", "ORANGE", "RED",
 			"YELLOW", "DARK_PURPLE","DARK_RED", "DARK_GREEN",
 			"LIGHT_GREEN", "GREY", "BEIGE", "NAVY_BLUE",
 			"DARK_PEACH", "DARK_CYAN", "LIME", "PINK"
+	};
+	
+	public static final String[] FEWER_COLORS = {
+			"WHITE", "BLACK", "RED", "GREEN", "BLUE"
 	};
 	
 	ColorCalibrate(){
@@ -54,7 +61,9 @@ public class ColorCalibrate {
 			for(int i =0; i< colorsText.length; i++){
 				LCD.clear(4);
 				LCD.drawString("Calibrate "  + colorsText[i],0,4);
-				Delay.msDelay(3000);
+				Delay.msDelay(CALIBRATE_DELAY);
+				LCD.clear(4);
+				LCD.drawString("Calibrating... ",0,4);
 				labSample_x = 0;
 				labSample_y = 0;
 				labSample_z = 0;

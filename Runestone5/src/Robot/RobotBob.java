@@ -20,10 +20,12 @@ import lejos.utility.TextMenu;
 
 public class RobotBob {
 	
+	private Chassis chassis;
+	
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
-			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56",""},
-			{"Robert","Emil","Bluetooth dongle","Offline Test"}
+			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
+			{"Robert","Emil","Bluetooth dongle"}
 	};
 	
 	public static void main(String[] args) throws IOException{
@@ -34,7 +36,7 @@ public class RobotBob {
 	private MovePilot makeMovePilot() {
 		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
 		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
-		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
 		return new MovePilot(chassis);
 	}
 	
@@ -43,19 +45,30 @@ public class RobotBob {
 		LCD.clearDisplay();
 		LCD.drawString("Starting...", 0, 1);
 		
+		RobotTextMenu modeMenu = new RobotTextMenu(
+				new String[] {"Network", "Line Follow", "Calibration Only"},
+				"Choose Mode"
+		);
+		int mode = modeMenu.selectOption();
+		LCD.clear();
+		
+		ColorCalibrate cCal = calibrate();
+
+		MovePilot pilot = makeMovePilot();
+		
+		LineFollower lf = new LineFollower(cCal, chassis);
+
+		if (mode == 2) {
+			offlineTest(cCal);
+		} else if (mode == 1) {
+			lf.go();
+		}
+		
+		RobotMove rm = new RobotMove();
+		
 		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
 		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
 		LCD.clear();
-
-		if (macAddress.equals("")) {
-			offlineTest();
-		}
-		
-		//LineFollower lf = new LineFollower(cCal, pilot);
-		//lf.go("BLACK");
-
-		MovePilot pilot = makeMovePilot();
-		RobotMove rm = new RobotMove();
 		
 		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,BT_MODE);
 		if (mConnection == null) {
@@ -117,7 +130,7 @@ public class RobotBob {
 		}
 	}
 	
-	private void offlineTest() throws IOException {
+	private ColorCalibrate calibrate() throws IOException {
 		RobotTextMenu calibrationMenu = new RobotTextMenu(
 				new String[] {"Use Text File", "New Calibration"},
 				"Choose Calibration"
@@ -133,11 +146,15 @@ public class RobotBob {
 			break;
 			
 			default:
-				cCal = new ColorCalibrate(ColorCalibrate.COLORS);
+				cCal = new ColorCalibrate(ColorCalibrate.FEWER_COLORS);
 				cCal.calibrateColors();
 			break;
 		}
 		
+		return cCal;
+	}
+	
+	private void offlineTest(ColorCalibrate cCal) {
 		while(true){
 			Delay.msDelay(2000);
 			String catchMe = cCal.identifyColor();
