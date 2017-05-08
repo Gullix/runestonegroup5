@@ -18,28 +18,25 @@ public class ColorCalibrate {
 	public float[][] colorValues;
 	public String[] colorsText;
 	public SensorMode colorRGBSensor;
-	
-	
+	private EV3ColorSensor colorSensor;
+	private Port sensorPort;
 	
 	ColorCalibrate(String[] colorsToCal){
-    this.colorsText = colorsToCal;
-    this.colorValues = new float[colorsToCal.length][3];
-    
-	Port sensorPort = LocalEV3.get().getPort("S1");   
-	EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
-	this.colorRGBSensor = colorSensor.getRGBMode();
-    }
-	ColorCalibrate(){
-		Port sensorPort = LocalEV3.get().getPort("S1");   
-		EV3ColorSensor colorSensor = new EV3ColorSensor(sensorPort);
+		this.colorsText = colorsToCal;
+		this.colorValues = new float[colorsToCal.length][3];
+		sensorPort = LocalEV3.get().getPort("S1");   
+		colorSensor = new EV3ColorSensor(sensorPort);
 		this.colorRGBSensor = colorSensor.getRGBMode();
+    }
+	
+	ColorCalibrate(){
+		sensorPort = LocalEV3.get().getPort("S1");
+		colorRGBSensor = new EV3ColorSensor(sensorPort).getRGBMode();
 		dataFromFile();
 		
 	}
 	public void calibrateColors(){
 		int calibrationNumber = 10;
-		String[] calibrate = this.colorsText;
-		int colorlength = calibrate.length;
 		int sampleSize = this.colorRGBSensor.sampleSize();            
 		float[] sample = new float[sampleSize];
 		
@@ -47,27 +44,27 @@ public class ColorCalibrate {
 		PrintWriter writer;
 		try{
 			writer = new PrintWriter("colorData.txt", "UTF-8");
-		
-		 for(int i =0; i< colorlength; i++){
-	    	 LCD.clear(4);
-	    	 LCD.drawString("Calibrate "  + calibrate[i],0,4);
-	    	 Delay.msDelay(3000);
-	    	 float labSample_x =0;
-	     	 float labSample_y=0;
-	     	 float labSample_z=0;
-	    	 for(int j =0; j < calibrationNumber; j++){
-	    		 colorRGBSensor.fetchSample(sample, 0);
-		    	float[] labSample =ColorConversion.RgbToLab(sample);
-		    	labSample_x += labSample[0];
-		    	labSample_y += labSample[1];
-		    	labSample_z += labSample[2];
-		    	  }
-	    	 float[] averageLabCal = {labSample_x/ (float) calibrationNumber,labSample_y/ (float) calibrationNumber,labSample_z/ (float) calibrationNumber };
-	    	 this.colorValues[i] = averageLabCal;
-	    	 LCD.drawString("Read done "  + calibrate[i],0,4);
-	    	 Delay.msDelay(1500);
-	         writer.println(calibrate[i] + "-" + averageLabCal[0] + "-" + averageLabCal[1] "-" + averageLabCal[2]);
-		 }
+			float labSample_x, labSample_y, labSample_z;
+			for(int i =0; i< colorsText.length; i++){
+				LCD.clear(4);
+				LCD.drawString("Calibrate "  + colorsText[i],0,4);
+				Delay.msDelay(3000);
+				labSample_x = 0;
+				labSample_y = 0;
+				labSample_z = 0;
+				for(int j = 0; j < calibrationNumber; j++){
+					colorRGBSensor.fetchSample(sample, 0);
+					float[] labSample = ColorConversion.RgbToLab(sample);
+					labSample_x += labSample[0];
+					labSample_y += labSample[1];
+					labSample_z += labSample[2];
+		    	}
+				float[] averageLabCal = {labSample_x / (float) calibrationNumber,labSample_y/ (float) calibrationNumber,labSample_z/ (float) calibrationNumber };
+				this.colorValues[i] = averageLabCal;
+				LCD.drawString("Read done "  + colorsText[i], 0, 4);
+				Delay.msDelay(1500);
+				writer.println(colorsText[i] + "-" + averageLabCal[0] + "-" + averageLabCal[1] +"-" + averageLabCal[2]);
+			}
 		 writer.close();
 		}
 	 		catch (IOException e) {
@@ -77,14 +74,14 @@ public class ColorCalibrate {
 		 
 		 
 	}
-	public String identifyColor(){
-		int sampleSize = this.colorRGBSensor.sampleSize();            
-		float[] sample = new float[sampleSize];
+	/*This function must be splitted in two: one that retrieves the color,
+	 * the second one that returns it.*/
+	public String identifyColor(){   
+		float[] sample = new float[colorRGBSensor.sampleSize()];
 		colorRGBSensor.fetchSample(sample, 0);
-		int mostSimIndex =0;
 		float[] sampleLab =  ColorConversion.RgbToLab(sample);
-	    mostSimIndex = ColorConversion.MostSimilar(this.colorValues,sampleLab);
-	    float[] colorLabVal = this.colorValues[mostSimIndex];
+	    int mostSimIndex = ColorConversion.MostSimilar(this.colorValues,sampleLab);
+	    //float[] colorLabVal = this.colorValues[mostSimIndex];
 		LCD.clear(1);
 		String colorSeen = colorsText[mostSimIndex];
    	    LCD.drawString("I see "  + colorSeen,0,1);
@@ -94,41 +91,41 @@ public class ColorCalibrate {
    	   // }
    	    return colorSeen;
 	}
-    public boolean seeColor(String color){
-		String foundColor ="";
-		foundColor = identifyColor();
-		if(color.equals(foundColor)){
-			return true;
-			
-		}
-		return false;
+	
+	public int getColor(){
+		float[] sample = new float[colorRGBSensor.sampleSize()];
+		colorRGBSensor.fetchSample(sample, 0);
+		return ColorConversion.MostSimilar(colorValues, ColorConversion.RgbToLab(sample));
 	}
+	/*Matteo changed it*/
+    public boolean seeColor(String color){
+    	return color.equals(identifyColor());
+	}
+    
     public void dataFromFile(){
     	String sep = "-";
     	Charset charset = Charset.forName("UTF_8");
     	File colorFile = new File("colorData.txt");
     	try{
-    	List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
-    	int listSize =dataList.size();
-    	this.colorValues = new float[listSize][3];
-    	this.colorsText = new String[listSize];
-    	for(int i < 0; i <dataList.size(); i++){
-		String element =dataList.get(i);
-    		String[] elementSplit = element.split(sep);
-    		String name= elementSplit[0].trim();
-    		String val_x= elementSplit[1].trim();
-    		String val_y= elementSplit[2].trim();
-    		String val_z= elementSplit[3].trim();
-    	    this.colorValues[i][0]	= Float.parseFloat(val_x);
-    	    this.colorValues[i][1]	= Float.parseFloat(val_y);
-    	    this.colorValues[i][2]	= Float.parseFloat(val_z);
-    	    this.colorsText[i] = name;
+    		List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
+    		int listSize =dataList.size();
+    		this.colorValues = new float[listSize][3];
+    		this.colorsText = new String[listSize];
+    		for(int i = 0; i <dataList.size(); i++){
+    			String element =dataList.get(i);
+    			String[] elementSplit = element.split(sep);
+    			String name= elementSplit[0].trim();
+    			String val_x= elementSplit[1].trim();
+    			String val_y= elementSplit[2].trim();
+    			String val_z= elementSplit[3].trim();
+    			this.colorValues[i][0]	= Float.parseFloat(val_x);
+    			this.colorValues[i][1]	= Float.parseFloat(val_y);
+    			this.colorValues[i][2]	= Float.parseFloat(val_z);
+    			this.colorsText[i] = name;
     	
-    	}
-    	}
-    	
-    	catch(Exception e){
-    		
+    		}
+    	} catch(Exception e){
+    		System.err.println("Error");
     	}
     }
 }

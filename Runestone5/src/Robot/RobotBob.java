@@ -109,7 +109,8 @@ public class RobotBob {
 					Move m;
 					switch(arr[0].trim()){
 						case("M"):
-							rm._move(new Move(arr[1], arr[2], pilot));
+							m = new Move(arr[1],arr[2],pilot);
+							rm._move(m);
 							break;
 							
 					  	case("P"):

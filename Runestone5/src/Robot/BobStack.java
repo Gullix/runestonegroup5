@@ -25,4 +25,8 @@ public class BobStack extends Stack<Move>{
 	public static Move _pop(){
 		return commandPile.pop();
 	}
+	
+	public static void _flush(){
+		commandPile.clear();
+	}
 }
