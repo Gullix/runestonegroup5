@@ -39,8 +39,6 @@ public class ColorCalibrate {
 		int calibrationNumber = 10;
 		int sampleSize = this.colorRGBSensor.sampleSize();            
 		float[] sample = new float[sampleSize];
-		
-		
 		PrintWriter writer;
 		try{
 			writer = new PrintWriter("colorData.txt", "UTF-8");
@@ -68,27 +66,17 @@ public class ColorCalibrate {
 		 writer.close();
 		}
 	 		catch (IOException e) {
-	 		   // do something
+	 		   System.err.println("I/O error");
 	 		}
-		 //writer är deklarerad i eb for loop, inte OK!
 		 
 		 
 	}
 	/*This function must be splitted in two: one that retrieves the color,
 	 * the second one that returns it.*/
 	public String identifyColor(){   
-		float[] sample = new float[colorRGBSensor.sampleSize()];
-		colorRGBSensor.fetchSample(sample, 0);
-		float[] sampleLab =  ColorConversion.RgbToLab(sample);
-	    int mostSimIndex = ColorConversion.MostSimilar(this.colorValues,sampleLab);
-	    //float[] colorLabVal = this.colorValues[mostSimIndex];
 		LCD.clear(1);
-		String colorSeen = colorsText[mostSimIndex];
-   	    LCD.drawString("I see "  + colorSeen,0,1);
-   	    //for( int i =0; i <3; i++){
-   	    //LCD.drawString("s:" + ( (int) ( colorLabVal[i] * 100) )+  "r"  + ( (int) ( sampleLab[i] * 100) ) ,0,2+i);
-   	    //Delay.msDelay(1000);
-   	   // }
+		String colorSeen = colorsText[getColor()];
+   	    LCD.drawString("I see " + colorSeen, 0, 1);
    	    return colorSeen;
 	}
 	
@@ -97,7 +85,9 @@ public class ColorCalibrate {
 		colorRGBSensor.fetchSample(sample, 0);
 		return ColorConversion.MostSimilar(colorValues, ColorConversion.RgbToLab(sample));
 	}
-	/*Matteo changed it*/
+	
+	
+	/*We will remember this forever :) */
     public boolean seeColor(String color){
     	return color.equals(identifyColor());
 	}
@@ -108,21 +98,14 @@ public class ColorCalibrate {
     	File colorFile = new File("colorData.txt");
     	try{
     		List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
-    		int listSize =dataList.size();
-    		this.colorValues = new float[listSize][3];
-    		this.colorsText = new String[listSize];
-    		for(int i = 0; i <dataList.size(); i++){
-    			String element =dataList.get(i);
-    			String[] elementSplit = element.split(sep);
-    			String name= elementSplit[0].trim();
-    			String val_x= elementSplit[1].trim();
-    			String val_y= elementSplit[2].trim();
-    			String val_z= elementSplit[3].trim();
-    			this.colorValues[i][0]	= Float.parseFloat(val_x);
-    			this.colorValues[i][1]	= Float.parseFloat(val_y);
-    			this.colorValues[i][2]	= Float.parseFloat(val_z);
-    			this.colorsText[i] = name;
-    	
+    		colorValues = new float[dataList.size()][3];
+    		colorsText = new String[dataList.size()];
+    		for(int i = 0; i < dataList.size(); i++){
+    			String[] elementSplit = dataList.get(i).split(sep);
+    			colorValues[i][0] = Float.parseFloat(elementSplit[1].trim());
+    			colorValues[i][1] = Float.parseFloat(elementSplit[2].trim());
+    			colorValues[i][2] = Float.parseFloat(elementSplit[3].trim());
+    			colorsText[i] = elementSplit[0].trim();
     		}
     	} catch(Exception e){
     		System.err.println("Error");
