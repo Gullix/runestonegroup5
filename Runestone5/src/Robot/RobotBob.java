@@ -20,34 +20,116 @@ import lejos.utility.TextMenu;
 
 public class RobotBob {
 	
-	public static int NUM_COLORS = 20;
-	
-	public static final String[][] MAC_ADDRESSES = {
-			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
+	private static int BT_MODE = 2;
+	private static final String[][] MAC_ADDRESSES = {
+			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56",""},
 			{"Robert","Emil","Bluetooth dongle","Offline Test"}
 	};
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
+		RobotBob bob = new RobotBob();
+		bob.run();
+	}
+	
+	private MovePilot makeMovePilot() {
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		return new MovePilot(chassis);
+	}
+	
+	public void run() throws IOException {
 		
 		LCD.clearDisplay();
 		LCD.drawString("Starting...", 0, 1);
 		
-		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT");
-		int selectedIndex= btMenu.selectOption();
-		String selectedServer = MAC_ADDRESSES[0][selectedIndex];
+		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
+		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
 		LCD.clear();
 
+		if (macAddress.equals("")) {
+			offlineTest();
+		}
+		
+		//LineFollower lf = new LineFollower(cCal, pilot);
+		//lf.go("BLACK");
+
+		MovePilot pilot = makeMovePilot();
+		RobotMove rm = new RobotMove();
+		
+		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,BT_MODE);
+		if (mConnection == null) {
+			LCD.drawString("Failed to connect", 0, 1);
+			Delay.msDelay(5000);
+			return;
+		}
+		
+		try{
+			Delay.msDelay(3000);
+			boolean talkWithServer = true;
+			while(talkWithServer){
+				byte[] message = "GET_COMMAND".getBytes();
+				mConnection.write(message, message.length);
+				byte[] sMessage = new byte[1024];
+				mConnection.read(sMessage, 1024);
+				String str = new String(sMessage, StandardCharsets.UTF_8);
+				if (str.equals("DONE")){
+					talkWithServer = false;
+					mConnection.close();
+					break;
+				} else {
+					String[] arr = str.split(",");
+					Move m;
+					switch(arr[0].trim()){
+					case("M"):
+						m = new Move(arr[1],arr[2],pilot);
+						rm._move(m);
+					break;
+
+					case("P"):
+						rm._pickup(arr[1]);
+					break;
+
+					case("D"):
+						rm._done(arr[1]);
+					break;
+
+					case("G"):
+						rm._goto(arr[1]);
+					break;
+
+					default: 
+						LCD.clearDisplay();
+						LCD.drawString("Command not found", 0, 2);
+						LCD.drawString(str, 0, 3);
+						Delay.msDelay(1000);
+						//throw new IllegalArgumentException("Command not found\n");
+					}
+				}
+				//System.out.println("");
+				//mConnection.write("ack".getBytes(), 3);
+			}
+		} catch (IOException e) {
+			LCD.clearDisplay();
+			LCD.drawString("I/O exception", 0, 2);
+			Delay.msDelay(3000);
+			e.printStackTrace();
+		}
+	}
+	
+	private void offlineTest() throws IOException {
 		RobotTextMenu calibrationMenu = new RobotTextMenu(
-				new String[] {"Use Text File","New Calibration"},
+				new String[] {"Use Text File", "New Calibration"},
 				"Choose Calibration"
 		);
-		selectedIndex= btMenu.selectOption();
+		int calibrationOption = calibrationMenu.selectOption();
 		LCD.clear();
 		
 		ColorCalibrate cCal;
-		switch(selectedIndex){
-			case(0):
+		switch(calibrationOption){
+			case 0:
 				cCal = new ColorCalibrate();
+				cCal.dataFromFile();
 			break;
 			
 			default:
@@ -55,112 +137,11 @@ public class RobotBob {
 				cCal.calibrateColors();
 			break;
 		}
-
-		RobotMove rm = new RobotMove();
-
-		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
-		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
-		Chassis chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
-		MovePilot pilot = new MovePilot(chassis);
-
-		BobStack.getInstance();
-		LineFollower lf = new LineFollower(cCal, pilot);
-		lf.go("BLACK");
-		if (selectedServer.equals("")){
-			//OFFLINE TESTING
-
-			while(true){
-				String catchMe = cCal.identifyColor();
-			}
-
-			/*
-		 while(!(cCal.seeColor("white"))){
-			   rm._move(new Move("F","5", pilot));
-
-		   }
-			 */
-
-			// end offline testing
+		
+		while(true){
+			Delay.msDelay(2000);
+			String catchMe = cCal.identifyColor();
 		}
-
-		else{
-
-
-			NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(selectedServer,2);
-			if (mConnection == null) {
-				LCD.drawString("Failed to connect", 0, 1);
-				Delay.msDelay(5000);
-				return;
-			}
-
-
-
-			try{
-				Delay.msDelay(3000);
-				boolean talkWithServer = true;
-				while(talkWithServer){
-					byte[] message = "GET_COMMAND".getBytes();
-					mConnection.write(message, message.length);
-					byte[] sMessage = new byte[1024];
-					mConnection.read(sMessage, 1024);
-					String str = new String(sMessage, StandardCharsets.UTF_8);
-					if (str.equals("DONE")){
-						talkWithServer = false;
-						mConnection.close();
-						break;
-					} else {
-						String[] arr = str.split(",");
-						Move m;
-						switch(arr[0].trim()){
-						case("M"):
-							m = new Move(arr[1],arr[2],pilot);
-							rm._move(m);
-						break;
-
-						case("P"):
-							rm._pickup(arr[1]);
-						break;
-
-						case("D"):
-							rm._done(arr[1]);
-						break;
-
-						case("G"):
-							rm._goto(arr[1]);
-						break;
-
-						default: 
-							LCD.clearDisplay();
-							LCD.drawString("Command not found", 0, 2);
-							LCD.drawString(str, 0, 3);
-							Delay.msDelay(1000);
-							//throw new IllegalArgumentException("Command not found\n");
-						}
-					}
-					//System.out.println("");
-					//mConnection.write("ack".getBytes(), 3);
-				}
-			} catch (IOException e) {
-				LCD.clearDisplay();
-				LCD.drawString("I/O exception", 0, 2);
-				Delay.msDelay(3000);
-				e.printStackTrace();
-			}
-		}
-	}    
-	public static void menuHandler(){
-		String[] menuOptions ={"Use data fromTextFile","New Calibration"};
-		String menuTitle = "Color calibration";
-		TextMenu robotTextMenu = new TextMenu(menuOptions,0,menuTitle);
-		int selectedOption = robotTextMenu.select();
-
 	}
-	public static void colorInitiation(int numOfColors){
-		String [] colorsAvailable = new String[numOfColors];
-		for(int i =0; i < numOfColors; i++){
-			colorsAvailable[i] = (i+1) + "";
-		}
-		ColorCalibrate cCal = new ColorCalibrate(colorsAvailable);
-		cCal.calibrateColors();
-	}
+	
 }

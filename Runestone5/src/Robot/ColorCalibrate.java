@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -18,8 +19,9 @@ public class ColorCalibrate {
 	public float[][] colorValues;
 	public String[] colorsText;
 	public SensorMode colorRGBSensor;
-	private EV3ColorSensor colorSensor;
 	private Port sensorPort;
+	
+	private static String SEPARATOR = "#";
 	
 	public final static String[] COLORS = {
 			/* Colors on the 4x5 calibration sheet */
@@ -30,20 +32,17 @@ public class ColorCalibrate {
 			"DARK_PEACH", "DARK_CYAN", "LIME", "PINK"
 	};
 	
-	ColorCalibrate(String[] colorsToCal) {
-		this.colorsText = colorsToCal;
-		this.colorValues = new float[colorsToCal.length][3];
-		sensorPort = LocalEV3.get().getPort("S1");   
-		colorSensor = new EV3ColorSensor(sensorPort);
-		this.colorRGBSensor = colorSensor.getRGBMode();
-    }
-	
 	ColorCalibrate(){
 		sensorPort = LocalEV3.get().getPort("S1");
 		colorRGBSensor = new EV3ColorSensor(sensorPort).getRGBMode();
-		dataFromFile();
-		
 	}
+	
+	ColorCalibrate(String[] colors) {
+		this();
+		colorsText = colors;
+		colorValues = new float[colorsText.length][3];
+    }
+	
 	public void calibrateColors(){
 		int calibrationNumber = 10;
 		int sampleSize = this.colorRGBSensor.sampleSize();            
@@ -70,7 +69,7 @@ public class ColorCalibrate {
 				this.colorValues[i] = averageLabCal;
 				LCD.drawString("Read done "  + colorsText[i], 0, 4);
 				Delay.msDelay(1500);
-				writer.println(colorsText[i] + "-" + averageLabCal[0] + "-" + averageLabCal[1] +"-" + averageLabCal[2]);
+				writer.println(colorsText[i] + SEPARATOR + averageLabCal[0] + SEPARATOR + averageLabCal[1] + SEPARATOR + averageLabCal[2]);
 			}
 		 writer.close();
 		}
@@ -101,23 +100,19 @@ public class ColorCalibrate {
     	return color.equals(identifyColor());
 	}
     
-    public void dataFromFile(){
-    	String sep = "-";
-    	Charset charset = Charset.forName("UTF_8");
+    public void dataFromFile() throws IOException {
+    	Charset charset = StandardCharsets.UTF_8;
     	File colorFile = new File("colorData.txt");
-    	try{
-    		List<String> dataList= Files.readAllLines(colorFile.toPath(),charset);
-    		colorValues = new float[dataList.size()][3];
-    		colorsText = new String[dataList.size()];
-    		for(int i = 0; i < dataList.size(); i++){
-    			String[] elementSplit = dataList.get(i).split(sep);
-    			colorValues[i][0] = Float.parseFloat(elementSplit[1].trim());
-    			colorValues[i][1] = Float.parseFloat(elementSplit[2].trim());
-    			colorValues[i][2] = Float.parseFloat(elementSplit[3].trim());
-    			colorsText[i] = elementSplit[0].trim();
-    		}
-    	} catch(Exception e){
-    		System.err.println("Error");
-    	}
+    	
+		List<String> dataList = Files.readAllLines(colorFile.toPath(),charset);
+		colorValues = new float[dataList.size()][3];
+		colorsText = new String[dataList.size()];
+		for(int i = 0; i < dataList.size(); i++){
+			String[] elementSplit = dataList.get(i).split(SEPARATOR);
+			colorsText[i] = elementSplit[0].trim();
+			colorValues[i][0] = Float.parseFloat(elementSplit[1].trim());
+			colorValues[i][1] = Float.parseFloat(elementSplit[2].trim());
+			colorValues[i][2] = Float.parseFloat(elementSplit[3].trim());
+		}
     }
 }

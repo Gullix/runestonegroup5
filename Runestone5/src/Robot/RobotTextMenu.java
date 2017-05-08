@@ -7,6 +7,7 @@ public class RobotTextMenu {
     public String[] options;
     public String title;
     RobotTextMenu(String[] options,String title){
+    	
     	this.robotMenu= new TextMenu(options,1,title);
     	this.options =options;
     	this.title =title;
