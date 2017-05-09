@@ -16,7 +16,7 @@ public class LineFollower {
 		this.cc = cCal;
 		this.chassis = chassis;
 	}
- 
+	/*Future changing: polymorphism for the open-closed principle. */
 	public void go(){
 		while(true){
 			chassis.moveStart();
