@@ -7,3 +7,9 @@ Levels ~> 	MOVE: to move it manually
 		  	GOTO: double coordinates system! Simply goes into a direction
 		  	
 MOVE ~> LEFT, RIGHT, FORWARD, BACKWARD
+
+09/05/17
+The robot follows the lines (only black and white). To be sure now we're going to add
+some new colors that are really different in a RGB spectrum in order to not have the
+robot be confused and fall in error easily.
+Like taking into consideration YELLOW and NAVY_BLUE.

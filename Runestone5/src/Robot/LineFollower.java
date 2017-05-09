@@ -18,13 +18,27 @@ public class LineFollower {
 	}
 	/*Future changing: polymorphism for the open-closed principle. */
 	public void go(){
+		int speed = 80;
+		int angle = 20;
 		while(true){
+			//we used chassis because pilot stops after every command
 			chassis.moveStart();
+			
 			if (cc.seeColor("BLACK")){//it checks the color is s ~> now black
-				chassis.setVelocity(40,-20);
+				chassis.setVelocity(speed,0);
 			}
-			if (cc.seeColor("WHITE")) {
+			/*We ignore white
+			 * if (cc.seeColor("WHITE")) {
 				chassis.setVelocity(40, 20);
+			}*/
+			if(cc.seeColor("GREEN")){
+				chassis.setVelocity(speed, angle);
+			}
+			if(cc.seeColor("BLUE")){
+				chassis.setVelocity(speed, -angle);
+			}
+			if(cc.seeColor("RED")){
+				chassis.setVelocity(0, 0);
 			}
 			Delay.msDelay(50);
 		}
