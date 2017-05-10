@@ -16,7 +16,7 @@ class RobotController extends Component{
 
     robotMove(rdir, rdistance){
          console.log(rdir);
-         this.WS.send(rdistance)
+         this.WS.sendToServer(rdistance)
     }
     connectionSwitch(status){
         document.getElementById("wsConnectionButton")

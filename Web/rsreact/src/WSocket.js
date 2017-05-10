@@ -4,7 +4,9 @@
 class WSocket{
     constructor(){
         let mWSocket;
-        let serverAddress = "ws://" + location.hostname + ":" + 8001;
+        var oliver = "212.25.146.229"
+        //let serverAddress = "ws://" + location.hostname + ":" + 8001;
+        let serverAddress = "ws://" + oliver + ":" + 1337;
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){
 
@@ -13,7 +15,7 @@ class WSocket{
 
         }
     }
-    send(data){
+    sendToServer(data){
         this.mWSocket.send(data);
         console.log(data)
     }
