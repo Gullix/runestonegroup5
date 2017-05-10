@@ -3,12 +3,12 @@
  */
 class WSocket{
     constructor(){
-        var mWSocket;
-        var serverAddress = "ws://" + location.hostname + ":" + 8001;
+        let mWSocket;
+        let serverAddress = "ws://" + location.hostname + ":" + 8001;
         mWSocket = new WebSocket(serverAddress);
-        mWSocket.onopen= function(event){
+        mWSocket.onopen = function(event){
 
-        }
+        };
         mWSocket.onclose = function(event){
 
         }

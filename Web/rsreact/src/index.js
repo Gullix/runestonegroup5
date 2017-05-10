@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import RobotController from './RobotController.js';
+import Design from './Design';
 import './index.css';
 
 
 
-
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <div>
+        <Design />
+        <App />
+    </div>,
+    document.getElementById('root')
 );
+
 
