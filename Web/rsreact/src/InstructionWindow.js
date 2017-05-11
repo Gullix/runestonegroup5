@@ -17,22 +17,18 @@ class InstructionWindow extends Component{
     makeCommand(){
         
     }
-    handleChange() {
-        console.log("YO");
+    handleChange(change) {
+
         this.setState({
-            value:event.target.value
+            command:change.target.value
             });
     }
 
     render(){
-
+             console.log(this.state);
         return(
             <div id="instructionContainer">
-                <select className="instructionOption"   value={this.state.value} onChange={this.handleChange}>
-                    <option value="store" >Store</option>
-                    <option value="pickUp">Pick up</option>
-                </select>
-                <select className="instructionOption">
+                <select className="instructionOption"   value={this.state.command} onChange={this.handleChange}>
                     <option value="Package1">Package1</option>
                     <option value="Package2">Package2</option>
                 </select>
