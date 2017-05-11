@@ -38,9 +38,6 @@ class RobotController extends Component{
                         <button id="left_button" data-translatable_string="left_string" className="moveButton" onClick={this.robotMove.bind(this,"L","10")}> &lt; </button>
                         <button id="right_button" data-translatable_string="right_string" className="moveButton" onClick={this.robotMove.bind(this,"R","10")}> &gt; </button>
                     </div>
-                    <div id="connectionContainer">
-                    <button id="wSConnectionButton" onClick={this.connectionSwitch()}>Connect </button>
-                    </div>
                 </div>
             </div>
 
