@@ -24,8 +24,8 @@ public class RobotBob {
 	
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
-			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
-			{"Robert","Emil","Bluetooth dongle"}
+			{"74:DF:BF:4A:17:62","00:0C:78:76:64:DB"},
+			{"Robert","Bluetooth dongle"}
 	};
 	
 	public static void main(String[] args) throws IOException{
@@ -69,15 +69,29 @@ public class RobotBob {
 		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
 		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
 		LCD.clear();
-		
-		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,BT_MODE);
+		LCD.clear();
+		Delay.msDelay(3000);
+		LCD.drawString("Hello 1 ", 0, 7);
+		Delay.msDelay(3000);
+		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,2);
+		LCD.clear();
+		Delay.msDelay(3000);
+		LCD.drawString("Hello 2 ", 0, 7);
+		Delay.msDelay(3000);
 		if (mConnection == null) {
-			LCD.drawString("Failed to connect", 0, 1);
+			LCD.clear();
+			LCD.drawString("Failed to connect", 0, 7);
 			Delay.msDelay(5000);
 			return;
 		}
-		
+		LCD.clear();
+		Delay.msDelay(3000);
+		LCD.drawString("Hello 3", 0, 7);
+		Delay.msDelay(3000);
 		try{
+			LCD.clear();
+			Delay.msDelay(3000);
+			LCD.drawString("Hello try ", 0, 1);
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
 			while(talkWithServer){

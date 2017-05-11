@@ -32,7 +32,8 @@ function moveRobot(direction, distance){
    wSocket.send(direction);
 }
 function openWebSocket(){
-     var serverAddress = "ws://" + location.hostname + ":" + 8001;
+    var loc = "130.238.94.57";
+     var serverAddress = "ws://" + loc + ":" + 8000;
     wSocket = new WebSocket(serverAddress);
     wSocket.onopen= function(event){
         remoteButtonsClickable(wSocket);
