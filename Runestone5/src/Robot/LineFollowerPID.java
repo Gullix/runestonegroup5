@@ -6,15 +6,18 @@ import lejos.utility.Delay;
 
 
 public class LineFollowerPID {
+	
 	private float totalError = 0;
 	private float MAX_STEER = 20;
 	private float prevError = 0;
 	private float curSpeed = 0;
 	private float acceleration = 2;
 	private float targetSpeed = 100;
+	private float P,D,I = 0;
 	private float LOOP_TIME = 50;
 	private ColorCalibrate cc;
 	private Chassis chassis;
+	
 	public LineFollowerPID(ColorCalibrate cCal, Chassis chassis) {
 		this.cc = cCal;
 		this.chassis = chassis;
@@ -22,22 +25,20 @@ public class LineFollowerPID {
 	}
 	
 	public void go(){
-		float[] sample = getSample();
+		float[] sample = cc.getSample();
 		
-		if (cc.seeColor("RED") or cc.seeColor("GREEN") or cc.seeColor("BLUE") or cc.seeColor("CYAN"))
-		{
-			return;
-			
+		/*if (cc.seeColor("RED") || cc.seeColor("GREEN") || cc.seeColor("BLUE") || cc.seeColor("CYAN")){
+			return;	
 		}
-		
+		*/
 		float error = sample[0];		
 		
-		tracker.fetchSample(sample, 0);
-		float error = sample[0] + sample[1] + sample[2];
+		//tracker.fetchSample(sample, 0);
+		float _error = sample[0] + sample[1] + sample[2];
 		// Accumulate errors for I term
 		if (error*totalError <= 0)
 		    totalError = totalError*0.80f;
-		totalError += error;
+		totalError += _error;
 		
 		if (totalError*I > MAX_STEER/2)
 		    totalError = MAX_STEER/2/I;
