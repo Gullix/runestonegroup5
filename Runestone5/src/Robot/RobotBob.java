@@ -25,12 +25,11 @@ public class RobotBob {
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
 			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
-			{"Robert","Emil","Bluetooth dongle"}
+			{"BLuetooth dongle","Emil","Bluetooth dongle"}
 	};
 	
 	public static void main(String[] args) throws IOException{
-		RobotBob bob = new RobotBob();
-		bob.run();
+		new RobotBob().run();
 	}
 	
 	private MovePilot makeMovePilot() {
@@ -46,9 +45,11 @@ public class RobotBob {
 		LCD.drawString("Starting...", 0, 1);
 		
 		RobotTextMenu modeMenu = new RobotTextMenu(
-				new String[] {"Network", "Line Follow", "Calibration Only"},
+				new String[] {"Network", "Line Follow", "Calibration Only", "PID Linefollower"},
 				"Choose Mode"
 		);
+		
+		
 		int mode = modeMenu.selectOption();
 		LCD.clear();
 		
@@ -62,6 +63,12 @@ public class RobotBob {
 			offlineTest(cCal);
 		} else if (mode == 1) {
 			lf.go();
+		}
+		else if (mode == 3){
+			LineFollowerPID lineFollowerPID = new LineFollowerPID(cCal, chassis);
+			while(true){
+				lineFollowerPID.go();
+			}
 		}
 		
 		RobotMove rm = new RobotMove();

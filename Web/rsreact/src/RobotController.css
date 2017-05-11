@@ -1,0 +1,21 @@
+#remoteContainer{
+    width:10%;
+    border:1px solid black;
+}
+
+#forward_button{
+    position: relative;
+    left: 39%;
+}
+
+#bottom_buttons{
+    position: relative;
+    left: 17%;
+}
+
+.moveButton{
+    margin: 1%;
+    width: 20%;
+    margin-bottom: 2%;
+
+}

@@ -103,6 +103,11 @@ public class ColorCalibrate {
 		return ColorConversion.MostSimilar(colorValues, ColorConversion.RgbToLab(sample));
 	}
 	
+	public float[] getSample(){
+		float[] sample = new float[colorRGBSensor.sampleSize()];
+		colorRGBSensor.fetchSample(sample, 0);
+		return sample;
+	}
 	
 	/*We will remember this forever :) */
     public boolean seeColor(String color){

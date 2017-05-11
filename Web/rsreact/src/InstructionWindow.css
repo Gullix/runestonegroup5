@@ -1,0 +1,12 @@
+#instructionContainer{
+    width:10%;
+    padding: 1%;
+    border:1px solid black;
+    position: absolute;
+    top: 7.5%;
+    right: 0;
+    margin: 1%
+}
+.instructionOption{
+    margin-bottom: 4%;
+}
