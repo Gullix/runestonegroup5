@@ -20,12 +20,14 @@ public class LineFollower {
 	public void go(){
 		int speed = 80;
 		int angle = 20;
+		int target_speed = 80;
 		while(true){
 			//we used chassis because pilot stops after every command
 			chassis.moveStart();
 			
 			if (cc.seeColor("BLACK")){//it checks the color is s ~> now black
-				chassis.setVelocity(speed,0);
+				//chassis.setVelocity(speed,0);
+				chassis.setAcceleration((chassis.getLinearVelocity())/4, 0);
 			}
 			/*We ignore white
 			 * if (cc.seeColor("WHITE")) {
@@ -37,9 +39,11 @@ public class LineFollower {
 			if(cc.seeColor("BLUE")){
 				chassis.setVelocity(speed, -angle);
 			}
+			/*
+			 * RED did not work well, it makes the robot confuse
 			if(cc.seeColor("RED")){
 				chassis.setVelocity(0, 0);
-			}
+			}*/
 			Delay.msDelay(50);
 		}
 	}
