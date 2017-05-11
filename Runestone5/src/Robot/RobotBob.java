@@ -24,8 +24,8 @@ public class RobotBob {
 	
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
-			{"74:DF:BF:4A:17:62","00:0C:78:76:64:DB"},
-			{"Robert","Bluetooth dongle"}
+			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
+			{"Robert","Emil","Bluetooth dongle"}
 	};
 	
 	public static void main(String[] args) throws IOException{
@@ -46,9 +46,11 @@ public class RobotBob {
 		LCD.drawString("Starting...", 0, 1);
 		
 		RobotTextMenu modeMenu = new RobotTextMenu(
-				new String[] {"Network", "Line Follow", "Calibration Only"},
+				new String[] {"Network", "Line Follow", "Calibration Only", "PID Linefollower"},
 				"Choose Mode"
 		);
+		
+		
 		int mode = modeMenu.selectOption();
 		LCD.clear();
 		
@@ -63,35 +65,27 @@ public class RobotBob {
 		} else if (mode == 1) {
 			lf.go();
 		}
+		else if (mode == 4){
+			LineFollowerPID lineFollowerPID = new LineFollowerPID();
+			while(1){
+				LineFollowerPID.go();
+			}
+		}
 		
 		RobotMove rm = new RobotMove();
 		
 		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
 		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
 		LCD.clear();
-		LCD.clear();
-		Delay.msDelay(3000);
-		LCD.drawString("Hello 1 ", 0, 7);
-		Delay.msDelay(3000);
-		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,2);
-		LCD.clear();
-		Delay.msDelay(3000);
-		LCD.drawString("Hello 2 ", 0, 7);
-		Delay.msDelay(3000);
+		
+		NXTConnection mConnection= Bluetooth.getNXTCommConnector().connect(macAddress,BT_MODE);
 		if (mConnection == null) {
-			LCD.clear();
-			LCD.drawString("Failed to connect", 0, 7);
+			LCD.drawString("Failed to connect", 0, 1);
 			Delay.msDelay(5000);
 			return;
 		}
-		LCD.clear();
-		Delay.msDelay(3000);
-		LCD.drawString("Hello 3", 0, 7);
-		Delay.msDelay(3000);
+		
 		try{
-			LCD.clear();
-			Delay.msDelay(3000);
-			LCD.drawString("Hello try ", 0, 1);
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
 			while(talkWithServer){
