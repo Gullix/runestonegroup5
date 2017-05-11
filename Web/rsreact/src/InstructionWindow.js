@@ -5,13 +5,13 @@ import React, { Component } from 'react';
 require('./InstructionWindow.css');
 class InstructionWindow extends Component{
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             value: 'hello',
             item: 'package',
             command: 'store',
 
-        }
+        };
          this.handleChange = this.handleChange.bind(this);
     }
     makeCommand(){
