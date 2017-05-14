@@ -19,7 +19,9 @@ class InstructionWindowTemp extends Component{
     makeCommand(){
         var val= this.refs.op1.value;
         var val2= this.refs.op2.value;
-        console.log(val +"," + val2)    ;
+        var message = val +"," + val2;
+        console.log(message)    ;
+        this.props.selCommand(message) ;
 
     }
     handleChange() {

@@ -5,8 +5,8 @@ var mWSocket;
 class WSocket{
 
     constructor(){
-        //var loc = location.hostname;
-        var loc = "130.238.94.57"
+        var loc = location.hostname;
+        //var loc = "130.238.94.57"
         let serverAddress = "ws://" + loc + ":" + 8001;
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){

@@ -83,6 +83,10 @@ class TabWindow extends Component {
 
          }
 
+         sendCommand(message){
+             this.props.wsSend(message);
+         }
+
         
         
         
@@ -102,7 +106,7 @@ class TabWindow extends Component {
                 {this.renderTab(1, "Move from/to Location")    }
                 </div>
                 <div id="testid" className="tabContent">
-                        <InstructionWindowTemp op1Init={this.state.option1} op2Init={this.state.option2}data-tabMode={this.state.tabMode}/>
+                        <InstructionWindowTemp op1Init={this.state.option1} op2Init={this.state.option2}data-tabMode={this.state.tabMode} selCommand={this.sendCommand.bind(this)}/>
 
 
 

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import './App.css';
 import WSocket from "./WSocket"
 import RobotController from "./RobotController";
+import InstructionOverview from "./InstructionOverview";
 
 
 
@@ -18,6 +19,7 @@ class App extends Component {
         return (
             <div>
             <RobotController ws={this.WS}/>
+                <InstructionOverview ws={this.WS}/>
             </div>
 
         );
