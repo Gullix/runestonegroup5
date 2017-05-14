@@ -15,7 +15,7 @@ class RobotController extends Component{
     }
 
     robotMove(rdir, rdistance){
-         console.log(rdir);
+
          this.WS.sendToServer(rdistance)
     }
     connectionSwitch(status){

@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Design from './Design';
-import InstructionWindow from './InstructionWindow';
 import './index.css';
+import InstructionOverview from "./InstructionOverview";
 
 
 
@@ -11,9 +11,9 @@ ReactDOM.render(
     <div>
         <Design />
         <App />
-        <InstructionWindow />
+        <InstructionOverview/>
     </div>,
     document.getElementById('root')
 );
 
-
+//<InstructionWindow />

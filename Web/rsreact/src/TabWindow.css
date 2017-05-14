@@ -1,0 +1,44 @@
+/* Style the tab */
+.tabWindowContainer {
+    background: purple;
+    height: 500px;
+}
+
+.tabsContainer{
+    height:50px;
+    width:400px;
+    border:1px solid black;
+    background: yellow;
+
+}
+.tabContent{
+    height:450px;
+    border:1px solid black;
+    background: orange;
+}
+
+/* Style the buttons inside the tab */
+.tab {
+    text-align:center;
+    width:198px;
+    border:1px solid black;
+    height: 45px;
+    display: inline-block;
+}
+
+/* Change background color of buttons on hover
+.tab:hover {
+    background-color:green;
+}
+
+.tab:active {
+    background-color: yellow;
+}
+*/
+
+/* Style the tab content */
+.tabContent {
+    width: 400px;
+    height: 300px;
+    border: 1px solid #ccc;
+}

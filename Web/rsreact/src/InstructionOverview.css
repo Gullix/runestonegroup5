@@ -1,0 +1,12 @@
+.instructionOverviewContainer{
+    width:400px;
+    height:800px;
+    border:1px solid black;
+    position: absolute;
+    top: 70px;
+    right: 0;
+
+}
+.instructionOverview{
+    margin-bottom: 10px;
+}
