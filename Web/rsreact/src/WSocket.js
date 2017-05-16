@@ -3,13 +3,15 @@
  */
 var mWSocket;
 import React, { Component } from 'react';
+import RobotController from "./RobotController";
+import InstructionOverview from "./InstructionOverview";
 class WSocket extends Component{
 
     constructor(props){
         super();
-        this.state=({
+        this.state={
           message: ""
-        });
+        };
         var loc = location.hostname;
         var that = this;
         //var loc = "130.238.94.57"
@@ -31,8 +33,19 @@ class WSocket extends Component{
         mWSocket.send(data);
 
     }
-    messageFromServer(msg){
+    messageFromServer(msg) {
         console.log("FROM SERVER: " + msg);
+        this.setState({
+            message: msg
+        })
+    }
+    render(){
+        return(
+            <div>
+        <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
+        <InstructionOverview wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
+            </div>
+        )
     }
 }
 

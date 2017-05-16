@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import WSocket from "./WSocket"
-import RobotController from "./RobotController";
-import InstructionOverview from "./InstructionOverview";
+
 
 
 
@@ -18,8 +17,8 @@ class App extends Component {
     render() {
         return (
             <div>
-            <RobotController ws={this.WS}/>
-                <InstructionOverview ws={this.WS}/>
+                <WSocket/>
+
             </div>
 
         );

@@ -9,9 +9,9 @@ async def interact(websock, path, data):
     while True:
         message = await websock.recv()
         print("Http: Received: ", message)
-        #reply = "Hello {}!".format(message)
-        #await websock.send(reply)
-        #print("> {}".format(reply))
+        reply = "Hello {}!".format(message)
+        await websock.send(reply)
+        print("> {}".format(reply))
         if message.upper() in {"F", "B", "L", "R"}:
             print("Http: setting direction of robot to ", message)
             data["robot"]["direction"] = message

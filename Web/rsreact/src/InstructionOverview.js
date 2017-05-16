@@ -5,18 +5,20 @@ import React, { Component } from 'react';
 import TabWindow from "./TabWindow";
 require('./InstructionOverview.css');
 class InstructionOverview extends Component{
-    constructor(props){
+    constructor(props) {
         super();
+        this.state ={
 
+        };
     }
 
     handleWS(message){
-        this.props.ws.sendToServer(message)
+        this.props.wsSend(message);
     }
     render(){
+        console.log("dir received" + this.props.wsMessage);
         return(
-            <div className="instructionOverviewContainer" >
-
+            <div className="instructionOverviewContainer"  >
 
                 <TabWindow wsSend={this.handleWS.bind(this)}/>
             </div>

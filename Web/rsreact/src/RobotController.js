@@ -10,25 +10,25 @@ class RobotController extends Component{
 
     constructor(props){
         super(props);
-        this.WS =this.props.ws;
-
+        this.state={
+        }
     }
 
     robotMove(rdir, rdistance){
             var message= rdir;
         console.log("sending "  + message + " to server");
-         this.WS.sendToServer(message)
+         this.props.wsSend(message);
           console.log("sent "  + message + " to server");
+
     }
     connectionSwitch(status){
-        document.getElementById("wsConnectionButton")
-
-
+        document.getElementById("wsConnectionButton");
 
     }
 
 
     render(){
+        console.log("dir received" + this.props.wsMessage);
         return(
             <div>
                 <div id="remoteContainer">

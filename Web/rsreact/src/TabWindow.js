@@ -13,6 +13,7 @@ class TabWindow extends Component {
             bckColor: "red",
             option1: ["package1","package2"],
             option2: ["area5", "area6"]
+
    };
     }
     renderTab(i,tabTit){
