@@ -4,17 +4,12 @@
 
 import React, { Component } from 'react';
 require('./RobotController.css');
-
-
+import PropTypes from 'prop-types';
+// For controlling the robot manually
 class RobotController extends Component{
 
-    constructor(props){
-        super(props);
-        this.state={
-        }
-    }
-
-    robotMove(rdir, rdistance){
+    //
+    robotMoveToServer(rdir, rdistance){
             var message= rdir;
         console.log("sending "  + message + " to server");
          this.props.wsSend(message);
@@ -33,12 +28,12 @@ class RobotController extends Component{
             <div>
                 <div id="remoteContainer">
                     <div id="topButtons">
-                        <button id="forward_button"  data-translatable_string="forward_string" className="moveButton" onClick={this.robotMove.bind(this,"F","10")}> ^ </button>
+                        <button id="forward_button"   className="moveButton" onClick={this.robotMoveToServer.bind(this,"F","10")}> ^ </button>
                     </div>
                     <div id="bottom_buttons">
-                        <button id="left_button" data-translatable_string="left_string" className="moveButton" onClick={this.robotMove.bind(this,"L","10")}> &lt; </button>
-                        <button id="backward_button" data-translable_string="back_string" className="moveButton" onClick={this.robotMove.bind(this,"B","10")}> v </button>
-                        <button id="right_button" data-translatable_string="right_string" className="moveButton" onClick={this.robotMove.bind(this,"R","10")}> &gt; </button>
+                        <button id="left_button"      className="moveButton" onClick={this.robotMoveToServer.bind(this,"L","10")}> &lt; </button>
+                        <button id="backward_button"  className="moveButton" onClick={this.robotMoveToServer.bind(this,"B","10")}> v </button>
+                        <button id="right_button"     className="moveButton" onClick={this.robotMoveToServer.bind(this,"R","10")}> &gt; </button>
                     </div>
                 </div>
             </div>
@@ -47,3 +42,7 @@ class RobotController extends Component{
     };
 }
 export default  RobotController
+RobotController.propTypes={
+    wsMessage: PropTypes.string,
+    wsSend: PropTypes.func
+}

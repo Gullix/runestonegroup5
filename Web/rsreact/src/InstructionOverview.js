@@ -4,6 +4,8 @@
 import React, { Component } from 'react';
 import TabWindow from "./TabWindow";
 require('./InstructionOverview.css');
+import PropTypes from 'prop-types';
+
 class InstructionOverview extends Component{
     constructor(props) {
         super();
@@ -12,15 +14,20 @@ class InstructionOverview extends Component{
         };
     }
 
+    messageFromServer(msg){
+        console.log("This worked lol:" + msg)
+    }
+    // Pass on message to WebSocket Component
     handleWS(message){
         this.props.wsSend(message);
     }
+
     render(){
         console.log("dir received" + this.props.wsMessage);
         return(
             <div className="instructionOverviewContainer"  >
 
-                <TabWindow wsSend={this.handleWS.bind(this)}/>
+                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}/>
             </div>
 
 
@@ -28,4 +35,9 @@ class InstructionOverview extends Component{
     }
 }
 export default InstructionOverview
-/* <TaskWindow></TaskWindow>  */
+
+
+InstructionOverview.propTypes={
+    wsSend: PropTypes.func,
+    wsMessage: PropTypes.string,
+}

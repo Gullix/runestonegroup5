@@ -10,16 +10,16 @@ class InstructionWindowTemp extends Component{
         super(props);
         this.state = {
             command: 'store',
-            option0: this.props.op1Init,
-            option1: this.props.op2Init
+            optionA: this.props.optionAInit,
+            optionB: this.props.optionBInit
 
         }
         this.handleChange = this.handleChange.bind(this);
     }
     makeCommand(){
-        var val= this.refs.op1.value;
-        var val2= this.refs.op2.value;
-        var message = val +"," + val2;
+        var valA= this.refs.opA.value;
+        var valB= this.refs.opB.value;
+        var message = valA +"," + valB;
         console.log(message)    ;
         this.props.selCommand(message) ;
 
@@ -27,19 +27,11 @@ class InstructionWindowTemp extends Component{
     handleChange() {
 
         this.setState({
-            option0: this.props.op1Init,
-            option1: this.props.op2Init
+            optionA: this.props.optionAInit,
+            optionB: this.props.optionBInit
             });
     }
-    optionify(num){
-        if(num === 0){
-            return( this.state.option0.map((opt,i) => <option key={i + "hello"} value={i + "hello"}>{opt}</option>));
-        }
-        else if(num === 1){
-             return( this.state.option1.map((opt,i) => <option key={i} value={i}>{opt}</option>));
-        }
 
-    }
 
 
     render(){
@@ -47,13 +39,13 @@ class InstructionWindowTemp extends Component{
           return(
 
             <div id="instructionContainer">
-                <select className="instructionOption" ref="op1"   >
+                <select className="instructionOption" ref="opA"   >
                  
-                    {this.props.op1Init.map((opt,i) => <option key={i}  value={opt}>{opt}</option>)}
+                    {this.props.optionAInit.map((opt,i) => <option key={i}  value={opt}>{opt}</option>)}
                 </select>
 
-                 <select className="instructionOption"  ref="op2"  >
-                     {this.props.op2Init.map((opt,i) => <option key={i} value={opt} >{opt}</option>)}
+                 <select className="instructionOption"  ref="opB"  >
+                     {this.props.optionBInit.map((opt,i) => <option key={i} value={opt} >{opt}</option>)}
                  </select>
                 <button onClick={this.makeCommand.bind(this)}> Make command</button>
             </div>
@@ -64,6 +56,6 @@ class InstructionWindowTemp extends Component{
 export default InstructionWindowTemp
 
 InstructionWindowTemp.propTypes={
-    op1Init: PropTypes.arrayOf(PropTypes.string),
-    op2Init: PropTypes.arrayOf(PropTypes.string)
+    optionAInit: PropTypes.arrayOf(PropTypes.string),
+    optionBInit: PropTypes.arrayOf(PropTypes.string)
 }
