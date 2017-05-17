@@ -15,7 +15,8 @@ class WSocket extends Component{
     constructor(props){
         super();
         this.state={
-          message: ""
+          message: "",
+          pl_message: ["package1", "package2"]
         };
         var loc = location.hostname;
         var that = this;
@@ -42,6 +43,20 @@ class WSocket extends Component{
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
         console.log("FROM SERVER: " + msg);
+        var obj = JSON.parse(msg);
+        console.log(obj.type_of_data);
+        switch(obj.type_of_data){
+            case('pl'):
+                this.setState({
+                    pl_message: obj.args
+            })
+                break;
+
+            case('zl'):
+                break;
+            default:
+                break
+        }
         /* Fix so there will be multiple state variables that are unique for the specific components
            Make a parser here so we only have to parse here and not have a parser everywhere
          */
@@ -55,7 +70,7 @@ class WSocket extends Component{
             <div>
 
         <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-        <InstructionOverview wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
+        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
             </div>
         )
     }

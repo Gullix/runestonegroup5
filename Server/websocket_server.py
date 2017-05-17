@@ -2,6 +2,8 @@
 
 import asyncio
 import websockets
+import json_handler
+
 
 PORT = 8001
 
@@ -10,7 +12,8 @@ async def interact(websock, path, data):
         message = await websock.recv()
         print("Http: Received: ", message)
         reply = "Hello {}!".format(message)
-        await websock.send(reply)
+        #await websock.send(reply)
+        await websock.send(json_handler.make_to_json_list('pl'))
         print("> {}".format(reply))
         if message.upper() in {"F", "B", "L", "R"}:
             print("Http: setting direction of robot to ", message)

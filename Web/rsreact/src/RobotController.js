@@ -28,12 +28,12 @@ class RobotController extends Component{
             <div>
                 <div id="remoteContainer">
                     <div id="topButtons">
-                        <button id="forward_button"   className="moveButton" onClick={this.robotMoveToServer.bind(this,"F","10")}> ^ </button>
+                        <button id="forward_button"   className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"F","10")}> ^ </button>
                     </div>
                     <div id="bottom_buttons">
-                        <button id="left_button"      className="moveButton" onClick={this.robotMoveToServer.bind(this,"L","10")}> &lt; </button>
-                        <button id="backward_button"  className="moveButton" onClick={this.robotMoveToServer.bind(this,"B","10")}> v </button>
-                        <button id="right_button"     className="moveButton" onClick={this.robotMoveToServer.bind(this,"R","10")}> &gt; </button>
+                        <button id="left_button"      className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"L","10")}> &lt; </button>
+                        <button id="backward_button"  className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"B","10")}> v </button>
+                        <button id="right_button"     className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"R","10")}> &gt; </button>
                     </div>
                 </div>
             </div>

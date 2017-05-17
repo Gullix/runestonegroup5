@@ -11,8 +11,8 @@ class TabWindow extends Component {
         super(props)
         this.state = {
             tabMode: 0,
-            optionA: ["package1","package2"],
-            optionB: ["area5", "area6"]
+            packageList: props.plMessage,
+            areaList: ["area5", "area6"]
 
    };
     }
@@ -20,34 +20,33 @@ class TabWindow extends Component {
     renderTab(i,tabTit){
         return (<Tab data-value={i}  data-tabTitle={tabTit}  tabIndexInit={i} changeTab={this.changeTabContent.bind(this)}/>);
         }
-    changeTabContent(tabID){
-            if(tabID===0){
-                this.setState({
-                    tabMode:  tabID,
-                    optionA:  ["package1","package2"],
-                    optionB: ["area5","area6"],
+    changeTabContent(tabID) {
+        if (tabID !== null && tabID != this.state.tabMode) {
+            this.setState({
+                tabMode: tabID,
 
-                });
-
-            }
-            else if(tabID===1)  {
-                this.setState({
-                    tabMode:  tabID,
-                    optionA:  ["area1","area22"],
-                    optionB: ["area3","area4"],
-
-                });
-            }
-            else{
-
-            }
+            });
 
 
-
+        }
     }
 
          sendCommand(message){
              this.props.wsSend(message);
+         }
+         renderInstructionWindow(){
+             switch(this.state.tabMode){
+                 case(0):
+                     return(
+                     <InstructionWindowTemp optionAInit={this.props.plMessage} optionBInit={this.state.areaList} selCommand={this.sendCommand.bind(this)}/>
+                     )
+                 case(1):
+                     return(
+                     <InstructionWindowTemp optionAInit={this.state.areaList} optionBInit={this.state.areaList} selCommand={this.sendCommand.bind(this)}/>
+                     )
+                 default:
+                     break;
+             }
          }
 
         
@@ -55,6 +54,10 @@ class TabWindow extends Component {
         
     render()
     {
+
+
+
+
         return(
             <div className="TabWindowContainer">
                 <div className="tabsContainer" >
@@ -63,7 +66,9 @@ class TabWindow extends Component {
                 {this.renderTab(1, "Move from/to Location")    }
                 </div>
                 <div id="testid" className="tabContent">
-                        <InstructionWindowTemp optionAInit={this.state.optionA} optionBInit={this.state.optionB} selCommand={this.sendCommand.bind(this)}/>
+
+                    {this.renderInstructionWindow()}
+
 
 
 

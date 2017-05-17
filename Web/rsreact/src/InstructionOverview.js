@@ -27,7 +27,7 @@ class InstructionOverview extends Component{
         return(
             <div className="instructionOverviewContainer"  >
 
-                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}/>
+                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage} plMessage={this.props.plMessage}/>
             </div>
 
 
@@ -40,4 +40,5 @@ export default InstructionOverview
 InstructionOverview.propTypes={
     wsSend: PropTypes.func,
     wsMessage: PropTypes.string,
+    plMessage: PropTypes.arrayOf(PropTypes.string),
 }
