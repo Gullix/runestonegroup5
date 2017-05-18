@@ -3,7 +3,7 @@ package Robot;
 import lejos.robotics.navigation.MovePilot;
 
 public class RobotMove implements Movements{
-
+int orientation = 0;
 	@Override
 	public void _move(Move m) {
 		double d = Double.parseDouble(m.getCm().trim())*10;
@@ -26,7 +26,34 @@ public class RobotMove implements Movements{
 		default: throw new IllegalArgumentException("Direction not found!\n");
 		}
 	}
-
+		public void _turn(Move m) {
+			double d = Double.parseDouble(m.getCm().trim())*10;
+			switch(m.getDirection().trim()){
+			case "D":
+				m.getMp().travel(this.orientation-180);
+				updateOri(-this.orientation-180);
+				break;
+			case "L":
+				m.getMp().arc(0,-(this.orientation-270));
+				updateOri(-this.orientation-90);
+				m.getMp().travel(d);
+				break;
+			case "R":
+				m.getMp().arc(0,-(this.orientation-90));
+				updateOri(-this.orientation-90);
+				break;
+			case "U":
+				if (this.orientation < 180){
+					m.getMp().arc(0, -this.orientation); updateOri(-this.orientation);break;}
+				else {m.getMp().arc(0, this.orientation); updateOri(-this.orientation);break;}
+						
+			default: throw new IllegalArgumentException("Direction not found!\n");
+			}
+	}
+		public void updateOri(int amount)
+		{
+			this.orientation = (this.orientation +amount) % 360;
+		}
 	@Override
 	public void _pickup(String s) {
 		// TODO Auto-generated method stub
