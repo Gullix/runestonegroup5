@@ -1,9 +1,15 @@
 package Robot;
 
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.robotics.navigation.MovePilot;
 
 public class RobotMove implements Movements{
-int orientation = 0;
+	int orientation = 0;
+	private EV3GyroSensor sensor;
+
+	public RobotMove(EV3GyroSensor sensor){
+		this.sensor = sensor;
+	}
 	@Override
 	public void _move(Move m) {
 		double d = Double.parseDouble(m.getCm().trim())*10;

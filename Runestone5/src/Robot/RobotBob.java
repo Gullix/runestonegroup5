@@ -9,13 +9,16 @@ import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.Motor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.SensorMode;
 import lejos.remote.nxt.NXTConnection;
+import lejos.robotics.GyroscopeAdapter;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
+import lejos.utility.GyroDirectionFinder;
 import lejos.utility.TextMenu;
 
 public class RobotBob {
@@ -40,6 +43,9 @@ public class RobotBob {
 	}
 	
 	public void run() throws IOException {
+		/**
+		 * Testing orientation
+		 * */
 		
 		LCD.clearDisplay();
 		LCD.drawString("Starting...", 0, 1);
@@ -71,7 +77,7 @@ public class RobotBob {
 			}
 		}
 		
-		RobotMove rm = new RobotMove();
+		RobotMove rm = new RobotMove(new EV3GyroSensor(LocalEV3.get().getPort("S3")));
 		
 		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
 		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
@@ -83,7 +89,7 @@ public class RobotBob {
 			Delay.msDelay(5000);
 			return;
 		}
-		
+		EV3GyroSensor ev3 = new EV3GyroSensor(LocalEV3.get().getPort("S1"));
 		try{
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
