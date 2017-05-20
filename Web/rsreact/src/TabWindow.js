@@ -21,7 +21,7 @@ class TabWindow extends Component {
         return (<Tab data-value={i}  data-tabTitle={tabTit}  tabIndexInit={i} changeTab={this.changeTabContent.bind(this)}/>);
         }
     changeTabContent(tabID) {
-        if (tabID !== null && tabID != this.state.tabMode) {
+        if (tabID !== null && tabID !== this.state.tabMode) {
             this.setState({
                 tabMode: tabID,
 

@@ -14,9 +14,12 @@ class WSocket extends Component{
 
     constructor(props){
         super();
+        var task = {action:"Move", args:["package1337"], task_id:0};
+        var tasklist =[task];
         this.state={
           message: "",
-          pl_message: ["package1", "package2"]
+          pl_message: ["package1", "package2"],
+            tl_message:tasklist
         };
         var loc = location.hostname;
         var that = this;
@@ -54,6 +57,14 @@ class WSocket extends Component{
 
             case('zl'):
                 break;
+            case('tl'):
+                this.setState({
+
+
+                    tl_message: obj.tl
+
+            });
+                break;
             default:
                 break
         }
@@ -70,7 +81,7 @@ class WSocket extends Component{
             <div>
 
         <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
+        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
             </div>
         )
     }

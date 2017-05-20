@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 require('./TaskItem.css');
 class TaskItem extends Component{
-    constructor(props){
-        super(props);
-        this.state({
-          task: this.props.task
-        });
-    }
     render(){
+        console.log(this.props.task)
         return(
+
             <div className="TaskItemContainer">
-                <div className="TaskItemText"></div>
-                <button className="cancelButton">X</button>
+                <p className="TaskItemText">{this.props.task}</p>
+                <button className="cancelButton pull-right">X</button>
             </div>
 
         )

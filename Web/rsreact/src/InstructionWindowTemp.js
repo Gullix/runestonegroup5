@@ -6,16 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 require('./InstructionWindowTemp.css');
 class InstructionWindowTemp extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            command: 'store',
-            optionA: this.props.optionAInit,
-            optionB: this.props.optionBInit
-
-        }
-        this.handleChange = this.handleChange.bind(this);
-    }
     makeCommand(){
         var valA= this.refs.opA.value;
         var valB= this.refs.opB.value;
@@ -24,16 +14,6 @@ class InstructionWindowTemp extends Component{
         this.props.selCommand(message) ;
 
     }
-    handleChange() {
-
-        this.setState({
-            optionA: this.props.optionAInit,
-            optionB: this.props.optionBInit
-            });
-    }
-
-
-
     render(){
 
           return(

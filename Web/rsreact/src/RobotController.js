@@ -23,7 +23,6 @@ class RobotController extends Component{
 
 
     render(){
-        console.log("dir received" + this.props.wsMessage);
         return(
             <div>
                 <div id="remoteContainer">
