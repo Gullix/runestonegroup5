@@ -14,6 +14,7 @@ async def interact(websock, path, data):
         reply = "Hello {}!".format(message)
         #await websock.send(reply)
         await websock.send(json_handler.make_to_json_list('tl'))
+        await websock.send(json_handler.make_to_json_list('pl'))
         print("> {}".format(reply))
         if message.upper() in {"F", "B", "L", "R"}:
             print("Http: setting direction of robot to ", message)
