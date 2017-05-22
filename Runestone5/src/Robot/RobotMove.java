@@ -33,7 +33,7 @@ public class RobotMove implements Movements{
 		}
 	}
 		public void _turn(Move m) {
-			double d = Double.parseDouble(m.getCm().trim())*10;
+			System.out.println("orientation is " + orientation);
 			switch(m.getDirection().trim()){
 			case "D":
 				m.getMp().arc(0,this.orientation-180);
@@ -41,12 +41,11 @@ public class RobotMove implements Movements{
 				break;
 			case "L":
 				m.getMp().arc(0,-(this.orientation-270));
-				updateOri(-this.orientation-90);
+				updateOri(-this.orientation-270);
 				break;
 			case "R":
-				orientation = sensor.getAngleMode().sampleSize();
-				m.getMp().arc(0,-(orientation-90));
-				
+				m.getMp().arc(0,-(this.orientation-90));
+				updateOri(-this.orientation-90);
 				break;
 			case "U":
 				if (this.orientation < 180){
