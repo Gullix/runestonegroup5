@@ -5,6 +5,25 @@ def new_shared_dict():
         "close_requested": False,
         "robot": {
             "last_target": None,
-            "direction": "F"
+            "direction": "F",
+            "position": [0,0] #row column (think matrix)
+            }
+        "map":{
+           "rows" : [
+            {["","","z","","z","","z","",""],
+             ["","","z","","z","","z","",""]
+
+            }
+           ]
+
+         "square_types"{
+         "": "blank"
+         "z":  "zone"
+         "s":   "start"
+         "e":  "end"
+         "l":  "line"
+
+         }
         }
-    }
+
+     }

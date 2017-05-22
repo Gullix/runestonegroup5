@@ -20,6 +20,8 @@ def make_to_json_list(type_of_data):
 
                 ]
 	    	})
+	 elif	type_of_data == 'map'
+
 
 
 
@@ -39,3 +41,6 @@ class Task(object):
 def make_task(action, args, task_id):
     task = Task(action, args, task_id)
     return task
+
+
+
