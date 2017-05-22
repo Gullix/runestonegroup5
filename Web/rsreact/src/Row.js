@@ -9,7 +9,7 @@ class Row extends Component{
             <div className="rowContainer">
                 {
                     this.props.rowItems.map((square, i) => <Square key={i} value={square.square_id}
-                                                                    info={square}>
+                                                                    info={square} pos={[this.props.key,i]}>
 
                     </Square>)}
             </div>

@@ -154,7 +154,7 @@ class WSocket extends Component{
             <div>
 
         <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-                <MapOverview layout={this.state.wh_layout} />
+                <MapOverview layout={this.state.wh_layout} startPoint={[2,0]} />
         <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
             </div>
         )
