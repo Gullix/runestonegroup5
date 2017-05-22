@@ -56,8 +56,7 @@ public class RobotMove implements Movements{
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
 	}
-		public void updateOri(int amount)
-		{
+		public void updateOri(int amount){
 			this.orientation = (this.orientation +amount) % 360;
 		}
 	@Override
