@@ -17,10 +17,10 @@ def new_shared_dict():
                 ["b","b","z","b","z","b","z","b","b"]
             ],
             "square_types": {
-                "b": "blank"
-                "z": "zone"
-                "s": "start"
-                "e": "end"
+                "b": "blank",
+                "z": "zone",
+                "s": "start",
+                "e": "end",
                 "l": "line",
                 "i": "intersection"
             }
