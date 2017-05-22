@@ -48,7 +48,7 @@ TEST_JSON = {
 }
 
 def get_test_json(type_of_data):
-		return TEST_JSON(type_of_data)
+		return TEST_JSON[type_of_data]
 
 def j_pack(type_of_data, data):
 	return json.dumps({
