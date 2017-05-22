@@ -16,13 +16,30 @@ class WSocket extends Component{
     constructor(props){
         super();
         var task = {action:"Move", args:["package1337"], task_id:0};
-        var wareHouse= this.createWareHouse();
+        var rows=[
+            ["b","b","z","b","z","b","z","b","b"],
+            ["b","b","z","b","z","b","z","b","b"],
+            ["s","l","i","l","i","l","i","l","e"],
+            ["b","b","l","b","l","b","l","b","b"],
+            ["b","b","z","b","z","b","z","b","b"]
+
+        ];
+        var robot ={
+            position: {"row": 0, "col": 0},
+            orientation: "west"
+        };
+
+        var packages = this.packagesInit();
+        var wareHouse= this.createWareHouse(rows);
         var tasklist =[task];
         this.state={
           message: "",
           pl_message: ["package1", "package2"],
             tl_message:tasklist,
-            wh_layout:   wareHouse
+            wh_layout:   wareHouse,
+            robot: robot,
+            packages: packages
+
         };
         var loc = location.hostname;
         var that = this;
@@ -52,21 +69,34 @@ class WSocket extends Component{
         var obj = JSON.parse(msg);
         console.log(obj.type_of_data);
         switch(obj.type_of_data){
-            case('pl'):
+            case('package_list'):
                 this.setState({
-                    pl_message: obj.args
+                    pl_message: obj.data
             })
                 break;
 
             case('zl'):
                 break;
-            case('tl'):
+            case('task_list'):
                 this.setState({
 
 
-                    tl_message: obj.tl
+                    tl_message: obj.data
 
             });
+                break;
+            case('map'):
+                this.setState({
+
+
+                    wh_layout: this.createWareHouse(obj.data.rows)
+
+                });
+                break;
+            case('robot'):
+                this.setState({
+                    robot: obj.data
+                });
                 break;
             default:
                 break
@@ -79,60 +109,13 @@ class WSocket extends Component{
         })
     }
 
-    createWareHouse(){
-        var p1={
-            packageId: "p1",
-            light:"",
-            humidity: ""
-        }
-
-           var p2={
-               packageId: "p2",
-               light:"",
-               humidity: ""
-           }
+    createWareHouse(rows){
 
 
-           
-        var z1={
-            storage:null,
-            zoneId: "z1",
-        }
-        var z2={
-            storage:p1,
-            zoneId: "z2",
-        }
-        var z3={
-            storage:null,
-            zoneId: "z3",
-        }
-
-         var z4={
-             storage:null,
-             zoneId: "z4",
-         }
-
-          var z5={
-              storage:null,
-              zoneId: "z5",
-          }
-
-           var z6={
-               storage:p2,
-               zoneId: "z3",
-           }
-
-
-        var leftStorageLane = [z1,z2,z3];
-        var rightStorageLane = [z4,z5,z6];
-        var storageLanes = [leftStorageLane,rightStorageLane];
-        var colSize = 2*this.largestLaneSize(storageLanes)    + 3;
-        var rowSize =  4* (storageLanes.length -1) +1;
         var whMap ={
-            colSize: colSize,
-            rowSize: rowSize,
-            storageLanes:storageLanes,
-            layout: "standard"
+            colSize: this.largestLaneSize(rows),
+            rowSize: rows.length,
+            rows:rows,
         }
         return whMap;
 
@@ -148,13 +131,24 @@ class WSocket extends Component{
          }
          return max;
         }
+    packagesInit(){
+        var package1={
+            storedAt:{ row:0, col: 2},
+            packageID: "package1",
+        }
+        var package2={
+            storedAt:{ row:4, col: 4},
+            packageID: "package1",
+        }
+        var packages =[package1,package2];
+    }
     render(){
         // Pass through the messages from the server as different props
         return(
             <div>
 
         <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-                <MapOverview layout={this.state.wh_layout} startPoint={[2,0]} />
+                <MapOverview layout={this.state.wh_layout} startPoint={[2,0]} robotPos={this.state.robot} packages={this.state.packages}/>
         <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
             </div>
         )

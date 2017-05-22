@@ -35,11 +35,12 @@ class Grid extends Component{
         }
        return rows;
     }
+
     render(){
         return(
             <div className="gridContainer list-group">
                 {
-                    this.state.rows.map((row, i) => <Row key={i} value={row.row_id} rowItems={row.items}/>)
+                    this.props.rows.map((row, i) => <Row key={i} rowItems={row} rowIndex={i} robotPos={this.props.robotPos} packages={this.props.packages}/>)
                 }
 
             </div>

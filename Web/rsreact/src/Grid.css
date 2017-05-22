@@ -12,4 +12,9 @@ width:400px;
 }
 
 .mapOverviewContainer{
+    margin-left: 35%;
+    margin-top: 10%;
+}
+.robotBob{
+    background-image: url("../public/robotbob.svg");
 }
