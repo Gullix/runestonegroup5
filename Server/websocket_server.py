@@ -15,6 +15,7 @@ async def interact(websock, path, data):
 		#await websock.send(reply)
 		await websock.send(jh.get_test_json('task_list'))
 		await websock.send(jh.get_test_json('package_list'))
+		await websock.send(jh.get_test_json('robot'))
 		await websock.send(jh.j_pack("map", data["map"]))
 		print("> {}".format(reply))
 		if message.upper() in {"F", "B", "L", "R"}:
