@@ -36,6 +36,7 @@ public class LineFollower {
 			}
 			if(cc.seeColor("RED")){
 				chassis.setVelocity(0, 0);
+				break;//we go out the while so no multithread!
 			}
 			Delay.msDelay(50);
 		}

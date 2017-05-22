@@ -27,8 +27,8 @@ public class RobotBob {
 	
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
-			{"00:0C:78:76:64:DB","74:DF:BF:4A:17:61","18:5E:0F:0A:BC:56"},
-			{"BLuetooth dongle","Emil","Bluetooth dongle"}
+			{"00:0C:78:76:64:DB","24:0A:64:7C:89:B2","18:5E:0F:0A:BC:56"},
+			{"Bluetooth dongle","Matteo","Batman"}
 	};
 	
 	public static void main(String[] args) throws IOException{
@@ -122,6 +122,10 @@ public class RobotBob {
 
 					case("G"):
 						rm._goto(arr[1]);
+					break;
+					
+					case ("T"):
+						rm._turn(new Move(arr[1], arr[2], pilot));
 					break;
 
 					default: 

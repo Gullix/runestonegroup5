@@ -45,8 +45,9 @@ public class RobotMove implements Movements{
 				m.getMp().travel(d);
 				break;
 			case "R":
-				m.getMp().arc(0,-(this.orientation-90));
-				updateOri(-this.orientation-90);
+				orientation = sensor.getAngleMode().sampleSize();
+				m.getMp().arc(0,-(orientation-90));
+				
 				break;
 			case "U":
 				if (this.orientation < 180){
