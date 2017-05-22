@@ -5,6 +5,7 @@ import lejos.robotics.navigation.MovePilot;
 
 public class RobotMove implements Movements{
 	int orientation = 0;
+	float [] sample;
 	private EV3GyroSensor sensor;
 
 	public RobotMove(EV3GyroSensor sensor){
@@ -33,16 +34,17 @@ public class RobotMove implements Movements{
 		}
 	}
 		public void _turn(Move m) {
-			int thing = this.sensor.getAngleMode().sampleSize();
-			System.out.println("orientation is " + orientation + "angle is" + thing);
+			this.sensor.getAngleMode().fetchSample(sample,0);
+			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
 			switch(m.getDirection().trim()){
 			case "D":
-				m.getMp().arc(0,this.orientation-180);
-				updateOri(-this.orientation-180);
+				//m.getMp().arc(0,this.orientation-180);
+				//updateOri(-this.orientation-180);
+				m.getMp().arc(0, this.orientation - 180);
 				break;
 			case "L":
-				m.getMp().arc(0,-(this.orientation-270));
-				updateOri(-this.orientation-270);
+				//m.getMp().arc(0,-(this.orientation-270));
+				//updateOri(-this.orientation-270);
 				break;
 			case "R":
 				m.getMp().arc(0,-(this.orientation-90));
