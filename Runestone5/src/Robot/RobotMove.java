@@ -36,13 +36,12 @@ public class RobotMove implements Movements{
 			double d = Double.parseDouble(m.getCm().trim())*10;
 			switch(m.getDirection().trim()){
 			case "D":
-				m.getMp().travel(this.orientation-180);
+				m.getMp().arc(0,this.orientation-180);
 				updateOri(-this.orientation-180);
 				break;
 			case "L":
 				m.getMp().arc(0,-(this.orientation-270));
 				updateOri(-this.orientation-90);
-				m.getMp().travel(d);
 				break;
 			case "R":
 				orientation = sensor.getAngleMode().sampleSize();
