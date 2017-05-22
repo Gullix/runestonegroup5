@@ -44,6 +44,13 @@ TEST_JSON = {
 			"pack2",
 			"pack3"
 		]
+	}),
+	"robot": json.dumps({
+		"type_of_data": "robot",
+		"data": {
+			"position": {"row": 2, "col": 0},
+			"orientation": "east"
+		}
 	})
 }
 
