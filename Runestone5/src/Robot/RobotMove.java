@@ -37,16 +37,16 @@ public class RobotMove implements Movements{
 			this.sensor.getAngleMode().fetchSample(sample,0);
 			switch(m.getDirection().trim()){
 			case "D":
-				//m.getMp().arc(0,this.orientation-180);
-				//updateOri(-this.orientation-180);
-				m.getMp().arc(0, this.orientation - 180);
+				m.getMp().arc(0,this.orientation-180);
+				updateOri(-this.orientation-180);
+				//m.getMp().arc(0, this.orientation - 180);
 				break;
 			case "L":
-				//m.getMp().arc(0,-(this.orientation-270));
-				//updateOri(-this.orientation-270);
+				m.getMp().arc(0,(this.orientation-270));
+				updateOri(-this.orientation-270);
 				break;
 			case "R":
-				m.getMp().arc(0,-(this.orientation-90));
+				m.getMp().arc(0,(this.orientation-90));
 				updateOri(-this.orientation-90);
 				break;
 			case "U":
