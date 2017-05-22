@@ -5,7 +5,7 @@ import lejos.robotics.navigation.MovePilot;
 
 public class RobotMove implements Movements{
 	int orientation = 0;
-	float [] sample = new float [0];
+	float [] sample = new float [1];
 	private EV3GyroSensor sensor;
 
 	public RobotMove(EV3GyroSensor sensor){
