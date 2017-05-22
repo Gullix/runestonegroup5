@@ -33,27 +33,28 @@ public class RobotMove implements Movements{
 		default: throw new IllegalArgumentException("Direction not found!\n");
 		}
 	}
-		public void _turn(Move m) {
+		public void _turn(Move m) {			
 			this.sensor.getAngleMode().fetchSample(sample,0);
 			switch(m.getDirection().trim()){
 			case "D":
-				m.getMp().arc(0,this.orientation-180);
-				updateOri(-this.orientation-180);
-				//m.getMp().arc(0, this.orientation - 180);
+				while((sample[0] % 360) != 0){
+					m.getMp().arc(0,1);
+				}
 				break;
 			case "L":
-				m.getMp().arc(0,(this.orientation-270));
-				updateOri(-this.orientation-270);
+				while((sample[0] % 360) != 270){
+					m.getMp().arc(0,1);
+				}
 				break;
 			case "R":
-				m.getMp().arc(0,(this.orientation-90));
-				updateOri(-this.orientation-90);
+				while((sample[0] % 360) != 90){
+					m.getMp().arc(0,1);
+				}
 				break;
 			case "U":
-				if (this.orientation < 180){
-					m.getMp().arc(0, -this.orientation); updateOri(-this.orientation);break;}
-				else {m.getMp().arc(0, this.orientation); updateOri(-this.orientation);break;}
-						
+				while((sample[0] % 360) != 180){				
+					m.getMp().arc(0,1);				
+				}
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
 			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
