@@ -33,7 +33,8 @@ public class RobotMove implements Movements{
 		}
 	}
 		public void _turn(Move m) {
-			System.out.println("orientation is " + orientation);
+			int thing = this.sensor.getAngleMode().sampleSize();
+			System.out.println("orientation is " + orientation + "angle is" + thing);
 			switch(m.getDirection().trim()){
 			case "D":
 				m.getMp().arc(0,this.orientation-180);
