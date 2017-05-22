@@ -35,7 +35,6 @@ public class RobotMove implements Movements{
 	}
 		public void _turn(Move m) {
 			this.sensor.getAngleMode().fetchSample(sample,0);
-			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
 			switch(m.getDirection().trim()){
 			case "D":
 				//m.getMp().arc(0,this.orientation-180);
@@ -57,8 +56,15 @@ public class RobotMove implements Movements{
 						
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
+<<<<<<< HEAD
 	}
 		public void updateOri(int amount){
+=======
+			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
+		}
+		public void updateOri(int amount)
+		{
+>>>>>>> 2899584015c3447e256be9df8a341e7625d530fe
 			this.orientation = (this.orientation +amount) % 360;
 		}
 	@Override
