@@ -19,6 +19,7 @@ public class Orientation {
 		if (this.orientation < 0)
 			this.orientation = 360 - this.orientation;*/
 		this.orientation += increment;
+		while(this.orientation<0)this.orientation+=360;
 		this.orientation = this.orientation % 360;
 	}
 	

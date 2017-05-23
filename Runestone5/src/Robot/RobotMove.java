@@ -41,28 +41,26 @@ public class RobotMove implements Movements{
 		m.getMp().arc(0, i);
 	}
 	private void turning(int target, Move m){
-		boolean left = Math.abs(this.orientation.getOrientation()-target) < 180;
+		boolean right = (target - orientation.getOrientation() + 360) % 360 >= 180;
 		while(this.orientation.getOrientation()!=target){
-			System.out.println("Or: " + this.orientation.getOrientation() + "\nT: " + target + "\n");
-			if(!left)this.updating(1, m);
-			else this.updating(-1, m);
+			if(right)this.updating(-10, m);
+			else this.updating(10, m);
 		}
 	}
 		public void _turn(Move m) {			
-			this.sensor.getAngleMode().fetchSample(sample,0);
-			this.orientation.set((int)sample[0]);
 			switch(m.getDirection().trim()){
 			case "D":
 				turning(180,m);
 				break;
-			case "L":
+			case "R":
 				turning(270,m);	
 				break;
-			case "R":
+			case "L":
 				turning(90,m);	
 				break;
 			case "U":
-				turning(0,m);	
+				turning(0,m);
+				break;	
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
 	}
