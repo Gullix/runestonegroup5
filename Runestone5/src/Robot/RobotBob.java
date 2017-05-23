@@ -73,7 +73,7 @@ public class RobotBob {
 		else if (mode == 3){
 			LineFollowerPID lineFollowerPID = new LineFollowerPID(cCal, chassis);
 			while(true){
-				lineFollowerPID.go();
+				lineFollowerPID.go(1);
 			}
 		}
 		
