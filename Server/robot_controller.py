@@ -1,3 +1,18 @@
+class CommandError(Exception):
+	pass
+
+def pos(position):
+	return position["row"], position["col"]
+
+def pos_valid(data, position):
+	r,c = pos(position)
+	square = data["map"]["rows"][r][c]
+
+	if square == "b" or square not in data["map"]["sqaure_types"]:
+		return False
+
+	return True
+
 def get_target(data):
 
     dir = data["robot"]["direction"]
@@ -12,8 +27,6 @@ def update_position(data, direction):
 	if direction == "R":
 
 	if direction == "L":
-		
-
 
 
 def calculate_dir(data)
@@ -35,3 +48,14 @@ def calculate_dir(data)
 		return "D"
 	if posR > 2:
 		return "U"
+
+
+def new_package(data, package):
+	
+	package_already_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]
+	valid_pos = pos_valid(data, package["position"])
+	
+	if not valid_pos or package_already_exists:
+		raise CommandError("Invalid, package already exists or position is invalid")
+
+	data["map"]["packages"].append(package)

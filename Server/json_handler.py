@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
 
-TEST_JSON = {
+TEST_JSON_SEND = {
 	"map": json.dumps({
 		"type_of_data": "map",
 		"data": {
@@ -22,21 +22,6 @@ TEST_JSON = {
 			}
 		}
 	}),
-	"task_list": json.dumps({
-		"type_of_data": "task_list",
-		"data": [
-			{
-				'action': "move",
-				'args':  ["package1412"],
-				'task_id': 2
-			},
-			{
-				'action': "move",
-				'args':  ["package1234"],
-				'task_id': 3
-			}
-		]
-	}),
 	"package_list": json.dumps({
 		"type_of_data": "package_list",
 		"data": [
@@ -54,14 +39,48 @@ TEST_JSON = {
 	})
 }
 
+TEST_JSON_RECV = {
+	"task_list": json.dumps({
+		"type_of_data": "task_list",
+		"data": [
+			{
+				'action': "move",
+				'args':  ["package1412"],
+				'task_id': 2
+			},
+			{
+				'action': "move",
+				'args':  ["package1234"],
+				'task_id': 3
+			}
+		]
+	}),
+	"new_package": json.dumps({
+		"type_of_data": "new_package",
+		"data": {
+			"packageID": "package83",
+			"position": {"row": 2, "col": 0}
+		}
+	}),
+}
+
 def get_test_json(type_of_data):
-		return TEST_JSON[type_of_data]
+		if type_of_data in TEST_JSON_SEND:
+			return TEST_JSON_SEND[type_of_data]
+		elif type_of_data in TEST_JSON_RECV
+			return TEST_JSON_RECV[type_of_data]
+		else:
+			raise ValueError()
 
 def j_pack(type_of_data, data):
 	return json.dumps({
 		"type_of_data": type_of_data,
 		"data": data
 	})
+
+def j_unpack(json_str):
+	packet = json.loads(json_str)
+	return packet["type_of_data"], packet["data"]
 
 class Task(object):
 	action = ""
