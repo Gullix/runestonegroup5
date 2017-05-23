@@ -15,9 +15,11 @@ public class Orientation {
 	}
 	
 	public void increment(int increment){
-		this.orientation = (this.orientation + increment) % 360;
+		/*this.orientation = (this.orientation + increment) % 360;
 		if (this.orientation < 0)
-			this.orientation = 360 - this.orientation;
+			this.orientation = 360 - this.orientation;*/
+		this.orientation += increment;
+		this.orientation = this.orientation % 360;
 	}
 	
 	public int getOrientation(){

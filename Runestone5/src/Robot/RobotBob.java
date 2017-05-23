@@ -89,7 +89,7 @@ public class RobotBob {
 			Delay.msDelay(5000);
 			return;
 		}
-		EV3GyroSensor ev3 = new EV3GyroSensor(LocalEV3.get().getPort("S1"));
+		//EV3GyroSensor ev3 = new EV3GyroSensor(LocalEV3.get().getPort("S3"));
 		try{
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
