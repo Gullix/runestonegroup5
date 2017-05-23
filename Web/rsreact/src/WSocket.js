@@ -147,10 +147,9 @@ class WSocket extends Component{
         // Pass through the messages from the server as different props
         return(
             <div>
-
-        <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
                 <MapOverview layout={this.state.wh_layout} startPoint={[2,0]} robotPos={this.state.robot} packages={this.state.packages}/>
-        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
+                <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
+                <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
             </div>
         )
     }
