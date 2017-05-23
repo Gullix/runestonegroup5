@@ -67,7 +67,7 @@ TEST_JSON_RECV = {
 def get_test_json(type_of_data):
 		if type_of_data in TEST_JSON_SEND:
 			return TEST_JSON_SEND[type_of_data]
-		elif type_of_data in TEST_JSON_RECV
+		elif type_of_data in TEST_JSON_RECV:
 			return TEST_JSON_RECV[type_of_data]
 		else:
 			raise ValueError()
