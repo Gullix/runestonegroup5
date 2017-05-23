@@ -9,12 +9,13 @@ def new_shared_dict():
 			"position": {"row": 2, "col": 0},
 			"has_package": False
 		},
-		"packages": [
-			{
+		"packages": {
+			"package1": {
 				"packageID": "package1",
 				"position": {"row": 0, "col": 4}
 			}
-		],
+		}
+		
 		"map": {
 			"rows" : [
 				["b","b","z","b","b"],
