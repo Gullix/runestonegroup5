@@ -38,11 +38,11 @@ public class RobotMove implements Movements{
 	private void turning(int target, Move m){
 		while(this.orientation.getOrientation()!=target){
 			if( (Math.abs(this.orientation.getOrientation()-target)) < 180){
-				this.orientation.increment(2);
-				m.getMp().arc(0, 2);}
+				this.orientation.increment(1);
+				m.getMp().arc(0, 1);}
 			else{
-				this.orientation.increment(-2);
-				m.getMp().arc(0, 2);}
+				this.orientation.increment(-1);
+				m.getMp().arc(0, -1);}
 		}
 	}
 		public void _turn(Move m) {			
