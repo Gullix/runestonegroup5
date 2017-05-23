@@ -290,9 +290,12 @@ class WSocket extends Component{
         return(
             <div>
 
-        <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
+
+
                 <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
+<RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
         <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} packages={this.state.package_list} tlMessage={this.state.tl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones}/>
+
             </div>
         )
     }

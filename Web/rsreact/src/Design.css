@@ -1,8 +1,10 @@
 body{
-    background-color: #8293a3;
+    background-color: #202020;
 }
 #indexHeader{
+    font-family: "Helvetica Neue";
+    background-color: #2B3A45;
     width: 100%;
-    color: #cd233a;
-
+    color: aliceblue;
+    padding: 1%;
 }
