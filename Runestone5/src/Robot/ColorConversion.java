@@ -78,7 +78,6 @@ public class ColorConversion {
 	//Loop through each float array in colors and compare euclidean with value. Return index of most similar.
 	public static int MostSimilar(float[][] colors, float[] value){
 		int minInd = 0;
-		System.out.println("\n\n" + Arrays.toString(colors[0]));
 		float minVal = Euclidean(colors[0],value);
 		float auxE = 0;
 		for (int i = 0; i < colors.length; i++) {

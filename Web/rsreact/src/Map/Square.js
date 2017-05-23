@@ -3,6 +3,8 @@
  */
 import React, { Component } from 'react';
 require('./Grid.css');
+import Robot from "./Robot";
+import Package from "./Package";
 class Square extends Component{
     setColor(){
         var squareColor = "white";
@@ -36,52 +38,30 @@ class Square extends Component{
         var styleObj = {
             backgroundColor: this.setColor()
         }
+        var that= this;
         if(this.props.robotPos.position.row === this.props.pos_row && this.props.robotPos.position.col === this.props.pos_col ){
-            var degrees = 0;
-            console.log(this.props.robotPos);
-            switch(this.props.robotPos.orientation){
-                case("north"):
-                    degrees=180;
-                    break;
-                case("south"):
-                    degrees=0;
-                    break;
-                case("west"):
-                    degrees=90;
-                    break;
-                case("east"):
-                    degrees=270;
-                    break;
-                default:
-                    degrees =0;
-                 break;
-            }
-            var backStr = "../public/robotbob.svg";
-            styleObj = {
-
-                backgroundColor: this.setColor(),
-                WebkitTransform: 'rotate('+degrees+'deg)',
-                MozTransform: 'rotate('+degrees+'deg)',
-                msTransform: 'rotate('+degrees+'deg)',
-                OTransform: 'rotate('+degrees+'deg)',
-                transform : 'rotate('+degrees+'deg)',
-            }
-
-
-
-            console.log(styleObj);
             return(
                 <div className="squareContainer robotBob" style={styleObj} >
-
+                     <Robot robotInfo={this.props.robotPos}> </Robot>
                 </div>
 
             )
         }
         else{
+            var packageCheck = this.props.packages.map(function(pack, i) {
+                if(pack.position.row === that.props.pos_row && pack.position.col === that.props.pos_col){
+                    return(
+                        <Package packageInfo={pack} key={i}></Package>
+                    )
+                }
+                else{
+                    return(null)
+                }
+
+            });
             return(
                 <div className="squareContainer" style={styleObj}>
-
-
+                    {packageCheck}
                 </div>
 
             )

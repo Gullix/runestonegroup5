@@ -21,13 +21,13 @@ def get_target(data):
     
 def update_position(data, direction):
 	if direction == "U":
-		data["robot"]["position"]["row"] = data["robot"]["position"]["row"] - 2
+		data["robot"]["position"]["row"] -= 1
 	if direction == "D":
-		data["robot"]["position"]["row"] = data["robot"]["position"]["row"] + 2
+		data["robot"]["position"]["row"] += 1
 	if direction == "R":
-		data["robot"]["position"]["col"] = data["robot"]["position"]["col"] + 2
+		data["robot"]["position"]["col"] += 1
 	if direction == "L":
-		data["robot"]["position"]["col"] = data["robot"]["position"]["col"] - 2
+		data["robot"]["position"]["col"] -= 1
 
 def update_package(data, direction, packageID)
 	if direction == "U":
@@ -40,10 +40,11 @@ def update_package(data, direction, packageID)
 		data["packages"][packageID]["position"]
 		["col"] = data["packages"][packageID]["position"]["col"] - 2	
 
-def calculate_dir(data)
-	tarR, tarC = pos(data["robot"]["target"])
-	posR, posC = pos(data["robot"]["position"])
-	if (posR == tarR) && (tarC == tarC):
+
+def calculate_dir(data):
+	tarR, tarC = data["robot"]["target"]
+	posR, posC = data["robot"]["position"]
+	if (posR == tarR) and (tarC == tarC):
 		return "S"
 	if posR == 2:
 		if posC == tarC:
@@ -70,3 +71,4 @@ def new_package(data, package):
 		raise CommandError("Invalid, package already exists or position is invalid")
 
 	data["map"]["packages"].append(package)
+

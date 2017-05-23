@@ -38,6 +38,7 @@ class Grid extends Component{
 
     render(){
         return(
+
             <div className="gridContainer list-group">
                 {
                     this.props.rows.map((row, i) => <Row key={i} rowItems={row} rowIndex={i} robotPos={this.props.robotPos} packages={this.props.packages}/>)

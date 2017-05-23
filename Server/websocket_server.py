@@ -11,8 +11,16 @@ PORT = 8001
 async def interact(websock, path, data):
 	while True:
 		message = await websock.recv()
+
+		
+		
 		print("Http: Received packet")
 		typ, message_data = jh.j_unpack(message)
+
+		if typ == "hello":
+			data["robot"]["position"]["col"] += 1
+			await websock.send(jh.j_pack("all", data))
+			continue
 
 		process(typ, message_data)
 
@@ -26,8 +34,8 @@ async def interact(websock, path, data):
 
 def process(typ, message, data):
 	if typ == "new_package":
-		new_package(data, message)
-	
+		rc.new_package(data, message)
+		
 
 def run_server(data):
 

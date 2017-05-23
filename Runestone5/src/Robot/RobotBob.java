@@ -68,11 +68,11 @@ public class RobotBob {
 		if (mode == 2) {
 			offlineTest(cCal);
 		} else if (mode == 1) {
-			lf.go(1);
+			lf.go(1, false);
 		}
 		else if (mode == 3){
 			LineFollowerPID lineFollowerPID = new LineFollowerPID(cCal, chassis);
-			while(true){
+			while(true) {
 				lineFollowerPID.go();
 			}
 		}
@@ -89,7 +89,7 @@ public class RobotBob {
 			Delay.msDelay(5000);
 			return;
 		}
-		EV3GyroSensor ev3 = new EV3GyroSensor(LocalEV3.get().getPort("S1"));
+		//EV3GyroSensor ev3 = new EV3GyroSensor(LocalEV3.get().getPort("S3"));
 		try{
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;

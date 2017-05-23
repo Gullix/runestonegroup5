@@ -3,9 +3,9 @@
  */
 
 import React, { Component } from 'react';
-import RobotController from "./RobotController";
-import InstructionOverview from "./InstructionOverview";
-import MapOverview from "./MapOverview";
+import RobotController from "./Manual/RobotController";
+import InstructionOverview from "./Command/InstructionOverview";
+import MapOverview from "./Map/MapOverview";
 var mWSocket;  // Make the WebSocket global
 
 /*
@@ -133,14 +133,15 @@ class WSocket extends Component{
         }
     packagesInit(){
         var package1={
-            storedAt:{ row:0, col: 2},
+            position:{ row:0, col: 2},
             packageID: "package1",
         }
         var package2={
-            storedAt:{ row:4, col: 4},
+            position:{ row:4, col: 4},
             packageID: "package1",
         }
         var packages =[package1,package2];
+        return (packages);
     }
     render(){
         // Pass through the messages from the server as different props
