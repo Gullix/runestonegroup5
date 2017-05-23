@@ -19,9 +19,8 @@ async def interact(websock, path, data):
 
 		if typ == "hello":
 			data["robot"]["position"]["col"] += 1
-			await websock.send(jh.j_pack("robot", data["robot"]))
+			await websock.send(jh.j_pack("all", data))
 			continue
-
 
 		process(typ, message_data)
 
