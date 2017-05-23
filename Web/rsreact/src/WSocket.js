@@ -3,9 +3,9 @@
  */
 
 import React, { Component } from 'react';
-import RobotController from "./RobotController";
-import InstructionOverview from "./InstructionOverview";
-import MapOverview from "./MapOverview";
+import RobotController from "./Manual/RobotController";
+import InstructionOverview from "./Command/InstructionOverview";
+import MapOverview from "./Map/MapOverview";
 var mWSocket;  // Make the WebSocket global
 
 /*
