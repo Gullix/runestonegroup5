@@ -8,6 +8,7 @@ public class RobotMove implements Movements{
 	Orientation orientation = new Orientation(0);
 	float [] sample = new float [1];
 	private EV3GyroSensor sensor;
+	int index = 0;
 
 	public RobotMove(EV3GyroSensor sensor){
 		this.sensor = sensor;
@@ -35,14 +36,16 @@ public class RobotMove implements Movements{
 		}
 	}
 	
+	private void updating(int i, Move m){
+		this.orientation.increment(i);
+		m.getMp().arc(0, i);
+	}
 	private void turning(int target, Move m){
+		boolean left = Math.abs(this.orientation.getOrientation()-target) < 180;
 		while(this.orientation.getOrientation()!=target){
-			if( (Math.abs(this.orientation.getOrientation()-target)) < 180){
-				this.orientation.increment(2);
-				m.getMp().arc(0, 2);}
-			else{
-				this.orientation.increment(-2);
-				m.getMp().arc(0, 2);}
+			System.out.println("Or: " + this.orientation.getOrientation() + "\nT: " + target + "\n");
+			if(!left)this.updating(1, m);
+			else this.updating(-1, m);
 		}
 	}
 		public void _turn(Move m) {			
@@ -66,10 +69,7 @@ public class RobotMove implements Movements{
 		public void updateOri(int amount){
 			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
 		}
-<<<<<<< HEAD
-=======
 
->>>>>>> 9b05791842d25c74fb962b627f2018c79d588006
 	@Override
 	public void _pickup(String s) {
 		// TODO Auto-generated method stub
