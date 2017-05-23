@@ -5,24 +5,24 @@ import React, { Component } from 'react';
 require('./Grid.css');
 class Robot extends Component{
     render(){
-        var imgsource = "../public/robotbob.svg";
+        var imgsource = "robotbob.svg";
         if(this.props.robotInfo.has_package){
-            imgsource = "../public/robotbobCarry.svg";
+            imgsource = "robotbobCarry.svg";
         }
         var degrees = 0;
         console.log(this.props.robotPos);
         switch(this.props.robotInfo.orientation){
             case("north"):
-                degrees=180;
+                degrees=270;
                 break;
             case("south"):
-                degrees=0;
-                break;
-            case("west"):
                 degrees=90;
                 break;
+            case("west"):
+                degrees=180;
+                break;
             case("east"):
-                degrees=270;
+                degrees=0;
                 break;
             default:
                 degrees =0;
@@ -30,7 +30,7 @@ class Robot extends Component{
         }
 
         var styleObj = {
-            backgroundImage : "url('robotbob.svg')",
+            backgroundImage : "url(" + imgsource + ")",
             WebkitTransform: 'rotate('+degrees+'deg)',
             MozTransform: 'rotate('+degrees+'deg)',
             msTransform: 'rotate('+degrees+'deg)',
