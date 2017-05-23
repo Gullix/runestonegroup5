@@ -17,7 +17,7 @@ public class LineFollower {
 		this.chassis = chassis;
 	}
 	/*Future changing: polymorphism for the open-closed principle. */
-	public void go(){
+	public void go(int d){
 		int speed = 100;
 		int angle = 20;
 		chassis.moveStart();
@@ -29,10 +29,10 @@ public class LineFollower {
 				chassis.setVelocity(speed,0);
 			}
 			if(cc.seeColor("GREEN")){
-				chassis.setVelocity(speed, angle);
+				chassis.setVelocity(speed, angle*d);
 			}
 			if(cc.seeColor("BLUE")){
-				chassis.setVelocity(speed, -angle);
+				chassis.setVelocity(speed, -angle*d);
 			}
 			if(cc.seeColor("RED")){
 				chassis.setVelocity(0, 0);

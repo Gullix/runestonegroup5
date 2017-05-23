@@ -3,6 +3,7 @@
 import asyncio
 import websockets
 import json_handler as jh
+import robot_controller as rc
 
 
 PORT = 8001
@@ -10,16 +11,23 @@ PORT = 8001
 async def interact(websock, path, data):
 	while True:
 		message = await websock.recv()
-		print("Http: Received: ", message)
-		reply = "Hello {}!".format(message)
-		#await websock.send(reply)
+		print("Http: Received packet")
+		typ, message_data = jh.j_unpack(message)
+
+		process(typ, message_data)
+
 		await websock.send(jh.get_test_json('task_list'))
 		await websock.send(jh.get_test_json('package_list'))
+		await websock.send(jh.get_test_json('robot'))
 		await websock.send(jh.j_pack("map", data["map"]))
+
 		print("> {}".format(reply))
-		if message.upper() in {"F", "B", "L", "R"}:
-			print("Http: setting direction of robot to ", message)
-			data["robot"]["direction"] = message
+
+
+def process(typ, message, data):
+	if typ == "new_package":
+		new_package(data, message)
+	
 
 def run_server(data):
 
