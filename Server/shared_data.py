@@ -14,7 +14,7 @@ def new_shared_dict():
 				"packageID": "package1",
 				"position": {"row": 0, "col": 4}
 			}
-		]
+		],
 		"map": {
 			"rows" : [
 				["b","b","z","b","b"],
