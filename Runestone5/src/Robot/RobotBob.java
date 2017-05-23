@@ -68,11 +68,11 @@ public class RobotBob {
 		if (mode == 2) {
 			offlineTest(cCal);
 		} else if (mode == 1) {
-			lf.go(1);
+			lf.go(1, false);
 		}
 		else if (mode == 3){
 			LineFollowerPID lineFollowerPID = new LineFollowerPID(cCal, chassis);
-			while(true){
+			while(true) {
 				lineFollowerPID.go();
 			}
 		}

@@ -16,8 +16,13 @@ public class LineFollower {
 		this.cc = cCal;
 		this.chassis = chassis;
 	}
+	
+	public void go(int d) {
+		go(d, false);
+	}
+	
 	/*Future changing: polymorphism for the open-closed principle. */
-	public void go(int d){
+	public void go(int d, boolean test){
 		int speed = 100;
 		int angle = 20;
 		chassis.moveStart();
@@ -36,7 +41,7 @@ public class LineFollower {
 			}
 			if(cc.seeColor("RED")){
 				chassis.setVelocity(0, 0);
-				break;//we go out the while so no multithread!
+				if (!test) {break;}//we go out the while so no multithread!
 			}
 			Delay.msDelay(50);
 		}
