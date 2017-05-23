@@ -39,17 +39,17 @@ class Square extends Component{
             backgroundColor: this.setColor()
         }
         var that= this;
-        if(this.props.robotPos.position.row === this.props.pos_row && this.props.robotPos.position.col === this.props.pos_col ){
+        if(this.props.robotInfo.position.row === this.props.pos_row && this.props.robotInfo.position.column === this.props.pos_column ){
             return(
                 <div className="squareContainer robotBob" style={styleObj} >
-                     <Robot robotInfo={this.props.robotPos}> </Robot>
+                     <Robot robotInfo={this.props.robotInfo}> </Robot>
                 </div>
 
             )
         }
         else{
             var packageCheck = this.props.packages.map(function(pack, i) {
-                if(pack.position.row === that.props.pos_row && pack.position.col === that.props.pos_col){
+                if(pack.position.row === that.props.pos_row && pack.position.column === that.props.pos_column){
                     return(
                         <Package packageInfo={pack} key={i}></Package>
                     )

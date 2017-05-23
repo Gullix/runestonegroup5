@@ -4,9 +4,7 @@ require('./TaskWindow.css');
 class TaskWindow extends Component {
 
     render() {
-             console.log(this.props.tlMessage);
         if (this.props.tlMessage !== "") {
-                   console.log("inte null");
 
             return (
                 <div className="TaskWindowContainer">

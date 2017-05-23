@@ -37,11 +37,12 @@ class Grid extends Component{
     }
 
     render(){
+        console.log(this.props.rows)
         return(
 
             <div className="gridContainer list-group">
                 {
-                    this.props.rows.map((row, i) => <Row key={i} rowItems={row} rowIndex={i} robotPos={this.props.robotPos} packages={this.props.packages}/>)
+                    this.props.rows.map((row, i) => <Row key={i} rowItems={row} rowIndex={i} robotInfo={this.props.robotInfo} packages={this.props.packages}/>)
                 }
 
             </div>

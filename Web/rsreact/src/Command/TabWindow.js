@@ -12,7 +12,8 @@ class TabWindow extends Component {
         this.state = {
             tabMode: 0,
             packageList: props.plMessage,
-            areaList: ["area5", "area6"]
+            areaList: ["area5", "area6"],
+            mapStateList: this.listMapStates()
 
    };
     }
@@ -30,19 +31,37 @@ class TabWindow extends Component {
 
         }
     }
+    listMapStates(){
+        var mapStates = this.props.mapStates;
+        var mapStateList=[];
+        for( var i =0; i < mapStates.length; i++ ){
+            var pos =mapStates[i].position;
+            mapStateList.push("row: " + pos.row + ",column" + pos.column);
+        }
+        return mapStateList;
+    }
+    changedOptions(){
+    }
 
          sendCommand(message){
              this.props.wsSend(message);
          }
          renderInstructionWindow(){
+
              switch(this.state.tabMode){
                  case(0):
+                     console.log(this.props)
                      return(
-                     <InstructionWindowTemp optionAInit={this.props.plMessage} optionBInit={this.state.areaList} selCommand={this.sendCommand.bind(this)}/>
+                     <InstructionWindowTemp optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      )
                  case(1):
+                     console.log(this.props)
                      return(
-                     <InstructionWindowTemp optionAInit={this.state.areaList} optionBInit={this.state.areaList} selCommand={this.sendCommand.bind(this)}/>
+                     <InstructionWindowTemp optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                     )
+                 case(2):
+                     return(
+                         <InstructionWindowTemp optionAInit={this.state.rowList} optionBInit={this.state.columnList} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      )
                  default:
                      break;
@@ -63,7 +82,8 @@ class TabWindow extends Component {
                 <div className="tabsContainer" >
                 {this.renderTab(0, "Move Package") }
 
-                {this.renderTab(1, "Move from/to Location")    }
+                {this.renderTab(1, "New storage location")    }
+                {this.renderTab(2,"New position")}
                 </div>
                 <div id="testid" className="tabContent">
 

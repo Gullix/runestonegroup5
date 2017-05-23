@@ -25,20 +25,36 @@ class WSocket extends Component{
 
         ];
         var robot ={
-            position: {"row": 0, "col": 0},
-            orientation: "west"
+            position: {
+                row: 0,
+                column: 0},
+            orientation: "west",
+            has_package: false
         };
 
-        var packages = this.packagesInit();
+        var packageList = this.packageListInit();
         var wareHouse= this.createWareHouse(rows);
+        var mapStates= this.createMapStateList(rows);
         var tasklist =[task];
+        var zonesInit = this.zoneListInit();
+        var startZone= {
+            position: {
+                row: 2,
+                column: 0
+            },
+            start_zone_id: "startzone1"
+        }
+
         this.state={
           message: "",
           pl_message: ["package1", "package2"],
             tl_message:tasklist,
-            wh_layout:   wareHouse,
+            map:   wareHouse,
             robot: robot,
-            packages: packages
+            package_list: packageList,
+            mapStateList: mapStates,
+            startZone: startZone,
+            m_zones:zonesInit
 
         };
         var loc = location.hostname;
@@ -47,6 +63,7 @@ class WSocket extends Component{
         console.log(serverAddress);
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){
+            that.loopMe();
 
         };
         mWSocket.onclose= function(event){
@@ -63,11 +80,24 @@ class WSocket extends Component{
         mWSocket.send(data);
 
     }
+    loopMe(){
+        var mWSocketPass =mWSocket;
+        var ping ={
+            type_of_data: "hello",
+            data: null
+        }
+        var pingjson = JSON.stringify(ping);
+        setInterval(function(){
+            mWSocketPass.send(pingjson);
+            console.log("sending ping to server");
+        },30000);
+    }
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
-        console.log("FROM SERVER: " + msg);
+        console.log("FROM SERVER:");
+        console.log(msg);
         var obj = JSON.parse(msg);
-        console.log(obj.type_of_data);
+        console.log(obj);
         switch(obj.type_of_data){
             case('package_list'):
                 this.setState({
@@ -87,9 +117,7 @@ class WSocket extends Component{
                 break;
             case('map'):
                 this.setState({
-
-
-                    wh_layout: this.createWareHouse(obj.data.rows)
+                    map: this.createWareHouse(obj.data.rows)
 
                 });
                 break;
@@ -98,15 +126,31 @@ class WSocket extends Component{
                     robot: obj.data
                 });
                 break;
+
+            case('all'):
+                this.setState({
+                    robot: obj.data.robot.data,
+                    map: this.createWareHouse(obj.data.map.data.rows),
+                   mapStateList: this.createMapStateList(obj.data.map.data.rows),
+                   startZone: obj.data.start_zone_list[0],
+                   package_list:obj.data.package_list.data,
+                   m_zones: this.zoneify(obj.data)
+                });
+                console.log(this.state)
+
+                break;
             default:
                 break
         }
         /* Fix so there will be multiple state variables that are unique for the specific components
            Make a parser here so we only have to parse here and not have a parser everywhere
          */
+
+        /*
         this.setState({
             message: msg
         })
+        */
     }
 
     createWareHouse(rows){
@@ -131,17 +175,115 @@ class WSocket extends Component{
          }
          return max;
         }
-    packagesInit(){
+    packageListInit(){
         var package1={
-            position:{ row:0, col: 2},
-            packageID: "package1",
+            position:{ row:0, column: 2},
+            package_id: "package1",
         }
         var package2={
-            position:{ row:4, col: 4},
-            packageID: "package1",
+            position:{ row:4, column: 4},
+            package_id: "package2",
         }
         var packages =[package1,package2];
         return (packages);
+    }
+    zoneListInit(){
+        var package1={
+            position:{ row:0, column: 2},
+            zone_id: "zone1",
+        }
+        var package2={
+            position:{ row:4, column: 4},
+            zone_id: "zone2",
+        }
+        var zones =[package1,package2];
+        return (zones);
+    }
+    createMapStateList(rows){
+        var mapStates =[];
+        var mapState =null;
+        var mapStateRows = [];
+        var mapStateColumns = [];
+        for(var i =0; i < rows.length;i++){
+            var row = rows[i];
+            for(var j=0; j< row.length; j++){
+                switch(row[j]){
+                    case("z"):
+                        mapState={
+                            position: {
+                                row: i,
+                                column: j
+                            }
+                        }
+                        mapStates.push(mapState);
+                        break;
+                    case("i"):
+                        mapState={
+                            position: {
+                                row: i,
+                                column: j
+                            }
+                        }
+
+                        mapStates.push(mapState);
+                        break;
+                    case("s"):
+                        mapState={
+                            position: {
+                                row: i,
+                                column: j
+                            }
+                        }
+                        mapStates.push(mapState);
+                        break;
+                    case("e"):
+                        mapState={
+                            position: {
+                                row: i,
+                                column: j
+                            }
+                        }
+                        mapStates.push(mapState);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return mapStates;
+    }
+    zoneify(zonelists){
+        var zoneItems=[];
+        var zoneItem = null;
+       var startZones = zonelists.start_zone_list;
+        var storageZones = zonelists.storage_zone_list;
+       for (let i =0;i <startZones.length;i++){
+           var startZone = startZones[i];
+           zoneItem ={
+               zone_id: startZone.start_zone_id,
+               position: startZone.position
+           }
+           zoneItems.push(zoneItem)
+       }
+        for (let i =0;i <storageZones.length;i++){
+            var storageZone = storageZones[i];
+            zoneItem ={
+                zone_id: storageZone.storage_zone_id,
+                position: storageZone.position
+            }
+            zoneItems.push(zoneItem)
+        }
+
+        var endZones = zonelists.end_zone_list;
+        for (let i =0;i <endZones.length;i++){
+            var endZone = endZones[i];
+             zoneItem ={
+                zone_id: endZone.end_zone_id,
+                position: endZone.position
+            }
+            zoneItems.push(zoneItem)
+        }
+        return zoneItems
     }
     render(){
         // Pass through the messages from the server as different props
@@ -149,8 +291,8 @@ class WSocket extends Component{
             <div>
 
         <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-                <MapOverview layout={this.state.wh_layout} startPoint={[2,0]} robotPos={this.state.robot} packages={this.state.packages}/>
-        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} tlMessage={this.state.tl_message}wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket}/>
+                <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
+        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} packages={this.state.package_list} tlMessage={this.state.tl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones}/>
             </div>
         )
     }

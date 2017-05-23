@@ -29,7 +29,7 @@ def update_position(data, direction):
 	if direction == "L":
 		data["robot"]["position"]["col"] -= 1
 
-def update_package(data, direction, packageID)
+def update_package(data, direction, packageID):
 	if direction == "U":
 		data["packages"][packageID]["position"]["row"] = data["packages"][packageID]["position"]["row"] - 2
 	if direction == "D":
@@ -37,8 +37,7 @@ def update_package(data, direction, packageID)
 	if direction == "R":
 		data["packages"][packageID]["position"]["col"] = data["packages"][packageID]["position"]["col"] + 2
 	if direction == "L":
-		data["packages"][packageID]["position"]
-		["col"] = data["packages"][packageID]["position"]["col"] - 2	
+		data["packages"][packageID]["position"]["col"] = data["packages"][packageID]["position"]["col"] - 2	
 
 
 def calculate_dir(data):

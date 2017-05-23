@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 require('./TaskItem.css');
 class TaskItem extends Component{
     render(){
-        console.log(this.props.task)
         return(
 
             <div className="TaskItemContainer">

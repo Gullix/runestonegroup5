@@ -2,7 +2,7 @@
 import json
 
 TEST_JSON_SEND = {
-	"map": json.dumps({
+	"map": {
 		"type_of_data": "map",
 		"data": {
 			"rows" : [
@@ -21,22 +21,49 @@ TEST_JSON_SEND = {
 				"i": "intersection"
 			}
 		}
-	}),
-	"package_list": json.dumps({
+	},
+	"package_list": {
 		"type_of_data": "package_list",
 		"data": [
-			"pack1",
-			"pack2",
-			"pack3"
+			{ "package_id":"pack1", "position": {"row": 0, "column": 2}},
+			{ "package_id":"pack2", "position": {"row": 0, "column": 4}},
+			{ "package_id":"pack3", "position": {"row": 4, "column": 4}}
+			
 		]
-	}),
-	"robot": json.dumps({
+	},
+	"storage_zone_list": {
+		"type_of_data": "storage_zone_list",
+		"data": [
+			{ "storage_zone_id":"storage1", "position": {"row": 0, "column": 2}},
+			{ "storage_zone_id":"storage2", "position": {"row": 0, "column": 4}},
+			{ "storage_zone_id":"storage3", "position": {"row": 0, "column": 6}},
+			{ "storage_zone_id":"storage4", "position": {"row": 4, "column": 2}},
+			{ "storage_zone_id":"storage5", "position": {"row": 4, "column": 4}},
+			{ "storage_zone_id":"storage6", "position": {"row": 4, "column": 6}}
+			
+		]
+	},
+	"start_zone_list": {
+		"type_of_data": "start_zone_list",
+		"data": [
+			{ "start_zone_id":"start1", "position": {"row": 2, "column": 0}},
+			]
+	},
+	"end_zone_list": {
+		"type_of_data": "end_zone_list",
+		"data": [
+			{ "end_zone_id":"start1", "position": {"row": 2, "column": 8}},
+			]
+	},
+	"robot": {
 		"type_of_data": "robot",
 		"data": {
-			"position": {"row": 2, "col": 0},
-			"orientation": "east"
+			"position": {"row": 2, "column": 0},
+			"orientation": "east",
+			"has_package": False
 		}
-	})
+
+	}
 }
 
 TEST_JSON_RECV = {
@@ -59,7 +86,7 @@ TEST_JSON_RECV = {
 		"type_of_data": "new_package",
 		"data": {
 			"packageID": "package83",
-			"position": {"row": 2, "col": 0}
+			"position": {"row": 2, "column": 0}
 		}
 	}),
 }
@@ -75,7 +102,7 @@ def get_test_json(type_of_data):
 def j_pack(type_of_data, data):
 	return json.dumps({
 		"type_of_data": type_of_data,
-		"data": data
+		"data": TEST_JSON_SEND
 	})
 
 def j_unpack(json_str):
