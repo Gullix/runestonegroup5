@@ -21,17 +21,28 @@ def get_target(data):
     
 def update_position(data, direction):
 	if direction == "U":
-		data["robot"]["position"][] =
+		data["robot"]["position"]["row"] = data["robot"]["position"]["row"] - 2
 	if direction == "D":
-
+		data["robot"]["position"]["row"] = data["robot"]["position"]["row"] + 2
 	if direction == "R":
-
+		data["robot"]["position"]["col"] = data["robot"]["position"]["col"] + 2
 	if direction == "L":
+		data["robot"]["position"]["col"] = data["robot"]["position"]["col"] - 2
 
+def update_package(data, direction, packageID)
+	if direction == "U":
+		data["packages"][packageID]["position"]["row"] = data["packages"][packageID]["position"]["row"] - 2
+	if direction == "D":
+		data["packages"][packageID]["position"]["row"] = data["packages"][packageID]["position"]["row"] + 2
+	if direction == "R":
+		data["packages"][packageID]["position"]["col"] = data["packages"][packageID]["position"]["col"] + 2
+	if direction == "L":
+		data["packages"][packageID]["position"]
+		["col"] = data["packages"][packageID]["position"]["col"] - 2	
 
 def calculate_dir(data)
-	tarR, tarC = data["robot"]["target"]
-	posR, posC = data["robot"]["position"]
+	tarR, tarC = pos(data["robot"]["target"])
+	posR, posC = pos(data["robot"]["position"])
 	if (posR == tarR) && (tarC == tarC):
 		return "S"
 	if posR == 2:
