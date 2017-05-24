@@ -44,7 +44,7 @@ def get_command(data, socket):
 	socket.write(command)
 
 
-def allocate_new_zone(data):s
+def allocate_new_zone(data):
 	return random.choice([zone for zone in data["map"]["graph"].keys() if zone.startswith("zone")])
 
 
@@ -66,7 +66,7 @@ def adjs(graph, node):
 def calculate_path(data, start, target):
 
 	graph = data["map"]["graph"]
-	
+
 	parent_tree = bfs_tree(graph, start)
 
 	path = []
@@ -98,10 +98,10 @@ def bfs_tree(graph, start_node):
 
 
 def new_package(data, package):
-	
+
 	package_already_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]
 	valid_pos = pos_valid(data, package["position"])
-	
+
 	if not valid_pos or package_already_exists:
 		raise CommandError("Invalid, package already exists or position is invalid")
 
