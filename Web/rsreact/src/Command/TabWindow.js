@@ -2,7 +2,7 @@
  * Created by simonljus on 2017-05-11.
  */
 import React, { Component } from 'react';
-import InstructionWindowTemp from "./InstructionWindowTemp";
+import InstructionWindow from "./InstructionWindow";
 import Tab from "./Tab";
 require('./TabWindow.css');
 import PropTypes from 'prop-types';
@@ -52,16 +52,16 @@ class TabWindow extends Component {
                  case(0):
                      console.log(this.props)
                      return(
-                     <InstructionWindowTemp optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                     <InstructionWindow optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      )
                  case(1):
                      console.log(this.props)
                      return(
-                     <InstructionWindowTemp optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                     <InstructionWindow optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      )
                  case(2):
                      return(
-                         <InstructionWindowTemp optionAInit={this.state.rowList} optionBInit={this.state.columnList} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                         <InstructionWindow optionAInit={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      )
                  default:
                      break;
