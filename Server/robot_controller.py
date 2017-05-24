@@ -31,14 +31,13 @@ def update_position(data, direction):
 
 def update_package(data, direction, packageID)
 	if direction == "U":
-		data["packages"][packageID]["position"]["row"] = data["packages"][packageID]["position"]["row"] - 2
+		data["packages"][packageID]["position"]["row"] -= 1
 	if direction == "D":
-		data["packages"][packageID]["position"]["row"] = data["packages"][packageID]["position"]["row"] + 2
+		data["packages"][packageID]["position"]["row"] += 1
 	if direction == "R":
-		data["packages"][packageID]["position"]["col"] = data["packages"][packageID]["position"]["col"] + 2
+		data["packages"][packageID]["position"]["col"] += 1
 	if direction == "L":
-		data["packages"][packageID]["position"]
-		["col"] = data["packages"][packageID]["position"]["col"] - 2	
+		data["packages"][packageID]["position"]["col"] -= 1	
 
 
 def calculate_dir(data):
