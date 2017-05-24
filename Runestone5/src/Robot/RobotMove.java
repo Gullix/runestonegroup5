@@ -35,6 +35,12 @@ public class RobotMove implements Movements{
 			else this.updating(10, m);
 		}
 	}
+	/*
+	 * This function pre calculates the fixing angle for turning
+	 * */
+	private int precalculation(int target){
+		return 0;
+	}
 		public void _turn(Move m) {			
 			switch(m.getDirection().trim()){
 			case "D":
