@@ -1,6 +1,9 @@
 package Robot;
 
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.port.MotorPort;
+
 import java.math.*;
 import lejos.robotics.navigation.MovePilot;
 
@@ -8,6 +11,7 @@ public class RobotMove implements Movements{
 	Orientation orientation = new Orientation(0);
 	float [] sample = new float [1];
 	private EV3GyroSensor sensor;
+	private EV3MediumRegulatedMotor arm = new EV3MediumRegulatedMotor(MotorPort.D);
 	int index = 0;
 
 	public RobotMove(EV3GyroSensor sensor){
@@ -17,19 +21,25 @@ public class RobotMove implements Movements{
 	public void _move(Move m) {
 		double d = Double.parseDouble(m.getCm().trim())*10;
 		switch(m.getDirection().trim()){
-		case "F":
-			m.getMp().travel(d);
+		case "U":
+			_turn(m);
+			//findline(String turn);
+			//lf.go(1/-1);
 			break;
-		case "B":
-			m.getMp().travel(-d);
-			break;
-		case "L":
-			m.getMp().arc(0,90);
-			m.getMp().travel(d);
+		case "D":
+			_turn(m);
+			//findline(String turn);
+			//lf.go(1/-1);
 			break;
 		case "R":
-			m.getMp().arc(0,-90);
-			m.getMp().travel(d);
+			_turn(m);
+			//findline(String turn);
+			//lf.go(1/-1);
+			break;			
+		case "L":
+			_turn(m);
+			//findline(String turn);
+			//lf.go(1/-1);
 			break;
 		
 		default: throw new IllegalArgumentException("Direction not found!\n");
@@ -64,16 +74,19 @@ public class RobotMove implements Movements{
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
 	}
+
 		public void updateOri(int amount){
 			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
 		}
 
 	@Override
 	public void _pickup(String s) {
-		// TODO Auto-generated method stub
-		
+		arm.rotate(90);		
 	}
 
+	public void _dropoff(){
+		arm.rotate(-90);
+	}
 	@Override
 	public void _done(String s) {
 		// TODO Auto-generated method stub
