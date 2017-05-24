@@ -9,7 +9,7 @@ class TaskWindow extends Component {
             return (
                 <div className="TaskWindowContainer">
                     {
-                        this.props.tlMessage.map((task, i) => <TaskItem key={i} value={task.task_id}
+                        this.props.task_list.map((task, i) => <TaskItem key={i} value={task.task_id}
                                                                         task={task.args}>
 
                         </TaskItem>)}

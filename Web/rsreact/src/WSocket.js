@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import RobotController from "./Manual/RobotController";
 import InstructionOverview from "./Command/InstructionOverview";
 import MapOverview from "./Map/MapOverview";
+import * as DataCreator from "./DataCreator";
 var mWSocket;  // Make the WebSocket global
 
 /*
@@ -15,41 +16,18 @@ class WSocket extends Component{
 
     constructor(props){
         super();
-        var task = {action:"Move", args:["package1337"], task_id:0};
-        var rows=[
-            ["b","b","z","b","z","b","z","b","b"],
-            ["b","b","z","b","z","b","z","b","b"],
-            ["s","l","i","l","i","l","i","l","e"],
-            ["b","b","l","b","l","b","l","b","b"],
-            ["b","b","z","b","z","b","z","b","b"]
-
-        ];
-        var robot ={
-            position: {
-                row: 0,
-                column: 0},
-            orientation: "west",
-            has_package: false
-        };
-
-        var packageList = this.packageListInit();
-        var wareHouse= this.createWareHouse(rows);
-        var mapStates= this.createMapStateList(rows);
-        var tasklist =[task];
-        var zonesInit = this.zoneListInit();
-        var intersectionList = this.intersectionListInit();
-        var startZone= {
-            position: {
-                row: 2,
-                column: 0
-            },
-            start_zone_id: "startzone1"
-        }
-
+        var robot =DataCreator.robotInit();
+        var rows = DataCreator.mapMatrixInit();
+        var packageList = DataCreator.packageListInit();
+        var wareHouse= DataCreator.createWareHouse(rows);
+        var mapStates= DataCreator.createMapStateList(rows);
+        var tasklist =DataCreator.taskListInit();
+        var zonesInit = DataCreator.zoneListInit();
+        var intersectionList = DataCreator.intersectionListInit();
+        var startZone =DataCreator.startZoneInit();
         this.state={
           message: "",
-          pl_message: ["package1", "package2"],
-            tl_message:tasklist,
+            task_list:tasklist,
             map:   wareHouse,
             robot: robot,
             package_list: packageList,
@@ -107,20 +85,18 @@ class WSocket extends Component{
                     pl_message: obj.data
             })
                 break;
-
-            case('zl'):
-                break;
+            
             case('task_list'):
                 this.setState({
 
 
-                    tl_message: obj.data
+                    task_list: obj.data
 
             });
                 break;
             case('map'):
                 this.setState({
-                    map: this.createWareHouse(obj.data.rows)
+                    map: DataCreator.createWareHouse(obj.data.rows)
 
                 });
                 break;
@@ -131,13 +107,13 @@ class WSocket extends Component{
                 break;
 
             case('all'):
-                var lists = this.zoneify(obj.data);
+                var lists = DataCreator.zoneify(obj.data);
                 var possibleStates =lists.mapStates;
                 var possibleZones = lists.mapZones;
                 this.setState({
                     robot: obj.data.robot.data,
-                    map: this.createWareHouse(obj.data.map.data.rows),
-                   mapStateList: this.createMapStateList(obj.data.map.data.rows),
+                    map: DataCreator.createWareHouse(obj.data.map.data.rows),
+                   mapStateList: DataCreator.createMapStateList(obj.data.map.data.rows),
                    startZone: obj.data.start_zone_list[0],
                    package_list:obj.data.package_list.data,
                    m_zones: possibleZones,
@@ -149,184 +125,6 @@ class WSocket extends Component{
             default:
                 break
         }
-        /* Fix so there will be multiple state variables that are unique for the specific components
-           Make a parser here so we only have to parse here and not have a parser everywhere
-         */
-
-        /*
-        this.setState({
-            message: msg
-        })
-        */
-    }
-
-    createWareHouse(rows){
-
-
-        var whMap ={
-            colSize: this.largestLaneSize(rows),
-            rowSize: rows.length,
-            rows:rows,
-        }
-        return whMap;
-
-
-    }
-    largestLaneSize(lanes){
-        var max =0
-         for(var i=0;i<lanes.length; i++){
-
-            if( lanes[0].length  > max){
-                max = lanes[0].length;
-            }
-         }
-         return max;
-        }
-    packageListInit(){
-        var package1={
-            position:{ row:0, column: 2},
-            package_id: "package1",
-        }
-        var package2={
-            position:{ row:4, column: 4},
-            package_id: "package2",
-        }
-        var package3={
-            position:{ row:0, column: 0},
-            package_id: "package3",
-        }
-        var packages =[package1,package2,package3];
-        return (packages);
-    }
-    zoneListInit(){
-        var package1={
-            position:{ row:0, column: 2},
-            zone_id: "zone1",
-        }
-        var package2={
-            position:{ row:4, column: 4},
-            zone_id: "zone2",
-        }
-        var zones =[package1,package2];
-        return (zones);
-    }
-    intersectionListInit(){
-        var intersection1={
-            position:{ row:0, column: 2},
-            zone_id: "intersection1",
-        }
-        var intersection2={
-            position:{ row:2, column: 4},
-            zone_id: "intersectrion2",
-        }
-
-        var intersection3={
-            position:{ row:2, column: 6},
-            zone_id: "intersectrion3",
-        }
-        var intersections =[intersection1,intersection2,intersection3];
-        return (intersections);
-    }
-    createMapStateList(rows){
-        var mapStates =[];
-        var mapState =null;
-        for(var i =0; i < rows.length;i++){
-            var row = rows[i];
-            for(var j=0; j< row.length; j++){
-                switch(row[j]){
-                    case("z"):
-                        mapState={
-                            position: {
-                                row: i,
-                                column: j
-                            }
-                        }
-                        mapStates.push(mapState);
-                        break;
-                    case("i"):
-                        mapState={
-                            position: {
-                                row: i,
-                                column: j
-                            }
-                        }
-
-                        mapStates.push(mapState);
-                        break;
-                    case("s"):
-                        mapState={
-                            position: {
-                                row: i,
-                                column: j
-                            }
-                        }
-                        mapStates.push(mapState);
-                        break;
-                    case("e"):
-                        mapState={
-                            position: {
-                                row: i,
-                                column: j
-                            }
-                        }
-                        mapStates.push(mapState);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        return mapStates;
-    }
-    zoneify(zonelists){
-        var zoneItems=[];
-        var stateItems=[];
-        var zoneItem = null;
-       var startZones = zonelists.start_zone_list;
-        var storageZones = zonelists.storage_zone_list;
-        var intersectionZones = zonelists.intersection_zone_list;
-       for (let i =0;i <startZones.length;i++){
-           var startZone = startZones[i];
-           zoneItem ={
-               zone_id: startZone.start_zone_id,
-               position: startZone.position
-           }
-           zoneItems.push(zoneItem)
-           stateItems.push(zoneItem)
-       }
-        for (let i =0;i <intersectionZones.length;i++){
-            var intersectionZone = intersectionZones[i];
-            zoneItem ={
-                zone_id: intersectionZone.intersection_zone_id,
-                position: intersectionZone.position
-            }
-            stateItems.push(zoneItem)
-        }
-        for (let i =0;i <storageZones.length;i++){
-            var storageZone = storageZones[i];
-            zoneItem ={
-                zone_id: storageZone.storage_zone_id,
-                position: storageZone.position
-            }
-            zoneItems.push(zoneItem)
-            stateItems.push(zoneItem)
-        }
-
-        var endZones = zonelists.end_zone_list;
-        for (let i =0;i <endZones.length;i++){
-            var endZone = endZones[i];
-             zoneItem ={
-                zone_id: endZone.end_zone_id,
-                position: endZone.position
-            }
-            zoneItems.push(zoneItem)
-            stateItems.push(zoneItem)
-        }
-        var mz ={
-            mapStates: zoneItems,
-            mapZones:  stateItems
-        }
-        return mz
     }
     render(){
         // Pass through the messages from the server as different props
@@ -337,7 +135,7 @@ class WSocket extends Component{
 
                 <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
 <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} packages={this.state.package_list} tlMessage={this.state.tl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
+        <InstructionOverview wsMessage={this.state.message} packages={this.state.package_list} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 
             </div>
         )

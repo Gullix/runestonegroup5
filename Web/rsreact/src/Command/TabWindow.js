@@ -11,11 +11,7 @@ class TabWindow extends Component {
         super(props)
         this.state = {
             tabMode: 0,
-            packageList: props.plMessage,
-            areaList: ["area5", "area6"],
-            mapStateList: this.listMapStates()
-
-   };
+        };
     }
     // Render a tab with value i  and title tabTit
     renderTab(i,tabTit){
@@ -30,15 +26,6 @@ class TabWindow extends Component {
 
 
         }
-    }
-    listMapStates(){
-        var mapStates = this.props.mapStates;
-        var mapStateList=[];
-        for( var i =0; i < mapStates.length; i++ ){
-            var pos =mapStates[i].position;
-            mapStateList.push("row: " + pos.row + ",column" + pos.column);
-        }
-        return mapStateList;
     }
     changedOptions(){
     }

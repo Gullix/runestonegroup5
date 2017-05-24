@@ -19,8 +19,8 @@ class InstructionOverview extends Component{
         return(
             <div className="instructionOverviewContainer"  >
 
-                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage} plMessage={this.props.plMessage} packages={this.props.packages} mapStates={this.props.mapStates} m_zones={this.props.m_zones} m_states={this.props.m_states}/>
-                <TaskWindow tlMessage={this.props.tlMessage} wsSend={this.handleWS.bind(this)}/>
+                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}  packages={this.props.packages} mapStates={this.props.mapStates} m_zones={this.props.m_zones} m_states={this.props.m_states}/>
+                <TaskWindow task_list={this.props.task_list} wsSend={this.handleWS.bind(this)}/>
             </div>
 
 
