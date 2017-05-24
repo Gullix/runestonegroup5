@@ -25,7 +25,6 @@ class InstructionWindow extends Component{
     }
 
     render(){
-             console.log(this.state);
         return(
             <div id="instructionContainer">
                 <select className="instructionOption"   value={this.state.command} onChange={this.handleChange}>

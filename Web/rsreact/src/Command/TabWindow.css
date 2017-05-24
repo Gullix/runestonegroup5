@@ -1,27 +1,25 @@
 /* Style the tab */
 .tabWindowContainer {
-    background: purple;
-    height: 500px;
+    width:400px;
 }
 
 .tabsContainer{
-    height:50px;
-    width:400px;
-    border:1px solid black;
-    background: yellow;
-
+    background: #405767;
 }
+
+.tab:hover{
+    background: #59768a;
+}
+
 .tabContent{
-    height:450px;
-    border:1px solid black;
-    background: orange;
+    background: #5B7283;
 }
 
 /* Style the buttons inside the tab */
 .tab {
     text-align:center;
-    width:198px;
-    border:1px solid black;
+    width:133px;
+    border:1px solid #ccc;
     height: 45px;
     display: inline-block;
 }

@@ -14,11 +14,12 @@ class InstructionOverview extends Component{
     }
 
     render(){
-        console.log("dir received" + this.props.wsMessage);
+        console.log(this.props.mapStates);
+        console.log(this.props.m_zones);
         return(
             <div className="instructionOverviewContainer"  >
 
-                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage} plMessage={this.props.plMessage}/>
+                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage} plMessage={this.props.plMessage} packages={this.props.packages} mapStates={this.props.mapStates} m_zones={this.props.m_zones}/>
                 <TaskWindow tlMessage={this.props.tlMessage} wsSend={this.handleWS.bind(this)}/>
             </div>
 

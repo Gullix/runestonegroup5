@@ -6,16 +6,15 @@ def new_shared_dict():
 		"robot": {
 			"last_target": None,
 			"direction": "F",
-			"position": {"row": 2, "col": 0},
+			"position": {"row": 2, "column": 0},
 			"has_package": False
 		},
 		"packages": {
 			"package1": {
 				"packageID": "package1",
-				"position": {"row": 0, "col": 4}
+				"position": {"row": 0, "column": 4}
 			}
-		}
-		
+		},
 		"map": {
 			"rows" : [
 				["b","b","z","b","b"],

@@ -11,7 +11,6 @@ class RobotController extends Component{
     //
     robotMoveToServer(rdir, rdistance){
             var message= rdir;
-        console.log("sending "  + message + " to server");
          this.props.wsSend(message);
           console.log("sent "  + message + " to server");
 
@@ -23,6 +22,7 @@ class RobotController extends Component{
 
 
     render(){
+        console.log("hello");
         return(
             <div>
                 <div id="remoteContainer">

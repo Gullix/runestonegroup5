@@ -9,7 +9,7 @@ class Row extends Component{
         return(
             <div className="rowContainer">
                 {
-                    this.props.rowItems.map((square, i) => <Square key={i} squareType={square} pos_row={this.props.rowIndex} pos_col={i} robotPos={this.props.robotPos} packages={this.props.packages}/>)
+                    this.props.rowItems.map((square, i) => <Square key={i} squareType={square} pos_row={this.props.rowIndex} pos_column={i} robotInfo={this.props.robotInfo} packages={this.props.packages}/>)
                 }
 
             </div>

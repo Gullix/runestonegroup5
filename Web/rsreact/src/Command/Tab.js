@@ -13,10 +13,8 @@ class Tab extends Component{
     }
 
     showTabInfo(){
-        console.log("show tab info " + this.props["data-tabTitle"] + this.state.lol)
             this.setState({
                 selected: true,
-                lol: "svejsan"
             })
 
 
@@ -29,7 +27,7 @@ class Tab extends Component{
     render(){
 
         return(
-            <div className="tab" data-lol={this.state.lol} data-value={this.props["data-value"]} data-tabTitle={this.props["data-tabTitle"]} onClick={this.onTabClick.bind(this)}>
+            <div className="tab"  data-value={this.props["data-value"]} data-tabTitle={this.props["data-tabTitle"]} onClick={this.onTabClick.bind(this)}>
 
                 {this.props["data-tabTitle"]}
 

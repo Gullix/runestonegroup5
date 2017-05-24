@@ -29,7 +29,7 @@ def update_position(data, direction):
 	if direction == "L":
 		data["robot"]["position"]["col"] -= 1
 
-def update_package(data, direction, packageID)
+def update_package(data, direction, packageID):
 	if direction == "U":
 		data["packages"][packageID]["position"]["row"] -= 1
 	if direction == "D":

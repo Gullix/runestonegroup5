@@ -10,7 +10,6 @@ class Robot extends Component{
             imgsource = "robotbobCarry.svg";
         }
         var degrees = 0;
-        console.log(this.props.robotPos);
         switch(this.props.robotInfo.orientation){
             case("north"):
                 degrees=270;
