@@ -106,7 +106,8 @@ public class RobotBob {
 				} else {
 					//String[] arr = str.split(",");
 					Move m;
-					switch(str){
+					str = str.trim();
+					switch(str.trim()){
 						case("PICK"):
 							rm._pickup();
 						break;
