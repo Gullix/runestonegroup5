@@ -8,7 +8,7 @@ import Package from "./Package";
 class Square extends Component{
     setColor(){
         var squareColor = "white";
-        switch(this.props.squareType){
+        switch(this.props.squareType.charAt(0)){
 
             case("b"):
                 squareColor = "white"
