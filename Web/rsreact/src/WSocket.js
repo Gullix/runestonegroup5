@@ -37,6 +37,7 @@ class WSocket extends Component{
         var mapStates= this.createMapStateList(rows);
         var tasklist =[task];
         var zonesInit = this.zoneListInit();
+        var intersectionList = this.intersectionListInit();
         var startZone= {
             position: {
                 row: 2,
@@ -54,7 +55,9 @@ class WSocket extends Component{
             package_list: packageList,
             mapStateList: mapStates,
             startZone: startZone,
-            m_zones:zonesInit
+            m_zones:zonesInit,
+            intersection_list:intersectionList,
+            m_states: zonesInit
 
         };
         var loc = location.hostname;
@@ -128,13 +131,17 @@ class WSocket extends Component{
                 break;
 
             case('all'):
+                var lists = this.zoneify(obj.data);
+                var possibleStates =lists.mapStates;
+                var possibleZones = lists.mapZones;
                 this.setState({
                     robot: obj.data.robot.data,
                     map: this.createWareHouse(obj.data.map.data.rows),
                    mapStateList: this.createMapStateList(obj.data.map.data.rows),
                    startZone: obj.data.start_zone_list[0],
                    package_list:obj.data.package_list.data,
-                   m_zones: this.zoneify(obj.data)
+                   m_zones: possibleZones,
+                   m_states: possibleStates
                 });
                 console.log(this.state)
 
@@ -184,7 +191,11 @@ class WSocket extends Component{
             position:{ row:4, column: 4},
             package_id: "package2",
         }
-        var packages =[package1,package2];
+        var package3={
+            position:{ row:0, column: 0},
+            package_id: "package3",
+        }
+        var packages =[package1,package2,package3];
         return (packages);
     }
     zoneListInit(){
@@ -199,11 +210,26 @@ class WSocket extends Component{
         var zones =[package1,package2];
         return (zones);
     }
+    intersectionListInit(){
+        var intersection1={
+            position:{ row:0, column: 2},
+            zone_id: "intersection1",
+        }
+        var intersection2={
+            position:{ row:2, column: 4},
+            zone_id: "intersectrion2",
+        }
+
+        var intersection3={
+            position:{ row:2, column: 6},
+            zone_id: "intersectrion3",
+        }
+        var intersections =[intersection1,intersection2,intersection3];
+        return (intersections);
+    }
     createMapStateList(rows){
         var mapStates =[];
         var mapState =null;
-        var mapStateRows = [];
-        var mapStateColumns = [];
         for(var i =0; i < rows.length;i++){
             var row = rows[i];
             for(var j=0; j< row.length; j++){
@@ -254,9 +280,11 @@ class WSocket extends Component{
     }
     zoneify(zonelists){
         var zoneItems=[];
+        var stateItems=[];
         var zoneItem = null;
        var startZones = zonelists.start_zone_list;
         var storageZones = zonelists.storage_zone_list;
+        var intersectionZones = zonelists.intersection_zone_list;
        for (let i =0;i <startZones.length;i++){
            var startZone = startZones[i];
            zoneItem ={
@@ -264,7 +292,16 @@ class WSocket extends Component{
                position: startZone.position
            }
            zoneItems.push(zoneItem)
+           stateItems.push(zoneItem)
        }
+        for (let i =0;i <intersectionZones.length;i++){
+            var intersectionZone = intersectionZones[i];
+            zoneItem ={
+                zone_id: intersectionZone.intersection_zone_id,
+                position: intersectionZone.position
+            }
+            stateItems.push(zoneItem)
+        }
         for (let i =0;i <storageZones.length;i++){
             var storageZone = storageZones[i];
             zoneItem ={
@@ -272,6 +309,7 @@ class WSocket extends Component{
                 position: storageZone.position
             }
             zoneItems.push(zoneItem)
+            stateItems.push(zoneItem)
         }
 
         var endZones = zonelists.end_zone_list;
@@ -282,8 +320,13 @@ class WSocket extends Component{
                 position: endZone.position
             }
             zoneItems.push(zoneItem)
+            stateItems.push(zoneItem)
         }
-        return zoneItems
+        var mz ={
+            mapStates: zoneItems,
+            mapZones:  stateItems
+        }
+        return mz
     }
     render(){
         // Pass through the messages from the server as different props
@@ -294,7 +337,7 @@ class WSocket extends Component{
 
                 <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
 <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} packages={this.state.package_list} tlMessage={this.state.tl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones}/>
+        <InstructionOverview wsMessage={this.state.message} plMessage={this.state.pl_message} packages={this.state.package_list} tlMessage={this.state.tl_message} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 
             </div>
         )
