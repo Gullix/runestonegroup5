@@ -77,7 +77,7 @@ public class RobotBob {
 			}
 		}
 		
-		RobotMove rm = new RobotMove(new EV3GyroSensor(LocalEV3.get().getPort("S3")));
+		RobotMove rm = new RobotMove(lf);
 		
 		RobotTextMenu btMenu = new RobotTextMenu(MAC_ADDRESSES[1],"Choose BT Server");
 		String macAddress = MAC_ADDRESSES[0][btMenu.selectOption()];
@@ -104,29 +104,32 @@ public class RobotBob {
 					mConnection.close();
 					break;
 				} else {
-					String[] arr = str.split(",");
+					//String[] arr = str.split(",");
 					Move m;
-					switch(arr[0].trim()){
-					case("M"):
-						m = new Move(arr[1],arr[2],pilot);
-						rm._move(m);
-					break;
-
-					case("P"):
-						rm._pickup(arr[1]);
-					break;
-
-					case("D"):
-						rm._done(arr[1]);
-					break;
-
-					case("G"):
-						rm._goto(arr[1]);
-					break;
+					switch(str){
+						case("PICK"):
+							rm._pickup();
+						break;
 					
-					case ("T"):
-						rm._turn(new Move(arr[1], arr[2], pilot));
-					break;
+						case("DROP"):
+							rm._drop();
+						break;
+					
+						case("U"):
+							rm._up(new Move(str,pilot));
+						break;
+
+						case("D"):
+							rm._down(new Move(str,pilot));
+						break;
+
+						case("L"):
+							rm._left(new Move(str,pilot));
+						break;
+					
+						case("R"):
+							rm._right(new Move(str,pilot));
+						break;
 
 					default: 
 						LCD.clearDisplay();

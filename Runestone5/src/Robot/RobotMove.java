@@ -1,49 +1,27 @@
 package Robot;
 
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.motor.Motor;
 import lejos.hardware.port.MotorPort;
-
-import java.math.*;
-import lejos.robotics.navigation.MovePilot;
 
 public class RobotMove implements Movements{
 	Orientation orientation = new Orientation(0);
 	float [] sample = new float [1];
 	private EV3GyroSensor sensor;
-	private EV3MediumRegulatedMotor arm = new EV3MediumRegulatedMotor(MotorPort.D);
+	private EV3MediumRegulatedMotor arm;
 	int index = 0;
+	private LineFollower lf;
 
 	public RobotMove(EV3GyroSensor sensor){
 		this.sensor = sensor;
 	}
-	@Override
-	public void _move(Move m) {
-		double d = Double.parseDouble(m.getCm().trim())*10;
-		switch(m.getDirection().trim()){
-		case "U":
-			_turn(m);
-			//findline(String turn);
-			//lf.go(1/-1);
-			break;
-		case "D":
-			_turn(m);
-			//findline(String turn);
-			//lf.go(1/-1);
-			break;
-		case "R":
-			_turn(m);
-			//findline(String turn);
-			//lf.go(1/-1);
-			break;			
-		case "L":
-			_turn(m);
-			//findline(String turn);
-			//lf.go(1/-1);
-			break;
-		
-		default: throw new IllegalArgumentException("Direction not found!\n");
-		}
+	
+	public RobotMove(LineFollower lf){
+		this.lf = lf;
+		Motor.D.close();
+		this.arm = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("D"));
 	}
 	
 	private void updating(int i, Move m){
@@ -80,15 +58,16 @@ public class RobotMove implements Movements{
 		}
 
 	@Override
-	public void _pickup(String s) {
+	public void _pickup() {
 		arm.rotate(90);		
 	}
-
-	public void _dropoff(){
+	
+	@Override
+	public void _drop(){
 		arm.rotate(-90);
 	}
 	@Override
-	public void _done(String s) {
+	public void _done() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -97,6 +76,32 @@ public class RobotMove implements Movements{
 	public void _goto(String s) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void _up(Move m) {
+		_turn(m);
+		//findline(String turn);
+		lf.go(1);
+		
+	}
+
+	@Override
+	public void _down(Move m) {
+		_turn(m);
+		lf.go(-1);
+	}
+
+	@Override
+	public void _left(Move m) {
+		_turn(m);
+		lf.go(-1);
+	}
+
+	@Override
+	public void _right(Move m) {
+		_turn(m);
+		lf.go(1);
 	}
 
 }
