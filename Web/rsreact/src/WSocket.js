@@ -85,7 +85,7 @@ class WSocket extends Component{
                     pl_message: obj.data
             })
                 break;
-            
+
             case('task_list'):
                 this.setState({
 
