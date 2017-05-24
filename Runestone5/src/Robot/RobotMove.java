@@ -12,6 +12,7 @@ public class RobotMove implements Movements{
 	private EV3GyroSensor sensor;
 	private EV3MediumRegulatedMotor arm;
 	int index = 0;
+	boolean right;
 	private LineFollower lf;
 
 	public RobotMove(EV3GyroSensor sensor){
@@ -29,17 +30,32 @@ public class RobotMove implements Movements{
 		m.getMp().arc(0, i);
 	}
 	private void turning(int target, Move m){
-		boolean right = (target - orientation.getOrientation() + 360) % 360 >= 180;
+		this.right = (target - orientation.getOrientation() + 360) % 360 >= 180;
 		while(this.orientation.getOrientation()!=target){
-			if(right)this.updating(-10, m);
-			else this.updating(10, m);
+			if(right){
+				/*
+				 * Robert, I wanna play a game. Your duty on testing starts here,
+				 * if we enter in this part of code, Bob will go to the right (negative)
+				 * ...sooooooo...
+				 * ...we correct the turning "n" degrees to the left (positive)
+				 * where n depends. 
+				 * Now is 10, but we (tomorrow only you) need to test.*/
+				this.updating(-10, m);
+			}
+			else {
+				/*If we enter here Bob will go to the left (positive) so we correct 
+				 * going to the right (negative) of n (10 for now) degrees*/
+				this.updating(10, m);
+			}
 		}
 	}
 	/*
 	 * This function pre calculates the fixing angle for turning
 	 * */
-	private int precalculation(int target){
-		return 0;
+	private void precalculation(int target){
+		this.orientation.increment(target);//increment or decrement a little
+		this.orientation.set(this.orientation.getOrientation() - target);
+		//orientation does not have to change, so I reset it a it was
 	}
 		public void _turn(Move m) {			
 			switch(m.getDirection().trim()){
@@ -57,6 +73,12 @@ public class RobotMove implements Movements{
 				break;	
 			default: throw new IllegalArgumentException("Direction not found!\n");
 			}
+			/*
+			 * after each command I correct having the opposite of the direction,
+			 * for having this, now "right"is an attribute of the class
+			 */
+			if(right)this.precalculation(10);//so it goes to the left
+			else this.precalculation(-10);//so it goes to the right
 	}
 
 		public void updateOri(int amount){
