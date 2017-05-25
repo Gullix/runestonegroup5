@@ -147,5 +147,11 @@ export function intersectionListInit(){
     var intersections =[intersection1,intersection2,intersection3];
     return (intersections);
 }
+export function packageListHandler(plist){
+    var list = plist.map((key,val) => {
+        return val;
+    });
+    return list;
+}
 
 

@@ -103,7 +103,7 @@ class WSocket extends Component{
                     robot: obj.data.robot.data,
                     map: DataCreator.createWareHouse(obj.data.map.data.rows),
                     startZone: obj.data.start_zone_list[0],
-                    package_list:obj.data.package_list.data,
+                    package_list: DataCreator.packageListHandler(obj.data.package_list.data),
                     m_zones: storageZones,
                     m_states: possibleStates
                 });
