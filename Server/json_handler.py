@@ -2,7 +2,7 @@
 import json
 
 TEST_JSON_SEND = {
-	"map": {
+	"map": json.dumps({
 		"type_of_data": "map",
 		"data": {
 			"rows" : [
@@ -21,41 +21,16 @@ TEST_JSON_SEND = {
 				"i": "intersection"
 			}
 		}
-	},
-	"package_list": {
+	}),
+	"package_list": json.dumps({
 		"type_of_data": "package_list",
-		"data": [
-			{ "package_id":"pack1", "position": {"row": 0, "column": 2}},
-			{ "package_id":"pack2", "position": {"row": 0, "column": 4}},
-			{ "package_id":"pack3", "position": {"row": 4, "column": 4}}
-			
-		]
-	},
-	"storage_zone_list": {
-		"type_of_data": "storage_zone_list",
-		"data": [
-			{ "storage_zone_id":"storage1", "position": {"row": 0, "column": 2}},
-			{ "storage_zone_id":"storage2", "position": {"row": 0, "column": 4}},
-			{ "storage_zone_id":"storage3", "position": {"row": 0, "column": 6}},
-			{ "storage_zone_id":"storage4", "position": {"row": 4, "column": 2}},
-			{ "storage_zone_id":"storage5", "position": {"row": 4, "column": 4}},
-			{ "storage_zone_id":"storage6", "position": {"row": 4, "column": 6}}
-			
-		]
-	},
-	"start_zone_list": {
-		"type_of_data": "start_zone_list",
-		"data": [
-			{ "start_zone_id":"start1", "position": {"row": 2, "column": 0}},
-			]
-	},
-	"end_zone_list": {
-		"type_of_data": "end_zone_list",
-		"data": [
-			{ "end_zone_id":"start1", "position": {"row": 2, "column": 8}},
-			]
-	},
-	"robot": {
+		"data": {
+			"pack1": { "package_id":"pack1", "position": {"row": 0, "column": 2}},
+			"pack2": { "package_id":"pack2", "position": {"row": 0, "column": 4}},
+			"pack3": { "package_id":"pack3", "position": {"row": 4, "column": 4}}	
+		}
+	}),
+	"robot": json.dumps({
 		"type_of_data": "robot",
 		"data": {
 			"position": {"row": 2, "column": 0},
@@ -63,7 +38,7 @@ TEST_JSON_SEND = {
 			"has_package": False
 		}
 
-	}
+	})
 }
 
 TEST_JSON_RECV = {

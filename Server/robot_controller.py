@@ -21,14 +21,10 @@ def get_command(data, socket):
 	"""
 	Called when the robot requests a command from the command Queue
 	"""
-	if len(data["robot"]["command_queue"]) > 0:
-		command = data["robot"]["command_queue"].popleft()
-		socket.write(command)
-	else:
-		while len(data["robot"]["command_queue"]) == 0:
-			pass
-		command = data["robot"]["command_queue"].popleft()
-		socket.write(command)
+	while len(data["robot"]["command_queue"]) == 0:
+		pass
+	command = data["robot"]["command_queue"].pop(0)
+	socket.send(bytes(command, "UTF-8"))
 
 ########################################
 # COMMAND IMPLEMENTATIONS
