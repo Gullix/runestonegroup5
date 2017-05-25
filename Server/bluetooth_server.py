@@ -7,7 +7,7 @@ MAC_ADDRESS = "00:0C:78:76:64:DB"
 PORT = 1
 
 ACTIONS = {
-	"GET_COMMAND": robot_controller.get_target
+	"GET_COMMAND": robot_controller.get_command
 }
 
 def validate(message):

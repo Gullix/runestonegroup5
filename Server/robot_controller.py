@@ -10,58 +10,96 @@ R = "R"
 DIRECTIONS = [U, D, L, R]
 COMMANDS = [PICK, DROP] + DIRECTIONS
 
-
-class CommandError(Exception):
-	pass
+START = "s"
 
 
-def pos(position):
-	return position["row"], position["col"]
-
-
-def pos_to_zone(data, pos):
-	return data["map"]["rows"][pos["row"]][pos["col"]]
-
-
-def zone_to_pos(data, zone):
-	for r in data["map"]["rows"]:
-		for c in r:
-			if data["map"]["rows"][r][c] == zone:
-				return {"row": r, "col": c}
-
-
-def pos_valid(data, position):
-	r,c = pos(position)
-	square = data["map"]["rows"][r][c]
-
-	if square == "b" or square not in data["map"]["sqaure_types"]:
-		return False
-
-	return True
+########################################
+# Robot interaction
+########################################
 
 def get_command(data, socket):
+	"""
+	Called when the robot requests a command from the command Queue
+	"""
 	command = data["robot"]["command_queue"].popleft()
 	socket.write(command)
 
+########################################
+# COMMAND IMPLEMENTATIONS
+########################################
 
-def allocate_new_zone(data):
-	return random.choice([zone for zone in data["map"]["graph"].keys() if zone.startswith("zone")])
+def command_remove_package(data, package):
 
+	# Remove package, since it is now out of the warehouse
+	package_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]	
+	if package_exists:
+		del data["packages"][package["packageID"]]
+	else:
+		raise CommandError("Package does not exist")
 
-def pickup_new_package(data):
-
+	# Make commands
 	commands = []
-	commands += calculate_path(data, data["robot"]["position"], "start")
+	commands += calculate_path(data, data["robot"]["final_location"], package["location"])
 	commands += [PICK]
-	commands += calculate_path(data, "start", allocate_new_zone(data))
+	commands += calculate_path(data, package["location"], START)
 	commands += [DROP]
 
+	data["robot"]["final_location"] = START
 	data["robot"]["command_queue"] += commands
 
 
-def adjs(graph, node):
-	return [graph[node][x] for x in DIRECTIONS if x in graph[node]]
+def command_move_package(data, pos_pickup, pos_dropoff):
 
+	location_pickup = pos_to_zone(pos_pickup)
+	location_dropoff = pos_to_zone(pos_dropoff)
+
+	commands = []
+	commands += calculate_path(data, data["robot"]["final_location"], location_pickup)
+	commands += [PICK]
+	commands += calculate_path(data, location_pickup, location_dropoff)
+	commands += [DROP]
+
+	data["robot"]["final_location"] = location_dropoff
+	data["robot"]["command_queue"] += commands
+
+
+def command_move_to_location(data, pos_target):
+
+	location_target = pos_to_zone(pos_target)
+
+	commands = []
+	commands += calculate_path(data, data["robot"]["final_location"], location_target)
+
+	data["robot"]["final_location"] = location_target
+	data["robot"]["command_queue"] += commands
+	
+
+def command_new_package(data, package):
+
+	# Create new package
+	package_already_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]
+	valid_pos = pos_valid(data, package["position"])
+
+	if not valid_pos or package_already_exists:
+		raise CommandError("Invalid, package already exists or position is invalid")
+
+	data["map"]["packages"][package["packageID"]] = package
+
+	# Make commands
+	commands = []
+	commands += calculate_path(data, data["robot"]["final_location"], START)
+	commands += [PICK]
+	final_location = allocate_new_zone(data)
+	commands += calculate_path(data, START, final_location)
+	commands += [DROP]
+
+	data["robot"]["final_location"] = final_location
+	data["robot"]["command_queue"] += commands
+
+
+########################################
+# PATHFINDING
+########################################
 
 def calculate_path(data, start, target):
 
@@ -74,9 +112,7 @@ def calculate_path(data, start, target):
 	while parent_tree[node] != None:
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
 		node = parent_tree[node]
-
 	return list(reversed(path))
-
 
 def bfs_tree(graph, start_node):
 
@@ -93,17 +129,49 @@ def bfs_tree(graph, start_node):
 
             if adj not in visited:
                 candidates.append((adj, node))
-
     return parents
 
+def adjs(graph, node):
+	return [graph[node][x] for x in DIRECTIONS if x in graph[node]]
 
-def new_package(data, package):
+########################################
+# MISC
+########################################
 
-	package_already_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]
-	valid_pos = pos_valid(data, package["position"])
+class CommandError(Exception):
+	pass
 
-	if not valid_pos or package_already_exists:
-		raise CommandError("Invalid, package already exists or position is invalid")
 
-	data["map"]["packages"].append(package)
+def allocate_new_zone(data):
+	
+	available_zones = [
+		zone for zone in data["map"]["graph"].keys()
+		if zone.startswith("zone") and
+		   zone not in [package["location"] for package in data["packages"].values()]
+	]
+
+	return random.choice(available_zones)
+
+
+def pos(position):
+	return position["row"], position["col"]
+
+
+def pos_to_zone(data, pos):
+	return data["map"]["rows"][pos["row"]][pos["col"]]
+
+
+def zone_to_pos(data, zone):
+	for r in data["map"]["rows"]:
+		for c in r:
+			if data["map"]["rows"][r][c] == zone:
+				return {"row": r, "col": c}
+
+def pos_valid(data, position):
+	r,c = pos(position)
+	square = data["map"]["rows"][r][c]
+
+	if square == "b" or square not in data["map"]["sqaure_types"]:
+		return False
+	return True
 
