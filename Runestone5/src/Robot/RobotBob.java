@@ -113,7 +113,7 @@ public class RobotBob {
 					str = str.trim();
 					switch(str.trim()){
 						case("PICK"):
-							rm._pickup();
+							rm._pickup(new Move(str,pilot));
 						break;
 					
 						case("DROP"):

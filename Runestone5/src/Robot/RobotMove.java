@@ -89,8 +89,8 @@ public class RobotMove implements Movements{
 		}
 
 	@Override
-	public void _pickup() {
-		while(sonicSample[0] > 1){
+	public void _pickup(Move m) {
+		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
 		}
@@ -115,22 +115,11 @@ public class RobotMove implements Movements{
 		LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
 		arm.rotate(90);
 	}
-	@Override
-	public void _done() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void _goto(String s) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void _up(Move m) {
 		_turn(m);
-		//findline(String turn);
 		lf.go(1);	
 	}
 

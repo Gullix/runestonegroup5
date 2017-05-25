@@ -88,7 +88,7 @@ public class ColorCalibrate {
 		 
 		 
 	}
-	/*This function must be splitted in two: one that retrieves the color,
+	/*This function must be split in two: one that retrieves the color,
 	 * the second one that returns it.*/
 	public String identifyColor(){   
 		LCD.clear(1);
@@ -117,7 +117,6 @@ public class ColorCalibrate {
     public void dataFromFile() throws IOException {
     	Charset charset = StandardCharsets.UTF_8;
     	File colorFile = new File("colorData.txt");
-    	
 		List<String> dataList = Files.readAllLines(colorFile.toPath(),charset);
 		colorValues = new float[dataList.size()][3];
 		colorsText = new String[dataList.size()];
