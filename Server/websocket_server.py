@@ -22,7 +22,7 @@ async def interact(websock, path, data):
 			await websock.send(jh.j_pack("all", data))
 			continue
 
-		process(typ, message_data)
+		process(data, typ, message_data)
 
 		await websock.send(jh.get_test_json('task_list'))
 		await websock.send(jh.get_test_json('package_list'))
@@ -32,7 +32,7 @@ async def interact(websock, path, data):
 		print("> {}".format(reply))
 
 
-def process(typ, message, data):
+def process(data, typ, message):
 	if typ == "new_package":
 		rc.new_package(data, message)
 	elif typ == "moveTo":
