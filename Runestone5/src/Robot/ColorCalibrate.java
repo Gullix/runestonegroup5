@@ -36,7 +36,7 @@ public class ColorCalibrate {
 	};
 	
 	public static final String[] FEWER_COLORS = {
-			"WHITE", "BLACK", "RED", "GREEN", "BLUE"
+			"WHITE", "BLACK", "GRAY", "GREEN", "BLUE"
 	};
 	
 	ColorCalibrate(){
