@@ -7,7 +7,9 @@ def new_shared_dict():
 			"last_target": None,
 			"direction": "F",
 			"position": {"row": 2, "column": 0},
-			"has_package": False
+			"has_package": False,
+			"command_queue": [],
+			"final_location": "s"
 		},
 		"packages": {
 			"package1": {
