@@ -24,7 +24,9 @@ import lejos.utility.TextMenu;
 public class RobotBob {
 	
 	private Chassis chassis;
-	
+	private final float wheelRadius = 55f;
+	private final float angularAccel = 60;
+	private final float linearAccel = 80;
 	private static int BT_MODE = 2;
 	private static final String[][] MAC_ADDRESSES = {
 			{"00:0C:78:76:64:DB","24:0A:64:7C:89:B2","18:5E:0F:0A:BC:56"},
@@ -36,8 +38,8 @@ public class RobotBob {
 	}
 	
 	private MovePilot makeMovePilot() {
-		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-60);
-		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(60);
+		Wheel rightWheel = WheeledChassis.modelWheel(Motor.C,56f).offset(-wheelRadius);
+		Wheel leftWheel = WheeledChassis.modelWheel(Motor.B, 56f).offset(wheelRadius);
 		chassis = new WheeledChassis(new Wheel[]{leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
 		return new MovePilot(chassis);
 	}
@@ -62,6 +64,8 @@ public class RobotBob {
 		ColorCalibrate cCal = calibrate();
 
 		MovePilot pilot = makeMovePilot();
+		pilot.setAngularAcceleration(angularAccel);
+		pilot.setLinearAcceleration(linearAccel);
 		
 		LineFollower lf = new LineFollower(cCal, chassis);
 

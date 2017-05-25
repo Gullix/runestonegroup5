@@ -14,6 +14,9 @@ public class RobotMove implements Movements{
 	int index = 0;
 	boolean right;
 	private LineFollower lf;
+	
+	private final float sensorWheelDistanceMm = 78;
+	private final float wheelRadius = 55f;
 
 	public RobotMove(EV3GyroSensor sensor){
 		this.sensor = sensor;
@@ -27,29 +30,19 @@ public class RobotMove implements Movements{
 	
 	private void updating(int i, Move m){
 		this.orientation.increment(i);
-		m.getMp().arc(0, i);
+		m.getMp().arc(wheelRadius, i);
 	}
 	private void turning(int target, Move m){
 		this.right = (target - orientation.getOrientation() + 360) % 360 >= 180;
+		m.getMp().travel(sensorWheelDistanceMm);
 		while(this.orientation.getOrientation()!=target){
 			if(right){
-				/*
-				 * Robert, I wanna play a game. Your duty on testing starts here,
-				 * if we enter in this part of code, Bob will go to the right (negative)
-				 * ...sooooooo...
-				 * ...we correct the turning "n" degrees to the left (positive)
-				 * where n depends. 
-				 * Now is 10, but we (tomorrow only you) need to test.*/
-				this.updating(-10, m);
+				updating(-90,m);
 			}
 			else {
-				/*If we enter here Bob will go to the left (positive) so we correct 
-				 * going to the right (negative) of n (10 for now) degrees*/
-				this.updating(10, m);
+				updating(90,m);
 			}
 		}
-		if(!right){m.getMp().arc(0, -10);}
-		//else{m.getMp().arc(0, 10);}
 	}
 	/*
 	 * This function pre calculates the fixing angle for turning
