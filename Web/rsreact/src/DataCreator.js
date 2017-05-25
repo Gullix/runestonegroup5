@@ -148,9 +148,10 @@ export function intersectionListInit(){
     return (intersections);
 }
 export function packageListHandler(plist){
-    var list = plist.map((key,val) => {
-        return val;
+    var list = plist.map((val,key) => {
+        return val ;
     });
+    console.log(list);
     return list;
 }
 
