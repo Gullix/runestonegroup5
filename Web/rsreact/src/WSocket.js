@@ -16,22 +16,20 @@ class WSocket extends Component{
 
     constructor(props){
         super();
-        var robot =DataCreator.robotInit();
+        var robot = DataCreator.robotInit();
         var rows = DataCreator.mapMatrixInit();
         var packageList = DataCreator.packageListInit();
         var wareHouse= DataCreator.createWareHouse(rows);
-        var mapStates= DataCreator.createMapStateList(rows);
         var tasklist =DataCreator.taskListInit();
         var zonesInit = DataCreator.zoneListInit();
         var intersectionList = DataCreator.intersectionListInit();
-        var startZone =DataCreator.startZoneInit();
-        this.state={
+        var startZone = DataCreator.startZoneInit();
+        this.state = {
           message: "",
             task_list:tasklist,
             map:   wareHouse,
             robot: robot,
             package_list: packageList,
-            mapStateList: mapStates,
             startZone: startZone,
             m_zones:zonesInit,
             intersection_list:intersectionList,
@@ -49,7 +47,7 @@ class WSocket extends Component{
         };
         mWSocket.onclose= function(event){
 
-        }
+        };
         // When WebSocket receives sometihng from the server
         mWSocket.onmessage = function(evt) {
             that.messageFromServer(evt.data);
@@ -57,7 +55,7 @@ class WSocket extends Component{
     }
     // Send data to server
     sendToServer(data){
-        console.log(data)
+        console.log(data);
         mWSocket.send(data);
 
     }
@@ -66,12 +64,12 @@ class WSocket extends Component{
         var ping ={
             type_of_data: "hello",
             data: null
-        }
+        };
         var pingjson = JSON.stringify(ping);
         setInterval(function(){
             mWSocketPass.send(pingjson);
             console.log("sending ping to server");
-        },30000);
+        },5000);
     }
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
@@ -83,16 +81,14 @@ class WSocket extends Component{
             case('package_list'):
                 this.setState({
                     pl_message: obj.data
-            })
+            });
                 break;
 
             case('task_list'):
                 this.setState({
-
-
                     task_list: obj.data
 
-            });
+                });
                 break;
             case('map'):
                 this.setState({
@@ -107,20 +103,18 @@ class WSocket extends Component{
                 break;
 
             case('all'):
-                var lists = DataCreator.zoneify(obj.data);
+                var lists = DataCreator.createMapStateList(obj.data.map.data.rows);
                 var possibleStates =lists.mapStates;
-                var possibleZones = lists.mapZones;
+                var storageZones = lists.storageStates;
                 this.setState({
                     robot: obj.data.robot.data,
                     map: DataCreator.createWareHouse(obj.data.map.data.rows),
-                   mapStateList: DataCreator.createMapStateList(obj.data.map.data.rows),
-                   startZone: obj.data.start_zone_list[0],
-                   package_list:obj.data.package_list.data,
-                   m_zones: possibleZones,
-                   m_states: possibleStates
+                    startZone: obj.data.start_zone_list[0],
+                    package_list:obj.data.package_list.data,
+                    m_zones: storageZones,
+                    m_states: possibleStates
                 });
-                console.log(this.state)
-
+                console.log(this.state);
                 break;
             default:
                 break
@@ -130,12 +124,9 @@ class WSocket extends Component{
         // Pass through the messages from the server as different props
         return(
             <div>
-
-
-
                 <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
-<RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-        <InstructionOverview wsMessage={this.state.message} packages={this.state.package_list} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} mapStates={this.state.mapStateList} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
+                <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
+                <InstructionOverview wsMessage={this.state.message} packages={this.state.package_list} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 
             </div>
         )
