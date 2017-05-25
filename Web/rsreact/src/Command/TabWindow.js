@@ -40,16 +40,16 @@ class TabWindow extends Component {
                      console.log(this.props)
                      return(
                      <InstructionWindow optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
-                     )
+                     );
                  case(1):
-                     console.log(this.props)
+                     console.log(this.props);
                      return(
                      <InstructionWindow optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
-                     )
+                     );
                  case(2):
                      return(
                          <InstructionWindow optionAInit={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
-                     )
+                     );
                  default:
                      break;
              }

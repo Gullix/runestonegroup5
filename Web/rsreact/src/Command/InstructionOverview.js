@@ -14,12 +14,11 @@ class InstructionOverview extends Component{
     }
 
     render(){
-        console.log(this.props.mapStates);
         console.log(this.props.m_zones);
         return(
             <div className="instructionOverviewContainer"  >
 
-                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}  packages={this.props.packages} mapStates={this.props.mapStates} m_zones={this.props.m_zones} m_states={this.props.m_states}/>
+                <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}  packages={this.props.packages} m_zones={this.props.m_zones} m_states={this.props.m_states}/>
                 <TaskWindow task_list={this.props.task_list} wsSend={this.handleWS.bind(this)}/>
             </div>
 
@@ -34,4 +33,4 @@ InstructionOverview.propTypes={
     wsSend: PropTypes.func,
     wsMessage: PropTypes.string,
     plMessage: PropTypes.arrayOf(PropTypes.string),
-}
+};

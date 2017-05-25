@@ -27,113 +27,51 @@ export function largestLaneSize(lanes){
 
 export function createMapStateList(rows){
     var mapStates =[];
-    var mapState =null;
+    var mapState = null;
+    var storageStates = [];
     for(var i =0; i < rows.length;i++){
         var row = rows[i];
         for(var j=0; j< row.length; j++){
-            switch(row[j]){
-                case("z"):
-                    mapState={
-                        position: {
-                            row: i,
-                            column: j
-                        }
-                    }
-                    mapStates.push(mapState);
-                    break;
-                case("i"):
-                    mapState={
-                        position: {
-                            row: i,
-                            column: j
-                        }
-                    }
 
-                    mapStates.push(mapState);
-                    break;
-                case("s"):
-                    mapState={
-                        position: {
-                            row: i,
-                            column: j
-                        }
-                    }
-                    mapStates.push(mapState);
-                    break;
-                case("e"):
-                    mapState={
-                        position: {
-                            row: i,
-                            column: j
-                        }
-                    }
-                    mapStates.push(mapState);
-                    break;
-                default:
-                    break;
+            var rowElement = row[j];
+            var rowChar = rowElement.charAt(0);
+
+            if (rowChar === "z" || rowChar === "s" || rowChar === "e"){
+                mapState={
+                    position:{
+                        row: i,
+                        column: j
+                    },
+                    zone_id: row[j]
+                };
+                storageStates.push(mapState);
+                mapStates.push(mapState);
+            }
+            else if(rowChar === "i"){
+                mapState={
+                    position:{
+                        row: i,
+                        column: j
+                    },
+                    zone_id: row[j]
+                };
+                mapStates.push(mapState);
             }
         }
     }
-    return mapStates;
-}
-export function zoneify(zonelists){
-    var zoneItems=[];
-    var stateItems=[];
-    var zoneItem = null;
-    var startZones = zonelists.start_zone_list;
-    var storageZones = zonelists.storage_zone_list;
-    var intersectionZones = zonelists.intersection_zone_list;
-    for (let i =0;i <startZones.length;i++){
-        var startZone = startZones[i];
-        zoneItem ={
-            zone_id: startZone.start_zone_id,
-            position: startZone.position
-        }
-        zoneItems.push(zoneItem)
-        stateItems.push(zoneItem)
-    }
-    for (let i =0;i <intersectionZones.length;i++){
-        var intersectionZone = intersectionZones[i];
-        zoneItem ={
-            zone_id: intersectionZone.intersection_zone_id,
-            position: intersectionZone.position
-        }
-        stateItems.push(zoneItem)
-    }
-    for (let i =0;i <storageZones.length;i++){
-        var storageZone = storageZones[i];
-        zoneItem ={
-            zone_id: storageZone.storage_zone_id,
-            position: storageZone.position
-        }
-        zoneItems.push(zoneItem)
-        stateItems.push(zoneItem)
-    }
-
-    var endZones = zonelists.end_zone_list;
-    for (let i =0;i <endZones.length;i++){
-        var endZone = endZones[i];
-        zoneItem ={
-            zone_id: endZone.end_zone_id,
-            position: endZone.position
-        }
-        zoneItems.push(zoneItem)
-        stateItems.push(zoneItem)
-    }
-    var mz ={
-        mapStates: zoneItems,
-        mapZones:  stateItems
-    }
-    return mz
+    return {
+        mapStates: mapStates,
+        storageStates: storageStates
+    };
 }
 
 export function mapMatrixInit(){
     const rows=[
-        ["b","b","z","b","z","b","z","b","b"],
-        ["b","b","z","b","z","b","z","b","b"],
-        ["s","l","i","l","i","l","i","l","e"],
-        ["b","b","l","b","l","b","l","b","b"],
-        ["b","b","z","b","z","b","z","b","b"]
+        ["b","b","z1","b","z2","b","b"],
+        ["b","b","l" ,"b","l" ,"b","b"],
+        ["s","l","i1","l","i2","l","e"],
+        ["b","b","l" ,"b","l" ,"b","b"],
+        ["b","b","z3","b","z4","b","b"]
 
     ];
     return rows
@@ -150,7 +88,7 @@ export function startZoneInit(){
             column: 0
         },
         start_zone_id: "startzone1"
-    }
+    };
     return startZone
 }
 export function robotInit(){
