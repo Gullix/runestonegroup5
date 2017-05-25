@@ -21,25 +21,19 @@ class WSocket extends Component{
         var packageList = DataCreator.packageListInit();
         var wareHouse= DataCreator.createWareHouse(rows);
         var tasklist =DataCreator.taskListInit();
-        var zonesInit = DataCreator.zoneListInit();
-        var intersectionList = DataCreator.intersectionListInit();
-        var startZone = DataCreator.startZoneInit();
+        var lists = DataCreator.createMapStateList(rows);
         this.state = {
           message: "",
             task_list:tasklist,
             map:   wareHouse,
             robot: robot,
             package_list: packageList,
-            startZone: startZone,
-            m_zones:zonesInit,
-            intersection_list:intersectionList,
-            m_states: zonesInit
-
+            m_zones:lists.storageStates,
+            m_states: lists.mapStates
         };
         var loc = location.hostname;
         var that = this;
         var serverAddress = "ws://" + loc + ":" + 8001;
-        console.log(serverAddress);
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){
             that.loopMe();
@@ -74,7 +68,6 @@ class WSocket extends Component{
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
         console.log("FROM SERVER:");
-        console.log(msg);
         var obj = JSON.parse(msg);
         console.log(obj);
         switch(obj.type_of_data){
@@ -124,7 +117,7 @@ class WSocket extends Component{
         // Pass through the messages from the server as different props
         return(
             <div>
-                <MapOverview layout={this.state.map} startPoint={this.state.startZone} robotInfo={this.state.robot} packages={this.state.package_list}/>
+                <MapOverview layout={this.state.map} robotInfo={this.state.robot} packages={this.state.package_list}/>
                 <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
                 <InstructionOverview wsMessage={this.state.message} packages={this.state.package_list} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 

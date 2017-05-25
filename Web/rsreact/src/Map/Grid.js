@@ -14,20 +14,20 @@ class Grid extends Component{
 
     }
     rowify(){
-        var rows = [];
+        let rows = [];
 
-        var rowSize= this.props.rowSize;
-        var colSize = this.props.colSize;
-        for(var i =0; i< rowSize;i++){
+        let rowSize = this.props.rowSize;
+        let colSize = this.props.colSize;
+        for(let i =0; i< rowSize;i++){
 
-            var row={
+            let row = {
                 row_id:i,
                 items: []
-            }
-            for( var j=0; j <colSize; j++){
-                var square={
+            };
+            for(let j=0; j <colSize; j++){
+                let square = {
                        square_id: [i,j]
-                }
+                };
                  row.items.push(square)
             }
             rows.push(row);

@@ -10,10 +10,12 @@ class RobotController extends Component{
 
     //
     robotMoveToServer(rdir, rdistance){
-            var message= rdir;
-         this.props.wsSend(message);
-          console.log("sent "  + message + " to server");
+        var message = {
+            type_of_data: "manual",
+            data: rdir
+        };
 
+        this.props.wsSend(JSON.stringify(message));
     }
     connectionSwitch(status){
         document.getElementById("wsConnectionButton");

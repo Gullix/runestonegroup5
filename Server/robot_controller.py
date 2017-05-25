@@ -63,9 +63,7 @@ def command_move_package(data, pos_pickup, pos_dropoff):
 	data["robot"]["command_queue"] += commands
 
 
-def command_move_to_location(data, pos_target):
-
-	location_target = pos_to_zone(pos_target)
+def command_move_to_location(data, location_target):
 
 	commands = []
 	commands += calculate_path(data, data["robot"]["final_location"], location_target)

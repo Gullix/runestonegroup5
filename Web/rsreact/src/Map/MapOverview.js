@@ -10,7 +10,7 @@ class MapOverview extends Component{
           return(
 
               <div className="mapOverviewContainer">
-                  <Grid rowSize={this.props.layout.rowSize} colSize={this.props.layout.colSize} startPoint={this.props.startPoint} rows={this.props.layout.rows} robotInfo={this.props.robotInfo} packages={this.props.packages}></Grid>
+                  <Grid rowSize={this.props.layout.rowSize} colSize={this.props.layout.colSize} rows={this.props.layout.rows} robotInfo={this.props.robotInfo} packages={this.props.packages}></Grid>
               </div>
 
           )

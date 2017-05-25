@@ -8,12 +8,21 @@ require('./InstructionWindow.css');
 class InstructionWindow extends Component{
     makeCommand(){
         var valB ="";
-        if(this.props.tab ===0 || this.props.tab ===1){
+        if(this.props.tab === 0 || this.props.tab === 1){
             valB=  "," + this.refs.opB.value;
         }
         var valA= this.refs.opA.value;
         var message = valA +"" + valB;
-        this.props.selCommand(message) ;
+        this.props.selCommand(message);
+
+    }
+    positionCommand(){
+        let selectedPosition = this.refs.opA.value;
+        let message = {
+            type_of_data: "moveTo",
+            data: selectedPosition
+        };
+        this.props.selCommand(message);
 
     }
     handleOptionChange(){
@@ -83,7 +92,7 @@ class InstructionWindow extends Component{
                     <select className="instructionOption" ref="opA" onChange={this.handleOptionChange.bind(this)}>
                         {optionA}
                     </select>
-                    <button onClick={this.makeCommand.bind(this)}> Make command</button>
+                    <button onClick={this.positionCommand.bind(this)}> Make command</button>
                 </div>
             )
         }
@@ -94,4 +103,4 @@ export default InstructionWindow
 InstructionWindow.propTypes={
     optionAInit: PropTypes.arrayOf(PropTypes.object),
     optionBInit: PropTypes.arrayOf(PropTypes.object)
-}
+};

@@ -35,6 +35,8 @@ async def interact(websock, path, data):
 def process(typ, message, data):
 	if typ == "new_package":
 		rc.new_package(data, message)
+	elif typ == "moveTo":
+		rc.command_move_to_location(data, message)
 		
 
 def run_server(data):
