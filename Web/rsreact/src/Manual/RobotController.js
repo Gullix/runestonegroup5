@@ -15,7 +15,7 @@ class RobotController extends Component{
             data: rdir
         };
 
-        this.props.wsSend(JSON.stringify(message));
+        this.props.wsSend(message);
     }
     connectionSwitch(status){
         document.getElementById("wsConnectionButton");

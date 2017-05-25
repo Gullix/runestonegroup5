@@ -50,7 +50,7 @@ class WSocket extends Component{
     // Send data to server
     sendToServer(data){
         console.log(data);
-        mWSocket.send(data);
+        mWSocket.send(JSON.stringify(data));
 
     }
     loopMe(){
