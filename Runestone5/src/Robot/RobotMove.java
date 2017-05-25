@@ -48,8 +48,8 @@ public class RobotMove implements Movements{
 				this.updating(10, m);
 			}
 		}
-		if(right){m.getMp().arc(0, -10);}
-		else{m.getMp().arc(0, -10);}
+		if(!right){m.getMp().arc(0, -10);}
+		//else{m.getMp().arc(0, 10);}
 	}
 	/*
 	 * This function pre calculates the fixing angle for turning
