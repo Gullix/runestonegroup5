@@ -27,7 +27,7 @@ public class LineFollower {
 		int angle = 20;
 		int grayCount = 0;
 		chassis.moveStart();
-		chassis.setAcceleration(100, 20);
+		chassis.setAcceleration(200, 20);
 		while(true){
 			//we used chassis because pilot stops after every command
 			
