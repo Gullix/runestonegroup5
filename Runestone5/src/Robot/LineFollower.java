@@ -25,23 +25,29 @@ public class LineFollower {
 	public void go(int d, boolean test){
 		int speed = 100;
 		int angle = 20;
+		int grayCount = 0;
 		chassis.moveStart();
 		chassis.setAcceleration(100, 20);
 		while(true){
 			//we used chassis because pilot stops after every command
 			
 			if (cc.seeColor("BLACK")){//it checks the color is s ~> now black
+				grayCount = 0;
 				chassis.setVelocity(speed,0);
 			}
 			if(cc.seeColor("GREEN")){
+				grayCount = 0;
 				chassis.setVelocity(speed, angle*d);
 			}
 			if(cc.seeColor("BLUE")){
+				grayCount = 0;
 				chassis.setVelocity(speed, -angle*d);
 			}
-			if(cc.seeColor("RED")){
+			if(cc.seeColor("GRAY")){
 				chassis.setVelocity(0, 0);
-				if (!test) {break;}//we go out the while so no multithread!
+				grayCount++;
+				if(grayCount >= 5){if (!test) {break;}}
+				//we go out the while so no multithread!
 			}
 			Delay.msDelay(50);
 		}

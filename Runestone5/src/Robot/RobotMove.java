@@ -1,26 +1,34 @@
 package Robot;
 
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.motor.Motor;
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.Port;
 
 public class RobotMove implements Movements{
 	Orientation orientation = new Orientation(0);
-	float [] sample = new float [1];
-	private EV3GyroSensor sensor;
-	private EV3MediumRegulatedMotor arm;
-	int index = 0;
-	boolean right;
-	private LineFollower lf;
-	
+	float [] gyroSample = new float [1];
+	private EV3GyroSensor gyroSensor;
+
+		float [] sonicSample = new float [1];
+		Port port = LocalEV3.get().getPort("S4");
+		EV3UltrasonicSensor sonic = new EV3UltrasonicSensor(port);
+		private EV3MediumRegulatedMotor arm;
+		int index = 0;
+		boolean right;
+		private LineFollower lf;
+		
 	private final float sensorWheelDistanceMm = 78;
 	private final float wheelRadius = 55f;
 
 	public RobotMove(EV3GyroSensor sensor){
-		this.sensor = sensor;
+		this.gyroSensor = sensor;
 	}
+	
 	
 	public RobotMove(LineFollower lf){
 		this.lf = lf;
@@ -77,17 +85,35 @@ public class RobotMove implements Movements{
 	}
 
 		public void updateOri(int amount){
-			System.out.println("orientation is " + orientation + " angle is " + sample[0]);
+			System.out.println("orientation is " + orientation + " angle is " + gyroSample[0]);
 		}
 
 	@Override
 	public void _pickup() {
-		arm.rotate(90);		
+		while(sonicSample[0] > 1){
+			sonic.fetchSample(sonicSample, 0);
+			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+		}
+		arm.rotate(-90);		
+	}
+	
+	public void search(Move m){
+		int range = 10;
+		float[] samples = {};
+		for(int i=1; i<range; i++){
+			sonic.fetchSample(sonicSample, 0);
+			samples[i] = sonicSample[0];
+			m.getMp().arc(wheelRadius, 5);
+			
+		}
+		
 	}
 	
 	@Override
 	public void _drop(){
-		arm.rotate(-90);
+		sonic.fetchSample(sonicSample, 0);
+		LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+		arm.rotate(90);
 	}
 	@Override
 	public void _done() {
@@ -105,8 +131,7 @@ public class RobotMove implements Movements{
 	public void _up(Move m) {
 		_turn(m);
 		//findline(String turn);
-		lf.go(1);
-		
+		lf.go(1);	
 	}
 
 	@Override
@@ -118,13 +143,13 @@ public class RobotMove implements Movements{
 	@Override
 	public void _left(Move m) {
 		_turn(m);
-		lf.go(-1);
+		lf.go(1);
 	}
 
 	@Override
 	public void _right(Move m) {
 		_turn(m);
-		lf.go(1);
+		lf.go(-1);
 	}
 
 }
