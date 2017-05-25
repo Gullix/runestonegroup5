@@ -27,7 +27,7 @@ class WSocket extends Component{
             task_list:tasklist,
             map:   wareHouse,
             robot: robot,
-            package_list: packageList,
+            packages: packageList,
             m_zones:lists.storageStates,
             m_states: lists.mapStates
         };
@@ -101,10 +101,9 @@ class WSocket extends Component{
                 var possibleStates =lists.mapStates;
                 var storageZones = lists.storageStates;
                 this.setState({
-                    robot: obj.data.robot.data,
-                    map: DataCreator.createWareHouse(obj.data.map.data.rows),
-                    startZone: obj.data.start_zone_list[0],
-                    package_list: DataCreator.packageListHandler(obj.data.package_list.data),
+                    robot: obj.data.robot,
+                    map: DataCreator.createWareHouse(obj.data.map.rows),
+                    packages: DataCreator.packageListHandler(obj.data.packages),
                     m_zones: storageZones,
                     m_states: possibleStates
                 });
@@ -117,9 +116,9 @@ class WSocket extends Component{
         // Pass through the messages from the server as different props
         return(
             <div>
-                <MapOverview layout={this.state.map} robotInfo={this.state.robot} packages={this.state.package_list}/>
+                <MapOverview layout={this.state.map} robotInfo={this.state.robot} packages={this.state.packages}/>
                 <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-                <InstructionOverview wsMessage={this.state.message} packages={this.state.package_list} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
+                <InstructionOverview wsMessage={this.state.message} packages={this.state.packages} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 
             </div>
         )

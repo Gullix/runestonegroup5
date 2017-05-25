@@ -1,6 +1,7 @@
 /**
  * Created by simonljus on 2017-05-24.
  */
+
 export function createWareHouse(rows){
 
 
@@ -148,9 +149,8 @@ export function intersectionListInit(){
     return (intersections);
 }
 export function packageListHandler(plist){
-    var list = plist.map((val,key) => {
-        return val ;
-    });
+    var list = Object.keys(plist).map((key,i) => plist[key]);
+	console.log(list);
     return list;
 }
 

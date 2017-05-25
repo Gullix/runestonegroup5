@@ -22,7 +22,7 @@ TEST_JSON_SEND = {
 			}
 		}
 	}),
-	"package_list": json.dumps({
+	"packages": json.dumps({
 		"type_of_data": "package_list",
 		"data": {
 			"pack1": { "package_id":"pack1", "position": {"row": 0, "column": 2}},
@@ -77,7 +77,7 @@ def get_test_json(type_of_data):
 def j_pack(type_of_data, data):
 	return json.dumps({
 		"type_of_data": type_of_data,
-		"data": TEST_JSON_SEND
+		"data": data
 	})
 
 def j_unpack(json_str):
