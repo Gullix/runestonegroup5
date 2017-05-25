@@ -97,7 +97,7 @@ class WSocket extends Component{
                 break;
 
             case('all'):
-                var lists = DataCreator.createMapStateList(obj.data.map.data.rows);
+                var lists = DataCreator.createMapStateList(obj.data.map.rows);
                 var possibleStates =lists.mapStates;
                 var storageZones = lists.storageStates;
                 this.setState({
