@@ -5,7 +5,7 @@
 export function createWareHouse(rows){
 
 
-    const whMap ={
+    let whMap ={
         colSize: largestLaneSize(rows),
         rowSize: rows.length,
         rows:rows,
@@ -15,7 +15,7 @@ export function createWareHouse(rows){
 
 }
 export function largestLaneSize(lanes){
-    var max =0
+    let max =0
     for(var i=0;i<lanes.length; i++){
 
         if( lanes[0].length  > max){
@@ -27,80 +27,90 @@ export function largestLaneSize(lanes){
 }
 
 export function createMapStateList(rows){
-    var mapStates =[];
-    var mapState = null;
-    var storageStates = [];
-    for(var i =0; i < rows.length;i++){
-        var row = rows[i];
-        for(var j=0; j< row.length; j++){
+    let start_states = [];
+    let intersection_states =[];
+    let end_states =[];
+    let zone_states =[];
 
-            var rowElement = row[j];
-            var rowChar = rowElement.charAt(0);
+    let mapState = null;
+    for(let i =0; i < rows.length;i++) {
+        let row = rows[i];
+        for (let j = 0; j < row.length; j++) {
+            let rowElement = row[j];
+            switch (rowElement.charAt(0)) {
+                case("z"):
+                    mapState = {
+                        position: {
+                            row: i,
+                            column: j
+                        },
+                        zone_id: rowElement
+                    };
+                    zone_states.push(mapState);
+                    break;
+                case("i"):
+                    mapState = {
+                        position: {
+                            row: i,
+                            column: j
+                        },
+                        zone_id: rowElement
+                    };
+                    intersection_states.push(mapState);
+                    break;
+                case("s"):
+                    mapState = {
+                        position: {
+                            row: i,
+                            column: j
+                        },
+                        zone_id: rowElement
+                    };
+                    start_states.push(mapState);
+                    break;
+                case("e"):
+                    mapState = {
+                        position: {
+                            row: i,
+                            column: j
+                        },
+                        zone_id: rowElement
+                    };
+                    end_states.push(mapState);
+                    break;
+                default:
+                    break;
 
-            if (rowChar === "z" || rowChar === "s" || rowChar === "e"){
-                mapState={
-                    position:{
-                        row: i,
-                        column: j
-                    },
-                    zone_id: row[j]
-                };
-                storageStates.push(mapState);
-                mapStates.push(mapState);
             }
-            else if(rowChar === "i"){
-                mapState={
-                    position:{
-                        row: i,
-                        column: j
-                    },
-                    zone_id: row[j]
-                };
-                mapStates.push(mapState);
-            }
+
         }
     }
     return {
-        mapStates: mapStates,
-        storageStates: storageStates
+        mapStates: start_states.concat(intersection_states.concat(zone_states.concat(end_states))) ,
+        storageStates: start_states.concat(zone_states.concat(end_states))
     };
 }
 
 export function mapMatrixInit(){
-    const rows=[
+    return [
         ["b","b","z1","b","z2","b","b"],
         ["b","b","l" ,"b","l" ,"b","b"],
         ["s","l","i1","l","i2","l","e"],
         ["b","b","l" ,"b","l" ,"b","b"],
         ["b","b","z3","b","z4","b","b"]
-
     ];
-    return rows
 }
 export function taskListInit(){
-    const task = {action:"Move", args:["package1337"], task_id:0};
-    const tasks =[task];
-    return tasks;
-}
-export function startZoneInit(){
-    const startZone= {
-        position: {
-            row: 2,
-            column: 0
-        },
-        start_zone_id: "startzone1"
-    };
-    return startZone
+    return [{action:"Move", args:["package1337"], task_id:0}];
 }
 export function robotInit(){
-    const robot ={
+    return {
         position: {
             row: 0,
             column: 0},
         orientation: "west",
         has_package: false
     };
-    return robot
 }
 
 export function packageListInit(){
@@ -116,41 +126,10 @@ export function packageListInit(){
         position:{ row:0, column: 0},
         package_id: "package3",
     }
-    const packages =[package1,package2,package3];
-    return (packages);
-}
-export function zoneListInit(){
-    var package1={
-        position:{ row:0, column: 2},
-        zone_id: "zone1",
-    }
-    var package2={
-        position:{ row:4, column: 4},
-        zone_id: "zone2",
-    }
-    var zones =[package1,package2];
-    return (zones);
-}
-export function intersectionListInit(){
-    var intersection1={
-        position:{ row:0, column: 2},
-        zone_id: "intersection1",
-    }
-    var intersection2={
-        position:{ row:2, column: 4},
-        zone_id: "intersectrion2",
-    }
-
-    var intersection3={
-        position:{ row:2, column: 6},
-        zone_id: "intersectrion3",
-    }
-    var intersections =[intersection1,intersection2,intersection3];
-    return (intersections);
+    return [package1,package2,package3];
 }
 export function packageListHandler(plist){
-    var list = Object.keys(plist).map((key,i) => plist[key]);
-	console.log(list);
+    let list = Object.keys(plist).map((key,i) => plist[key]);
     return list;
 }
 

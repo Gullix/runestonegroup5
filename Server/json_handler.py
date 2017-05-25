@@ -60,7 +60,7 @@ TEST_JSON_RECV = {
 	"new_package": json.dumps({
 		"type_of_data": "new_package",
 		"data": {
-			"packageID": "package83",
+			"package_id": "package83",
 			"position": {"row": 2, "column": 0}
 		}
 	}),

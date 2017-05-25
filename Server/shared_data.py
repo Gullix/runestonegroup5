@@ -13,7 +13,7 @@ def new_shared_dict():
 		},
 		"packages": {
 			"package1": {
-				"packageID": "package1",
+				"package_id": "package1",
 				"position": {"row": 0, "column": 4}
 			}
 		},
@@ -57,5 +57,17 @@ def new_shared_dict():
 				["b","b","l" ,"b","l" ,"b","b"],
 				["b","b","z3","b","z4","b","b"]
 			]
-		}
+		},
+		"tasks": [
+			{
+				'action': "move",
+				'args':  ["package1412"],
+				'task_id': 2
+			},
+			{
+				'action': "move",
+				'args':  ["package1234"],
+				'task_id': 3
+			}
+			]	
 	}

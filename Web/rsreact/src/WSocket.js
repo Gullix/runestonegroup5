@@ -16,24 +16,23 @@ class WSocket extends Component{
 
     constructor(props){
         super();
-        var robot = DataCreator.robotInit();
-        var rows = DataCreator.mapMatrixInit();
-        var packageList = DataCreator.packageListInit();
-        var wareHouse= DataCreator.createWareHouse(rows);
-        var tasklist =DataCreator.taskListInit();
-        var lists = DataCreator.createMapStateList(rows);
+        let robot = DataCreator.robotInit();
+        let rows = DataCreator.mapMatrixInit();
+        let package_list = DataCreator.packageListInit();
+        let warehouse= DataCreator.createWareHouse(rows);
+        let tasks =DataCreator.taskListInit();
+        let lists = DataCreator.createMapStateList(rows);
         this.state = {
-          message: "",
-            task_list:tasklist,
-            map:   wareHouse,
+            tasks:tasks,
+            map:   warehouse,
             robot: robot,
-            packages: packageList,
+            packages: package_list,
             m_zones:lists.storageStates,
             m_states: lists.mapStates
         };
-        var loc = location.hostname;
-        var that = this;
-        var serverAddress = "ws://" + loc + ":" + 8001;
+        const loc = location.hostname;
+        let that = this;
+        const serverAddress = "ws://" + loc + ":" + 8001;
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){
             that.loopMe();
@@ -55,21 +54,21 @@ class WSocket extends Component{
 
     }
     loopMe(){
-        var mWSocketPass =mWSocket;
-        var ping ={
+        let mWSocketPass =mWSocket;
+        const ping ={
             type_of_data: "hello",
             data: null
         };
-        var pingjson = JSON.stringify(ping);
+        let ping_json = JSON.stringify(ping);
         setInterval(function(){
-            mWSocketPass.send(pingjson);
+            mWSocketPass.send(ping_json);
             console.log("pinging server");
         },5000);
     }
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
         console.log("FROM SERVER:");
-        var obj = JSON.parse(msg);
+        let obj = JSON.parse(msg);
         console.log(obj);
         switch(obj.type_of_data){
             case('package_list'):
@@ -97,15 +96,16 @@ class WSocket extends Component{
                 break;
 
             case('all'):
-                var lists = DataCreator.createMapStateList(obj.data.map.rows);
-                var possibleStates =lists.mapStates;
-                var storageZones = lists.storageStates;
+                let lists = DataCreator.createMapStateList(obj.data.map.rows);
+                let possibleStates =lists.mapStates;
+                let storageZones = lists.storageStates;
                 this.setState({
                     robot: obj.data.robot,
                     map: DataCreator.createWareHouse(obj.data.map.rows),
                     packages: DataCreator.packageListHandler(obj.data.packages),
                     m_zones: storageZones,
-                    m_states: possibleStates
+                    m_states: possibleStates,
+                    tasks: obj.data.tasks
                 });
                 break;
             default:
@@ -117,8 +117,8 @@ class WSocket extends Component{
         return(
             <div>
                 <MapOverview layout={this.state.map} robotInfo={this.state.robot} packages={this.state.packages}/>
-                <RobotController wsMessage={this.state.message} wsSend={this.sendToServer.bind(this)}/>
-                <InstructionOverview wsMessage={this.state.message} packages={this.state.packages} task_list={this.state.task_list} wsSend={this.sendToServer.bind(this)} mWSocket={mWSocket} m_zones={this.state.m_zones} m_states={this.state.m_states}/>
+                <RobotController wsSend={this.sendToServer.bind(this)}/>
+                <InstructionOverview  packages={this.state.packages} tasks={this.state.tasks} wsSend={this.sendToServer.bind(this)}  m_zones={this.state.m_zones} m_states={this.state.m_states}/>
 
             </div>
         )

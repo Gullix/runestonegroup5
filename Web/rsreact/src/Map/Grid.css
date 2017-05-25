@@ -28,3 +28,7 @@ width:400px;
     width:30px;
     height:30px;
 }
+.squareText{
+    position: absolute;
+    color: yellow;
+}

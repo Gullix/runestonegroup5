@@ -2,9 +2,18 @@
 /**
  * Created by simonljus on 2017-05-10.
  */
+
+
+/*
+ ONLY USE FOR REFERENCE
+*/
+
+
+/*
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 require('./InstructionWindow.css');
+
 class InstructionWindow extends Component{
     makeCommand(){
         var valB ="";
@@ -32,6 +41,7 @@ class InstructionWindow extends Component{
     render() {
 
         var tabChosen = this.props.tab;
+
         var optionA = this.props.optionAInit.map(function (opt, i) {
             if (tabChosen === 0) {
                 return (
@@ -103,3 +113,5 @@ InstructionWindow.propTypes={
     optionAInit: PropTypes.arrayOf(PropTypes.object),
     optionBInit: PropTypes.arrayOf(PropTypes.object)
 };
+
+*/

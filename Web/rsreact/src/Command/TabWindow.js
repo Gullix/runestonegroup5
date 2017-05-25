@@ -2,8 +2,10 @@
  * Created by simonljus on 2017-05-11.
  */
 import React, { Component } from 'react';
-import InstructionWindow from "./InstructionWindow";
+import MovePackageCommandWindow from "./MovePackageCommandWindow";
 import Tab from "./Tab";
+import NewStorageLocationCommandWindow from "./NewStorageLocationCommandWindow";
+import NewPositionCommandWindow from "./NewPositionCommandWindow";
 require('./TabWindow.css');
 import PropTypes from 'prop-types';
 class TabWindow extends Component {
@@ -38,15 +40,15 @@ class TabWindow extends Component {
              switch(this.state.tabMode){
                  case(0):
                      return(
-                     <InstructionWindow optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                     <MovePackageCommandWindow packageOption={this.props.packages} storageOption={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} sendCommand={this.sendCommand.bind(this)}/>
                      );
                  case(1):
                      return(
-                     <InstructionWindow optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                     <NewStorageLocationCommandWindow fromStorageOption={this.props.m_zones} toStorageOption={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} sendCommand={this.sendCommand.bind(this)}/>
                      );
                  case(2):
                      return(
-                         <InstructionWindow optionAInit={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                         <NewPositionCommandWindow positionOption={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      );
                  default:
                      break;
