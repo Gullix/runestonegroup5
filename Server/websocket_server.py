@@ -20,7 +20,7 @@ async def interact(websock, path, data):
 			await websock.send(jh.j_pack("all", data))
 			continue
 
-		process(data, typ, message_data)]
+		process(data, typ, message_data)
 
 
 def process(data, typ, message):
