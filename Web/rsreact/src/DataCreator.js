@@ -151,7 +151,6 @@ export function packageListHandler(plist){
     var list = plist.map((val,key) => {
         return val ;
     });
-    console.log(list);
     return list;
 }
 

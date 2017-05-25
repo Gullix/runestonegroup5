@@ -37,12 +37,10 @@ class TabWindow extends Component {
 
              switch(this.state.tabMode){
                  case(0):
-                     console.log(this.props)
                      return(
                      <InstructionWindow optionAInit={this.props.packages} optionBInit={this.props.m_zones}  tab={0} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      );
                  case(1):
-                     console.log(this.props);
                      return(
                      <InstructionWindow optionAInit={this.props.m_zones} optionBInit={this.props.m_zones} tab={1} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
                      );

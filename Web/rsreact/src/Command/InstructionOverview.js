@@ -14,7 +14,6 @@ class InstructionOverview extends Component{
     }
 
     render(){
-        console.log(this.props.m_zones);
         return(
             <div className="instructionOverviewContainer"  >
 

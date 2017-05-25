@@ -49,6 +49,7 @@ class WSocket extends Component{
     }
     // Send data to server
     sendToServer(data){
+        console.log("SENDING TO SERVER: ")
         console.log(data);
         mWSocket.send(JSON.stringify(data));
 
@@ -62,7 +63,7 @@ class WSocket extends Component{
         var pingjson = JSON.stringify(ping);
         setInterval(function(){
             mWSocketPass.send(pingjson);
-            console.log("sending ping to server");
+            console.log("pinging server");
         },5000);
     }
     // Handle the message received from server and change the correct state object
@@ -107,7 +108,6 @@ class WSocket extends Component{
                     m_zones: storageZones,
                     m_states: possibleStates
                 });
-                console.log(this.state);
                 break;
             default:
                 break

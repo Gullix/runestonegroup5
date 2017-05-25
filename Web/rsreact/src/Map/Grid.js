@@ -37,7 +37,6 @@ class Grid extends Component{
     }
 
     render(){
-        console.log(this.props.rows)
         return(
 
             <div className="gridContainer list-group">

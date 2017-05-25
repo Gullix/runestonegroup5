@@ -52,7 +52,6 @@ class InstructionWindow extends Component{
         if(tabChosen ===1 || tabChosen === 0) {
             var optionB = this.props.optionBInit.map(function (opt, i) {
                 if (tabChosen === 0) {
-                    console.log(opt);
                     return (
 
                         <option key={i + 's'} value={opt.zone_id}> {opt.zone_id} </option>

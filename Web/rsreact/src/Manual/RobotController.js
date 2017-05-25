@@ -24,7 +24,6 @@ class RobotController extends Component{
 
 
     render(){
-        console.log("hello");
         return(
             <div>
                 <div id="remoteContainer">
