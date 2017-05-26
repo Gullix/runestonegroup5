@@ -117,7 +117,7 @@ public class RobotBob {
 						break;
 					
 						case("DROP"):
-							rm._drop();
+							rm._drop(new Move(str,pilot));
 						break;
 					
 						case("U"):

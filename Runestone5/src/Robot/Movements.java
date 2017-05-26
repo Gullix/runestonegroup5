@@ -7,6 +7,6 @@ public interface Movements {
 	public void _down(Move m);
 	public void _left(Move m);
 	public void _right(Move m);
-	public void _drop();
+	public void _drop(Move m);
 	public void _pickup(Move m);
 }

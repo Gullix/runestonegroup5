@@ -97,13 +97,15 @@ public class RobotMove implements Movements{
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample	[0]), 0, 1);
 		}
-		arm.rotate(-90);		
+		arm.rotate(-1200);		
 	}
-	
-	public void search(Move m){
-		int range = 10;
+	//d can be negative to search the other way
+	public void search(Move m, int d){
+		int range = 10*d;
 		float[] samples = {};
 		for(int i=1; i<range; i++){
+			sonic.fetchSample(sonicSample, 0);
+			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
 			sonic.fetchSample(sonicSample, 0);
 			samples[i] = sonicSample[0];
 			m.getMp().arc(wheelRadius, 5);
@@ -113,10 +115,12 @@ public class RobotMove implements Movements{
 	}
 	
 	@Override
-	public void _drop(){
+	public void _drop(Move m){
 		sonic.fetchSample(sonicSample, 0);
 		LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
-		arm.rotate(90);
+		arm.rotate(120);
+		arm.rotate(5);
+		m.getMp().travel(-2*sensorWheelDistanceMm);
 	}
 	
 
