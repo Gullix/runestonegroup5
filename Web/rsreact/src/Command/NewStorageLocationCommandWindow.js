@@ -6,7 +6,7 @@ class NewStorageLocationCommandWindow extends Component{
         let selectedFromStorage = this.refs.fromStorageOption.value;
         let selectedToStorage = this.refs.toStorageOption.value;
         let message = {
-            type_of_data: "newStorageLocation",
+            type_of_data: "new_storage_location",
             data: {
                 from_location: selectedFromStorage,
                 to_location: selectedToStorage
