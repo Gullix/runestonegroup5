@@ -35,7 +35,10 @@ public class LineFollower {
 			
 			if(cc.seeColor("WHITE")){
 				grayCount = 0;
-				chassis.setVelocity(-speed, 0);
+				if(lastColorSeen!=0){
+					chassis.setVelocity(0, 0);
+					chassis.arc(speed, d*lastColorSeen);
+				}
 			}
 			if (cc.seeColor("BLACK")){//it checks the color is s ~> now black
 				grayCount = 0;
