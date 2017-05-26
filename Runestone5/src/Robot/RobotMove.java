@@ -84,16 +84,25 @@ public class RobotMove implements Movements{
 			else this.precalculation(-10);//so it goes to the right
 	}
 
+		
 		public void updateOri(int amount){
 			System.out.println("orientation is " + orientation + " angle is " + gyroSample[0]);
 		}
+		
+		//
 
 	@Override
 	public void _pickup(Move m) {
+		
+			
+		
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
-			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 			m.getMp().travel(10);
+			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
+				m.getMp().travel(-5);
+			}
 		}
 		arm.rotate(-1200);		
 	}
@@ -115,7 +124,7 @@ public class RobotMove implements Movements{
 	@Override
 	public void _drop(Move m){
 		sonic.fetchSample(sonicSample, 0);
-		LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+		LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 		arm.rotate(120);
 		arm.rotate(5);
 		m.getMp().travel(-2*sensorWheelDistanceMm);
