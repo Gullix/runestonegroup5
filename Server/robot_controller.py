@@ -22,7 +22,7 @@ def get_command(data, socket):
 	Called when the robot requests a command from the command Queue
 	"""
 	while len(data["robot"]["command_queue"]) == 0:
-		pass()
+		pass
 	command = data["robot"]["command_queue"].pop(0)
 	if (len(data["robot"]["state_queue"]) > 0):
 		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
