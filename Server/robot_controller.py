@@ -24,9 +24,10 @@ def get_command(data, socket):
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
-	print(command)
 	if (len(data["robot"]["state_queue"]) > 0):
-		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
+		p = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
+		print(p)
+		data["robot"]["position"] = p
 	socket.send(bytes(command, "UTF-8"))
 
 ########################################
@@ -125,10 +126,6 @@ def calculate_path(data, start, target):
 		states.append(node)
 	states = list(reversed(states));
 	path = list(reversed(path))
-	print("states")
-	print(states)
-	print("path")
-	print(path)
 	return states,path
 
 def bfs_tree(graph, start_node):
