@@ -43,14 +43,20 @@ def command_remove_package(data, package):
 		raise CommandError("Package does not exist")
 
 	# Make commands
-	commands = []
-	commands += calculate_path(data, data["robot"]["final_location"], package["location"])
+	commands     = []
+	robotStates  =[]
+	states,paths = calculate_path(data, data["robot"]["final_location"], package["location"])
+	commands    += paths
+	robotStates += states
 	commands += [PICK]
-	commands += calculate_path(data, package["location"], START)
+	states,paths += calculate_path(data, package["location"], START)
+	commands    += paths
+	robotStates += states
 	commands += [DROP]
 
 	data["robot"]["final_location"] = START
 	data["robot"]["command_queue"] += commands
+	data["robot"]["state_queue"]   += robotStates
 
 
 def command_move_package(data, location_pickup, location_dropoff):
@@ -77,10 +83,14 @@ def command_move_package(data, location_pickup, location_dropoff):
 def command_move_to_location(data, location_target):
 
 	commands = []
-	commands += calculate_path(data, data["robot"]["final_location"], location_target)
-
+	robotStates=[]
+	states, paths= calculate_path(data, data["robot"]["final_location"], location_target)
+    commands += paths
+	robotStates += states
 	data["robot"]["final_location"] = location_target
 	data["robot"]["command_queue"] += commands
+	data["robot"]["state_queue"]   += robotStates
+
 	
 
 def command_new_package(data, package):
@@ -96,14 +106,20 @@ def command_new_package(data, package):
 
 	# Make commands
 	commands = []
-	commands += calculate_path(data, data["robot"]["final_location"], START)
+	robotStates=[]
+	states,paths = calculate_path(data, data["robot"]["final_location"], START)
+	commands += paths
+	robotStates += states
 	commands += [PICK]
 	final_location = allocate_new_zone(data)
-	commands += calculate_path(data, START, final_location)
+	states,paths = calculate_path(data, START, final_location)
+	commands += paths
+	robotStates += states
 	commands += [DROP]
 
 	data["robot"]["final_location"] = final_location
 	data["robot"]["command_queue"] += commands
+	data["robot"]["state_queue"]   += robotStates
 
 
 ########################################
@@ -124,9 +140,7 @@ def calculate_path(data, start, target):
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
 		node = parent_tree[node]
 		states.append(node)
-	states = list(reversed(states));
-	path = list(reversed(path))
-	return states,path
+	return list(reversed(states)),list(reversed(path))
 
 def bfs_tree(graph, start_node):
 
