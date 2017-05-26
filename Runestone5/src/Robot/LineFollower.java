@@ -43,12 +43,12 @@ public class LineFollower {
 			}
 			if(cc.seeColor("GREEN")){
 				grayCount = 0;
-				chassis.setVelocity(speed, -angle*d);
+				chassis.setVelocity(speed, angle*d);
 				lastColorSeen = 1;
 			}
 			if(cc.seeColor("BLUE")){
 				grayCount = 0;
-				chassis.setVelocity(speed, angle*d);
+				chassis.setVelocity(speed, -angle*d);
 				lastColorSeen = -1;
 			}
 			if(cc.seeColor("GRAY")){
