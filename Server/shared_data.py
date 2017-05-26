@@ -9,7 +9,9 @@ def new_shared_dict():
 			"position": {"row": 2, "column": 0},
 			"has_package": False,
 			"command_queue": [],
+			"state_queue": [],
 			"final_location": "s"
+			
 		},
 		"packages": {
 			"package1": {

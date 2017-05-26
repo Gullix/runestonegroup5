@@ -22,8 +22,10 @@ def get_command(data, socket):
 	Called when the robot requests a command from the command Queue
 	"""
 	while len(data["robot"]["command_queue"]) == 0:
-		pass
+		pass()
 	command = data["robot"]["command_queue"].pop(0)
+	if (len(data["robot"]["state_queue"]) > 0):
+		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
 	socket.send(bytes(command, "UTF-8"))
 
 ########################################
@@ -56,13 +58,19 @@ def command_move_package(data, location_pickup, location_dropoff):
 	#location_dropoff = pos_to_zone(pos_dropoff)
 
 	commands = []
-	commands += calculate_path(data, data["robot"]["final_location"], location_pickup)
+	robotStates=[]
+	states,paths = calculate_path(data, data["robot"]["final_location"], location_pickup)
+	commands += paths
+	robotStates += states
 	commands += [PICK]
-	commands += calculate_path(data, location_pickup, location_dropoff)
+	states,paths = calculate_path(data, location_pickup, location_dropoff)
+	commands += paths
+	robotStates += states
 	commands += [DROP]
 
 	data["robot"]["final_location"] = location_dropoff
 	data["robot"]["command_queue"] += commands
+	data["robot"]["state_queue"]   += robotStates
 
 
 def command_move_to_location(data, location_target):
@@ -108,15 +116,16 @@ def calculate_path(data, start, target):
 	parent_tree = bfs_tree(graph, start)
 
 	path = []
+	states = []
 	node = target
 	while parent_tree[node] != None:
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
 		node = parent_tree[node]
-		print("node")
-		print(node)
-		print("path")
-		print(path)
-	return list(reversed(path))
+		states.append(node)
+		states = list(reversed(states));
+		path = list(reversed(path))
+		lists ={states,path}
+		return lists
 
 def bfs_tree(graph, start_node):
 
