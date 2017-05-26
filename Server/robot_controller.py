@@ -125,6 +125,10 @@ def calculate_path(data, start, target):
 		states.append(node)
 	states = list(reversed(states));
 	path = list(reversed(path))
+	print("states")
+	print(states)
+	print("path")
+	print(path)
 	return states,path
 
 def bfs_tree(graph, start_node):
