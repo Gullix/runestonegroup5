@@ -93,6 +93,7 @@ public class RobotMove implements Movements{
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+			m.getMp().travel(10);
 		}
 		arm.rotate(-1200);		
 	}
