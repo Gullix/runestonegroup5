@@ -82,8 +82,8 @@ def command_move_package(data, location_pickup, location_dropoff):
 
 def command_move_to_location(data, location_target):
 	commands = []
-	robotStates =[]
-	states,paths = calculate_path(data, data["robot"]["final_location"], location_target)	  commands += paths
+	robotStates = []
+	states,paths = calculate_path(data, data["robot"]["final_location"], location_target)
 	commands +=  paths
 	robotStates += states
 	data["robot"]["final_location"] = location_target
