@@ -7,7 +7,6 @@ import WSocket from "./WSocket"
 
 
 class App extends Component {
-
     render() {
         return (
             <div>

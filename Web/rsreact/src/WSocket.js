@@ -8,6 +8,7 @@ import InstructionOverview from "./Command/InstructionOverview";
 import MapOverview from "./Map/MapOverview";
 import * as DataCreator from "./DataCreator";
 var mWSocket;  // Make the WebSocket global
+var interval;
 
 /*
 The Websocket that communicates with the server
@@ -36,10 +37,12 @@ class WSocket extends Component{
         const serverAddress = "ws://" + loc + ":" + 8001;
         mWSocket = new WebSocket(serverAddress);
         mWSocket.onopen = function(event){
+            that.pingOnce()
             that.loopMe();
 
         };
         mWSocket.onclose= function(event){
+           clearInterval(interval);
 
         };
         // When WebSocket receives sometihng from the server
@@ -61,10 +64,20 @@ class WSocket extends Component{
             data: null
         };
         let ping_json = JSON.stringify(ping);
-        setInterval(function(){
+         interval =setInterval(function(){
             mWSocketPass.send(ping_json);
             console.log("pinging server");
         },500);
+    }
+    pingOnce(){
+        let mWSocketPass =mWSocket;
+        const ping ={
+            type_of_data: "hello",
+            data: null
+        };
+        let ping_json = JSON.stringify(ping);
+        mWSocketPass.send(ping_json);
+        console.log("pinging server");
     }
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
