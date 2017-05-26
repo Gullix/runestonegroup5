@@ -6,6 +6,7 @@ import MovePackageCommandWindow from "./MovePackageCommandWindow";
 import Tab from "./Tab";
 import NewStorageLocationCommandWindow from "./NewStorageLocationCommandWindow";
 import NewPositionCommandWindow from "./NewPositionCommandWindow";
+import NewPackageCommandWindow from "./NewPackageCommandWindow";
 require('./TabWindow.css');
 import PropTypes from 'prop-types';
 class TabWindow extends Component {
@@ -50,6 +51,10 @@ class TabWindow extends Component {
                      return(
                          <NewPositionCommandWindow positionOption={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} sendCommand={this.sendCommand.bind(this)}/>
                      );
+                 case(3):
+                     return(
+                       <NewPackageCommandWindow   pickupOption={this.props.m_deliver_zones}  sendCommand={this.sendCommand.bind(this)} />
+                     );
                  default:
                      break;
              }
@@ -71,6 +76,7 @@ class TabWindow extends Component {
 
                 {this.renderTab(1, "New storage location")    }
                 {this.renderTab(2,"New position")}
+                {this.renderTab(3,"New package")}
                 </div>
                 <div id="testid" className="tabContent">
 

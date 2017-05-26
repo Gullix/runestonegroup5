@@ -1,32 +1,28 @@
 .squareContainer{
     display:inline-block;
-    width:40px;
-    height:40px;
+    width:80px;
+    height:80px;
     border: 1px solid black;
 }
 .gridContainer{
-width:400px;
+width:600px;
 }
 .rowContainer{
 
 }
 
 .mapOverviewContainer{
-    margin-left: 1%;
-    margin-top: 1%;
+    margin-left: 1.5%;
+    margin-top: 2%;
 }
-/*
-.robotBob{
-    background-image: url("../public/robotbob.svg");
-}
-*/
+
 .robotContainer{
-    width:30px;
-    height:30px;
+    width:75px;
+    height:75px;
 }
 .packageContainer{
-    width:30px;
-    height:30px;
+    width:75px;
+    height:75px;
 }
 .squareText{
     position: absolute;

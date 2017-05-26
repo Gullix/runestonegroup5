@@ -4,17 +4,17 @@
 }
 
 .tabsContainer{
-    background: #405767;
+    background: #5e849a;
 }
 
 .tab:hover{
-    background: #59768a;
+    background: #6e9bb5;
 }
 
 /* Style the buttons inside the tab */
 .tab {
     text-align:center;
-    width:133px;
+    width:100px;
     border:1px solid #ccc;
     height: 45px;
     display: inline-block;

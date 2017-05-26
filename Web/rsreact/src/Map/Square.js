@@ -13,29 +13,29 @@ class Square extends Component{
         switch(this.props.squareType.charAt(0)){
 
             case("b"):
-                square_color = "white"
+                square_color = "white";
                 break;
             case("z"):
-                square_color = "purple"
-                square_text= square_id
+                square_color = "purple";
+                square_text= square_id;
                 break;
             case("i"):
-                square_color= "robotbob.svg"
+                square_color= "robotbob.svg";
                 square_text= square_id;
                 break;
             case("l"):
-                square_color= "blue"
+                square_color= "blue";
                 break;
             case("s"):
-                square_color= "green"
-                square_text= square_id
+                square_color= "green";
+                square_text= square_id;
                 break;
             case("e"):
-                square_color= "red"
-                square_text= square_id
+                square_color= "red";
+                square_text= square_id;
                 break;
             default:
-                square_color = "white"
+                square_color = "white";
                 break;
         }
         return  {
@@ -47,11 +47,11 @@ class Square extends Component{
         const design =this.setDesign();
         var styleObj = {
             backgroundColor: design.square_color,
-        }
+        };
         var that= this;
         if(this.props.robotInfo.position.row === this.props.pos_row && this.props.robotInfo.position.column === this.props.pos_column ){
             return(
-                <div className="squareContainer robotBob" style={styleObj} >
+                <div className="squareContainer" style={styleObj} >
                      <a className="squareText">{design.square_text}</a>
                      <Robot robotInfo={this.props.robotInfo}> </Robot>
                 </div>
