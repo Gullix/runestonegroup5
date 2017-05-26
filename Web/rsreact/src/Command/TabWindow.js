@@ -53,7 +53,7 @@ class TabWindow extends Component {
                      );
                  case(3):
                      return(
-                       <NewPackageCommandWindow   pickupOption={this.props.m_deliver_zones} storageOption={this.props.m_zones} sendCommand={this.sendCommand.bind(this)} />
+                       <NewPackageCommandWindow   pickupOption={this.props.m_deliver_zones}  sendCommand={this.sendCommand.bind(this)} />
                      );
                  default:
                      break;
