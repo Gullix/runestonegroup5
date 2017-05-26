@@ -167,11 +167,11 @@ def allocate_new_zone(data):
 
 
 def pos(position):
-	return position["row"], position["col"]
+	return position["row"], position["column"]
 
 
 def pos_to_zone(data, pos):
-	return data["map"]["rows"][pos["row"]][pos["col"]]
+	return data["map"]["rows"][pos["row"]][pos["column"]]
 
 
 def zone_to_pos(data, zone):
@@ -181,7 +181,7 @@ def zone_to_pos(data, zone):
 		j = 0
 		for c in r:
 			if data["map"]["rows"][i][j] == zone:
-				return {"row": i, "col": j}
+				return {"row": i, "column": j}
 				j= j +1 
 		i = i +1
 
