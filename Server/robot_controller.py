@@ -24,8 +24,8 @@ def get_command(data, socket):
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
+	print(command)
 	if (len(data["robot"]["state_queue"]) > 0):
-		print(data["robot"]["state_queue"][0])
 		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
 	socket.send(bytes(command, "UTF-8"))
 
