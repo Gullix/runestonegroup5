@@ -8,6 +8,7 @@ class Robot extends Component{
         var imgsource = "robotbob.svg";
         if(this.props.robotInfo.has_package){
             imgsource = "robotbobCarry.svg";
+
         }
         var degrees = 0;
         switch(this.props.robotInfo.orientation){
@@ -35,7 +36,7 @@ class Robot extends Component{
             msTransform: 'rotate('+degrees+'deg)',
             OTransform: 'rotate('+degrees+'deg)',
             transform : 'rotate('+degrees+'deg)',
-        }
+        };
         return(
             <div className="robotContainer" style={styleObj}>
 
