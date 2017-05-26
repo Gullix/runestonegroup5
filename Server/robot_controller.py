@@ -175,10 +175,15 @@ def pos_to_zone(data, pos):
 
 
 def zone_to_pos(data, zone):
+	i = 0;
+	
 	for r in data["map"]["rows"]:
+		j = 0:
 		for c in r:
-			if data["map"]["rows"][r][c] == zone:
-				return {"row": r, "col": c}
+			if data["map"]["rows"][i][j] == zone:
+				return {"row": i, "col": j}
+				j= j +1 
+		i = i +1
 
 def pos_valid(data, position):
 	r,c = pos(position)
