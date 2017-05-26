@@ -48,7 +48,7 @@ class TabWindow extends Component {
                      );
                  case(2):
                      return(
-                         <NewPositionCommandWindow positionOption={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} selCommand={this.sendCommand.bind(this)}/>
+                         <NewPositionCommandWindow positionOption={this.props.m_states} tab={2} changeOptions={this.changedOptions.bind(this)} sendCommand={this.sendCommand.bind(this)}/>
                      );
                  default:
                      break;
