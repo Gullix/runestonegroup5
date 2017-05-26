@@ -5,7 +5,7 @@ class NewPositionCommandWindow extends Component{
     makeNewPositionCommand(){
         let selectedPosition = this.refs.positionOption.value;
         let message = {
-            type_of_data: "moveToPosition",
+            type_of_data: "moveTo",
             data: {
                 state_info: selectedPosition,
             }
