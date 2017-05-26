@@ -50,10 +50,10 @@ def command_remove_package(data, package):
 	data["robot"]["command_queue"] += commands
 
 
-def command_move_package(data, pos_pickup, pos_dropoff):
+def command_move_package(data, location_pickup, location_dropoff):
 
-	location_pickup = pos_to_zone(pos_pickup)
-	location_dropoff = pos_to_zone(pos_dropoff)
+	#location_pickup = pos_to_zone(pos_pickup)
+	#location_dropoff = pos_to_zone(pos_dropoff)
 
 	commands = []
 	commands += calculate_path(data, data["robot"]["final_location"], location_pickup)
