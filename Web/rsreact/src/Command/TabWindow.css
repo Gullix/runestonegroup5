@@ -14,7 +14,7 @@
 /* Style the buttons inside the tab */
 .tab {
     text-align:center;
-    width:133px;
+    width:100px;
     border:1px solid #ccc;
     height: 45px;
     display: inline-block;

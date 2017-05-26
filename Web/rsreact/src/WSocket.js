@@ -28,7 +28,8 @@ class WSocket extends Component{
             robot: robot,
             packages: package_list,
             m_zones:lists.storageStates,
-            m_states: lists.mapStates
+            m_states: lists.mapStates,
+            m_deliver_zones:lists.deliverZones
         };
         const loc = location.hostname;
         let that = this;
@@ -97,15 +98,15 @@ class WSocket extends Component{
 
             case('all'):
                 let lists = DataCreator.createMapStateList(obj.data.map.rows);
-                let possibleStates =lists.mapStates;
-                let storageZones = lists.storageStates;
+
                 this.setState({
                     robot: obj.data.robot,
                     map: DataCreator.createWareHouse(obj.data.map.rows),
                     packages: DataCreator.packageListHandler(obj.data.packages),
-                    m_zones: storageZones,
-                    m_states: possibleStates,
-                    tasks: obj.data.tasks
+                    m_zones: lists.storageStates,
+                    m_states: lists.mapStates,
+                    tasks: obj.data.tasks,
+                    m_deliver_zones:lists.deliverZones
                 });
                 break;
             default:
@@ -113,12 +114,13 @@ class WSocket extends Component{
         }
     }
     render(){
+        console.log(this.state.m_deliver_zones);
         // Pass through the messages from the server as different props
         return(
             <div>
                 <MapOverview layout={this.state.map} robotInfo={this.state.robot} packages={this.state.packages}/>
                 <RobotController wsSend={this.sendToServer.bind(this)}/>
-                <InstructionOverview  packages={this.state.packages} tasks={this.state.tasks} wsSend={this.sendToServer.bind(this)}  m_zones={this.state.m_zones} m_states={this.state.m_states}/>
+                <InstructionOverview  packages={this.state.packages} tasks={this.state.tasks} wsSend={this.sendToServer.bind(this)}  m_zones={this.state.m_zones} m_states={this.state.m_states} m_deliver_zones={this.state.m_deliver_zones}/>
 
             </div>
         )

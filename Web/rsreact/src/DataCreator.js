@@ -87,7 +87,8 @@ export function createMapStateList(rows){
     }
     return {
         mapStates: start_states.concat(intersection_states.concat(zone_states.concat(end_states))) ,
-        storageStates: start_states.concat(zone_states.concat(end_states))
+        storageStates: start_states.concat(zone_states.concat(end_states)),
+        deliverZones:  start_states.concat(end_states)
     };
 }
 
