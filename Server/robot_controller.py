@@ -112,6 +112,9 @@ def calculate_path(data, start, target):
 	while parent_tree[node] != None:
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
 		node = parent_tree[node]
+		print("node")
+		print(node)
+		print("path")
 	return list(reversed(path))
 
 def bfs_tree(graph, start_node):
