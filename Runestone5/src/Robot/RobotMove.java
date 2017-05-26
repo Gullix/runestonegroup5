@@ -84,15 +84,18 @@ public class RobotMove implements Movements{
 			else this.precalculation(-10);//so it goes to the right
 	}
 
+		
 		public void updateOri(int amount){
 			System.out.println("orientation is " + orientation + " angle is " + gyroSample[0]);
 		}
+		
+		//
 
 	@Override
 	public void _pickup(Move m) {
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
-			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample	[0]), 0, 1);
 		}
 		arm.rotate(-90);		
 	}
