@@ -93,14 +93,16 @@ public class RobotMove implements Movements{
 
 	@Override
 	public void _pickup(Move m) {
+		
+			
+		
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
-<<<<<<< HEAD
-			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample	[0]), 0, 1);
-=======
-			LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 			m.getMp().travel(10);
->>>>>>> fe7be08621d1b671523e54007b31dffed2b79b9a
+			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
+				m.getMp().travel(-5);
+			}
 		}
 		arm.rotate(-1200);		
 	}
@@ -122,7 +124,7 @@ public class RobotMove implements Movements{
 	@Override
 	public void _drop(Move m){
 		sonic.fetchSample(sonicSample, 0);
-		LCD.drawString("Ultrasonic = " + Float.toString(sonicSample[0]), 0, 1);
+		LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 		arm.rotate(120);
 		arm.rotate(5);
 		m.getMp().travel(-2*sensorWheelDistanceMm);
