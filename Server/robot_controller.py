@@ -49,7 +49,7 @@ def command_remove_package(data, package):
 	commands    += paths
 	robotStates += states
 	commands += [PICK]
-	states,paths += calculate_path(data, package["location"], START)
+	states,paths = calculate_path(data, package["location"], START)
 	commands    += paths
 	robotStates += states
 	commands += [DROP]
