@@ -24,6 +24,7 @@ def get_command(data, socket):
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
+	print(command)
 	if (len(data["robot"]["state_queue"]) > 0):
 		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
 	socket.send(bytes(command, "UTF-8"))
@@ -122,9 +123,13 @@ def calculate_path(data, start, target):
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
 		node = parent_tree[node]
 		states.append(node)
-		states = list(reversed(states));
-		path = list(reversed(path))
-		return states,path
+	states = list(reversed(states));
+	path = list(reversed(path))
+	print("states")
+	print(states)
+	print("path")
+	print(path)
+	return states,path
 
 def bfs_tree(graph, start_node):
 
@@ -166,18 +171,23 @@ def allocate_new_zone(data):
 
 
 def pos(position):
-	return position["row"], position["col"]
+	return position["row"], position["column"]
 
 
 def pos_to_zone(data, pos):
-	return data["map"]["rows"][pos["row"]][pos["col"]]
+	return data["map"]["rows"][pos["row"]][pos["column"]]
 
 
 def zone_to_pos(data, zone):
+	i = 0
+	
 	for r in data["map"]["rows"]:
+		j = 0
 		for c in r:
-			if data["map"]["rows"][r][c] == zone:
-				return {"row": r, "col": c}
+			if data["map"]["rows"][i][j] == zone:
+				return {"row": i, "column": j}
+				j= j +1 
+		i = i +1
 
 def pos_valid(data, position):
 	r,c = pos(position)

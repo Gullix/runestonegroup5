@@ -64,7 +64,7 @@ class WSocket extends Component{
         setInterval(function(){
             mWSocketPass.send(ping_json);
             console.log("pinging server");
-        },5000);
+        },500);
     }
     // Handle the message received from server and change the correct state object
     messageFromServer(msg) {
