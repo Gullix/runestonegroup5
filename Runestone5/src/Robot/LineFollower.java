@@ -12,9 +12,11 @@ public class LineFollower {
 
 	private ColorCalibrate cc;
 	private Chassis chassis;
+	private int lastColorSeen;
 	public LineFollower(ColorCalibrate cCal, Chassis chassis) {
 		this.cc = cCal;
 		this.chassis = chassis;
+		this.lastColorSeen = 0;
 	}
 	
 	public void go(int d) {
@@ -31,22 +33,30 @@ public class LineFollower {
 		while(true){
 			//we used chassis because pilot stops after every command
 			
+			if(cc.seeColor("WHITE")){
+				grayCount = 0;
+				chassis.setVelocity(-speed, 0);
+			}
 			if (cc.seeColor("BLACK")){//it checks the color is s ~> now black
 				grayCount = 0;
 				chassis.setVelocity(speed,0);
 			}
 			if(cc.seeColor("GREEN")){
 				grayCount = 0;
-				chassis.setVelocity(speed, angle*d);
+				chassis.setVelocity(speed, -angle*d);
+				lastColorSeen = 1;
 			}
 			if(cc.seeColor("BLUE")){
 				grayCount = 0;
-				chassis.setVelocity(speed, -angle*d);
+				chassis.setVelocity(speed, angle*d);
+				lastColorSeen = -1;
 			}
 			if(cc.seeColor("GRAY")){
 				chassis.setVelocity(0, 0);
 				grayCount++;
-				if(grayCount >= 5){if (!test) {break;}}
+				lastColorSeen = 0;
+				//if(grayCount >= 5){if (!test) {break;}}
+				if(grayCount >= 5 && !test) break;
 				//we go out the while so no multithread!
 			}
 			Delay.msDelay(50);
