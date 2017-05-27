@@ -2,6 +2,10 @@ package Robot;
 
 import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
+
+import java.io.File;
+
+import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
@@ -52,6 +56,7 @@ public class RobotMove implements Movements{
 			arm.rotate(strength);
 		}
 		m.getMp().setAngularSpeed(ripace);
+		Sound.playSample(new File("victory.wav"));
 	}
 	
 	private void updating(int i, Move m){
