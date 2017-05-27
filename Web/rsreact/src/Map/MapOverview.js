@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react';
 import Grid from "./Grid";
+import InformationOverview from "./InformationOverview";
 class MapOverview extends Component{
 
       render(){
@@ -11,6 +12,7 @@ class MapOverview extends Component{
 
               <div className="mapOverviewContainer">
                   <Grid rowSize={this.props.layout.rowSize} colSize={this.props.layout.colSize} rows={this.props.layout.rows} robotInfo={this.props.robotInfo} packages={this.props.packages}></Grid>
+                  <InformationOverview></InformationOverview>
               </div>
 
           )
