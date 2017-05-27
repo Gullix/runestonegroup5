@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 require('./InstructionWindow.css');
 class NewPackageCommandWindow extends Component{
+    constructor(){
+        super();
+        this.state={
+            min_light: 0,
+            max_light: 100,
+            min_temperature: -273,
+            max_temperature: 50
+        }
+    }
 
     makeNewPackageCommand(){
         if(this.validateForm()){
@@ -11,10 +20,10 @@ class NewPackageCommandWindow extends Component{
                 data:  {
                     from_location: pickupLocation,
                     requirements:{
-                        min_light:  0,
-                        max_light: 100,
-                        min_temperature: -273.15,
-                        max_temperature: 30
+                        min_light:  this.state.min_light,
+                        max_light: this.state.max_light,
+                        min_temperature: this.state.min_temperature,
+                        max_temperature: this.state.max_temperature
                     }
                 },
 
@@ -49,13 +58,14 @@ class NewPackageCommandWindow extends Component{
                 <select className="instructionOption" ref="pickupOption" >
                     {pickupOption}
                 </select>
-                <form  onChange={this.handleInputChange.bind(this)}>
-                    <input type="number" name="max_temperature" step="any" min="-273.15" max="30"/>
-                    <input type="number" name="min_temperature"  step="any" min="-273.15" max="30"/>
-                    <input type="number" name="min_light"  step="any"min="0" max="1000"/>
-                    <input type="number" name="max_light"  step="any"min="0" max="1000"/>
-                </form>
                 <button onClick={this.makeNewPackageCommand.bind(this)}>New package</button>
+                <form  onChange={this.handleInputChange.bind(this)}>
+                    <input placeholder="Min temperature" type="number" name="min_temperature"  step="any" min="-273.15" max="30"/>
+                    <input placeholder="Max temperature" type="number" name="max_temperature" step="any" min="-273.15" max="30"/>
+                    <input placeholder="Minimum light" type="number" name="min_light"  step="any"min="0" max="1000"/>
+                    <input placeholder="Maximum light " type="number" name="max_light"  step="any"min="0" max="1000"/>
+                </form>
+
             </div>
 
         )
