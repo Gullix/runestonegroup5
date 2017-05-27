@@ -143,6 +143,9 @@ public class RobotBob {
 						case("R"):
 							rm._right(new Move(str,pilot));
 						break;
+						case("VICTORY"):
+							rm.Victory(new Move(str,pilot));
+						break;
 
 					default: 
 						LCD.clearDisplay();
