@@ -6,6 +6,10 @@ require('./Grid.css');
 import Robot from "./Robot";
 import Package from "./Package";
 class Square extends Component{
+
+    displayInfo(){
+        console.log(this.props)
+    }
     setDesign(){
         var square_color = "white";
         var square_text = "";
@@ -51,7 +55,7 @@ class Square extends Component{
         var that= this;
         if(this.props.robotInfo.position.row === this.props.pos_row && this.props.robotInfo.position.column === this.props.pos_column ){
             return(
-                <div className="squareContainer" style={styleObj} >
+                <div className="squareContainer" style={styleObj} onClick={this.displayInfo.bind(this)} >
                      <a className="squareText">{design.square_text}</a>
                      <Robot robotInfo={this.props.robotInfo}> </Robot>
                 </div>
@@ -63,7 +67,7 @@ class Square extends Component{
                 if(pack.position.row === that.props.pos_row && pack.position.column === that.props.pos_column){
                     return(
 
-                        <Package packageInfo={pack} key={i}></Package>
+                        <Package packageInfo={pack} key={i}  ></Package>
                     )
                 }
                 else{
@@ -72,7 +76,7 @@ class Square extends Component{
 
             });
             return(
-                <div className="squareContainer" style={styleObj}>
+                <div className="squareContainer" style={styleObj} onClick={this.displayInfo.bind(this)}>
                     <div className="squareText">{design.square_text}</div>
                     {packageCheck}
                 </div>
