@@ -1,7 +1,11 @@
 package Robot;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import lejos.hardware.Bluetooth;
 import lejos.hardware.ev3.LocalEV3;
@@ -48,7 +52,7 @@ public class RobotBob {
 		/**
 		 * Testing orientation
 		 * */
-		
+		BobList.getInstance();
 		LCD.clearDisplay();
 		LCD.drawString("Starting...", 0, 1);
 		
@@ -97,7 +101,11 @@ public class RobotBob {
 		try{
 			Delay.msDelay(3000);
 			boolean talkWithServer = true;
+			PrintWriter writer;
+			
+			
 			while(talkWithServer){
+				int i = 0;
 				byte[] message = "GET_COMMAND".getBytes();
 				mConnection.write(message, message.length);
 				byte[] sMessage = new byte[1024];
@@ -146,7 +154,17 @@ public class RobotBob {
 				}
 				//System.out.println("");
 				//mConnection.write("ack".getBytes(), 3);
+				
+				//PRINTING ON FILE
+				writer = new PrintWriter("commands"+i+".txt", "UTF-8");
+				writer.println(manageList());
+				writer.close();
+				i++;
 			}
+			
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			LCD.clearDisplay();
 			LCD.drawString("I/O exception", 0, 2);
@@ -155,6 +173,22 @@ public class RobotBob {
 		}
 	}
 	
+	private String manageList(){
+		ArrayList<String> arr = new ArrayList<>();
+		String tmp = BobList._get(0);
+		int counter = 0;
+		for(int i = 1; i < BobList._size(); i++){
+			if(tmp.equals(BobList._get(i))){
+				counter++;
+			}
+			else {
+				arr.add(tmp+" " + counter+"\n");
+				counter = 0;
+				tmp = BobList._get(i);
+			}
+		}
+		return arr.toString();
+	}
 	private ColorCalibrate calibrate() throws IOException {
 		RobotTextMenu calibrationMenu = new RobotTextMenu(
 				new String[] {"Use Text File", "New Calibration"},
