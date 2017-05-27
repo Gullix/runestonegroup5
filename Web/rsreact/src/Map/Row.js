@@ -6,6 +6,9 @@ import Square from "./Square";
 class Row extends Component{
 
     render(){
+        var manySquares = this.props.rowItems.map(function(square,i){
+            
+        });
         return(
             <div className="rowContainer">
                 {
