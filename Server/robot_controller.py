@@ -24,8 +24,8 @@ def get_command(data, socket):
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
-	if (len(data["robot"]["state_queue"]) > 0):
-		data["robot"]["position"] = zone_to_pos(data,data["robot"]["state_queue"].pop(0))
+    update_robot_position(data,data["robot"]["last_command"])
+	data["robot"]["last_command"] = command
 	socket.send(bytes(command, "UTF-8"))
 
 ########################################
@@ -42,20 +42,15 @@ def command_remove_package(data, package):
 		raise CommandError("Package does not exist")
 
 	# Make commands
-	commands     = []
-	robotStates  =[]
-	states,paths = calculate_path(data, data["robot"]["final_location"], package["location"])
-	commands    += paths
-	robotStates += states
+	commands  = []
+	commands += calculate_path(data, data["robot"]["final_location"], package["location"])
 	commands += [PICK]
-	states,paths = calculate_path(data, package["location"], START)
-	commands    += paths
-	robotStates += states
+	commands += calculate_path(data, package["location"], START)
 	commands += [DROP]
 
 	data["robot"]["final_location"] = START
 	data["robot"]["command_queue"] += commands
-	data["robot"]["state_queue"]   += robotStates
+
 
 
 def command_move_package(data, location_pickup, location_dropoff):
@@ -64,30 +59,30 @@ def command_move_package(data, location_pickup, location_dropoff):
 	#location_dropoff = pos_to_zone(pos_dropoff)
 
 	commands = []
-	robotStates=[]
-	states,paths = calculate_path(data, data["robot"]["final_location"], location_pickup)
-	commands += paths
-	robotStates += states
+
+	commands += calculate_path(data, data["robot"]["final_location"], location_pickup)
+
+
 	commands += [PICK]
-	states,paths = calculate_path(data, location_pickup, location_dropoff)
-	commands += paths
-	robotStates += states
+	commands += calculate_path(data, location_pickup, location_dropoff)
+
+
 	commands += [DROP]
 
 	data["robot"]["final_location"] = location_dropoff
 	data["robot"]["command_queue"] += commands
-	data["robot"]["state_queue"]   += robotStates
+
 
 
 def command_move_to_location(data, location_target):
 	commands = []
-	robotStates = []
-	states,paths = calculate_path(data, data["robot"]["final_location"], location_target)
-	commands +=  paths
-	robotStates += states
+
+	commands += calculate_path(data, data["robot"]["final_location"], location_target)
+
+
 	data["robot"]["final_location"] = location_target
 	data["robot"]["command_queue"] += commands
-	data["robot"]["state_queue"]   += robotStates
+
 
 	
 
@@ -104,20 +99,20 @@ def command_new_package(data, package):
 
 	# Make commands
 	commands = []
-	robotStates=[]
-	states,paths = calculate_path(data, data["robot"]["final_location"], START)
-	commands += paths
-	robotStates += states
+
+	commands += calculate_path(data, data["robot"]["final_location"], START)
+
+
 	commands += [PICK]
 	final_location = allocate_new_zone(data)
-	states,paths = calculate_path(data, START, final_location)
-	commands += paths
-	robotStates += states
+	commands += calculate_path(data, START, final_location)
+
+
 	commands += [DROP]
 
 	data["robot"]["final_location"] = final_location
 	data["robot"]["command_queue"] += commands
-	data["robot"]["state_queue"]   += robotStates
+
 
 
 ########################################
@@ -131,14 +126,14 @@ def calculate_path(data, start, target):
 	parent_tree = bfs_tree(graph, start)
 
 	path = []
-	states = []
+
 	node = target
 	while parent_tree[node] != None:
 		path.append([k for k,v in graph[parent_tree[node]].items() if v == node][0])
-		states.append(node)
+
 		node = parent_tree[node]
-	states.append(start)
-	return list(reversed(states)),list(reversed(path))
+
+
 
 def bfs_tree(graph, start_node):
 
@@ -204,7 +199,17 @@ def pos_valid(data, position):
 	r,c = pos(position)
 	square = data["map"]["rows"][r][c]
 
-	if square == "b" or square not in data["map"]["sqaure_types"]:
+	if square == "b" or square not in data["map"]["square_types"]:
 		return False
 	return True
+def update_robot_position(data,command):
+	if (command == U):
+		data["robot"]["position"]["row"] -= 2
+	elif (command == D):
+		data["robot"]["position"]["row"] += 2
+	elif (command == L):
+		data["robot"]["position"]["column"] -= 2
+	elif (command == R):
+		data["robot"]["position"]["column"] += 2
+	
 

@@ -10,7 +10,8 @@ def new_shared_dict():
 			"has_package": False,
 			"command_queue": [],
 			"state_queue": [],
-			"final_location": "s"
+			"final_location": "s",
+			"last_command": None
 			
 		},
 		"packages": {
