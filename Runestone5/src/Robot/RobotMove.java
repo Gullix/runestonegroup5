@@ -37,11 +37,16 @@ public class RobotMove implements Movements{
 	}
 	
 	public void Victory(Move m){
-		for(int i=1; i<720; i=i+30)
-		m.getMp().arc(wheelRadius, 30);
+		double old = m.getMp().getAngularSpeed();
+		m.getMp().setAngularSpeed(old*3);
+		int odd = 1;
+		for(int i=1; i<720; i=i+30){
+		m.getMp().arc(wheelRadius, 30*odd, true);
+		odd = odd*-1;
 		arm.rotate(-120);
 		arm.rotate(120);
-		
+		}
+		m.getMp().setAngularSpeed(old*3);
 	}
 	
 	private void updating(int i, Move m){
