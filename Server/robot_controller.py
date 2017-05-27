@@ -156,7 +156,7 @@ def bfs_tree(graph, start_node):
 
             if adj not in visited:
                 candidates.append((adj, node))
-    return parents
+    return list(reversed(parents))
 
 def adjs(graph, node):
 	return [graph[node][x] for x in DIRECTIONS if x in graph[node]]
