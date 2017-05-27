@@ -137,7 +137,7 @@ def calculate_path(data, start, target):
 
 		node = parent_tree[node]
 
-	return path
+	return list(reversed(path))
 
 
 
@@ -156,7 +156,7 @@ def bfs_tree(graph, start_node):
 
             if adj not in visited:
                 candidates.append((adj, node))
-    return list(reversed(parents))
+    return parents
 
 def adjs(graph, node):
 	return [graph[node][x] for x in DIRECTIONS if x in graph[node]]
