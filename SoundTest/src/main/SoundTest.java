@@ -10,7 +10,6 @@ public class SoundTest {
 	public static void main(String[] args) {
 		
 		Sound.playSample(new File("victory.wav"));
-		Delay.msDelay(10000);
 		
 	}
 	
