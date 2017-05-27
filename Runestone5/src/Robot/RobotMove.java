@@ -56,7 +56,8 @@ public class RobotMove implements Movements{
 	
 	private void updating(int i, Move m){
 		this.orientation.increment(i);
-		m.getMp().arc(wheelRadius, i);
+		int n = (i > 0) ? 5 : -5;
+		m.getMp().arc(wheelRadius, i+n);
 	}
 	private void turning(int target, Move m){
 		this.right = (target - orientation.getOrientation() + 360) % 360 >= 180;
