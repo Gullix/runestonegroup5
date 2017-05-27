@@ -6,7 +6,7 @@ import RobotInformationWindow   from "./RobotInformationWindow";
 class InformationOverview extends Component{
     render(){
         return(
-            <div className="InformationOverviewContainer">
+            <div className="informationOverviewContainer">
             <SquareInformationWindow/>
             <PackageInformationWindow/>
             <RobotInformationWindow/>

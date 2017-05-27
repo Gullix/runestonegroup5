@@ -4,6 +4,7 @@ class PackageInformationOverview extends Component{
     render(){
         return(
             <div className="PackageInformationOverviewContainer">
+                Hello
             </div>
 
         )

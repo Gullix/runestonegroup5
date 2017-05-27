@@ -3,7 +3,9 @@
  */
 import React, { Component } from 'react';
 import Grid from "./WarehouseView/Grid";
+require('./MapOverview.css');
 import InformationOverview from "./WarehouseInfo/InformationOverview";
+
 class MapOverview extends Component{
        squareOnClick(square){
            if (true){

@@ -4,7 +4,7 @@ class SquareInformationOverview extends Component{
     render(){
         return(
             <div className="SquareInformationOverviewContainer">
-
+                Hello
             </div>
 
         )

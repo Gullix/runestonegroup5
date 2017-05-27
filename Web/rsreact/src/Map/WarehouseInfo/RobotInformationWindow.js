@@ -4,7 +4,7 @@ class RobotInformationOverview extends Component{
     render(){
         return(
             <div className="RobotInformationOverviewContainer">
-
+                Hello
             </div>
 
         )
