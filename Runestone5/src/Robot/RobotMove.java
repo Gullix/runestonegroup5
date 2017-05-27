@@ -36,6 +36,14 @@ public class RobotMove implements Movements{
 		this.arm = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("D"));
 	}
 	
+	public void Victory(Move m){
+		for(int i=1; i<720; i=i+30)
+		m.getMp().arc(wheelRadius, 30);
+		arm.rotate(-120);
+		arm.rotate(120);
+		
+	}
+	
 	private void updating(int i, Move m){
 		this.orientation.increment(i);
 		m.getMp().arc(wheelRadius, i);
@@ -92,18 +100,20 @@ public class RobotMove implements Movements{
 		//
 
 	@Override
-	public void _pickup(Move m) {			
+	public void _pickup(Move m) {
 		sonic.fetchSample(sonicSample, 0);
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 			m.getMp().travel(10);
 			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
-				m.getMp().travel(-5);
+				m.getMp().travel(-10);
 			}
 		}
 		arm.rotate(-1200);		
 	}
+	
+	
 	//d can be negative to search the other way
 	public void search(Move m, int d){
 		int range = 10*d;
