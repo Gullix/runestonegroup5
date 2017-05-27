@@ -115,9 +115,7 @@ public class RobotMove implements Movements{
 		float dist = 1;
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
-			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
-			if(sonicSample[0]>0.1){dist=200*sonicSample[0];}
-			else{dist=1;}			
+			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);	
 			m.getMp().travel(10*dist);
 			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
 				m.getMp().travel(-14);
@@ -125,7 +123,6 @@ public class RobotMove implements Movements{
 		}
 		arm.rotate(-130);		
 	}
-	
 	
 	//d can be negative to search the other way
 	public void search(Move m, int d){
