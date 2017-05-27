@@ -117,10 +117,10 @@ public class RobotMove implements Movements{
 			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
 			m.getMp().travel(10);
 			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
-				m.getMp().travel(-10);
+				m.getMp().travel(-9);
 			}
 		}
-		arm.rotate(-1200);		
+		arm.rotate(-130);		
 	}
 	
 	
