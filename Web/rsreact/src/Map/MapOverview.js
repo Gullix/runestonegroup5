@@ -2,8 +2,8 @@
  * Created by simonljus on 2017-05-21.
  */
 import React, { Component } from 'react';
-import Grid from "./Grid";
-import InformationOverview from "./InformationOverview";
+import Grid from "./WarehouseView/Grid";
+import InformationOverview from "./WarehouseInfo/InformationOverview";
 class MapOverview extends Component{
        squareOnClick(square){
            if (true){

@@ -4,6 +4,9 @@
 import React, { Component } from 'react';
 require('./Grid.css');
 class Robot extends Component{
+    hearMe(){
+        console.log("Robotbob")
+    }
     render(){
         var imgsource = "robotbob.svg";
         if(this.props.robotInfo.has_package){
@@ -38,7 +41,7 @@ class Robot extends Component{
             transform : 'rotate('+degrees+'deg)',
         };
         return(
-            <div className="robotContainer" style={styleObj}>
+            <div className="robotContainer" style={styleObj} onClick={this.hearMe}>
 
             </div>
 
