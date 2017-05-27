@@ -36,6 +36,24 @@ public class RobotMove implements Movements{
 		this.arm = new EV3MediumRegulatedMotor(LocalEV3.get().getPort("D"));
 	}
 	
+	public void Victory(Move m){
+		double ripace = m.getMp().getAngularSpeed();
+		m.getMp().setAngularSpeed(ripace*3);
+		int simon = 180;
+		int celebration = 720;
+		int strength = 120;
+		int robert = 1;
+		int mathew = robert*(-1);
+		for(int i=1; i<=celebration; i=i+simon){
+			m.getMp().arc(wheelRadius*robert, simon*mathew, true);
+			robert = mathew;
+			mathew = robert*(-1);
+			arm.rotate(-strength);
+			arm.rotate(strength);
+		}
+		m.getMp().setAngularSpeed(ripace);
+	}
+	
 	private void updating(int i, Move m){
 		this.orientation.increment(i);
 		m.getMp().arc(wheelRadius, i);
@@ -92,18 +110,23 @@ public class RobotMove implements Movements{
 		//
 
 	@Override
-	public void _pickup(Move m) {			
+	public void _pickup(Move m) {
 		sonic.fetchSample(sonicSample, 0);
+		float dist = 1;
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
-			m.getMp().travel(10);
+			if(sonicSample[0]>0.1){dist=200*sonicSample[0];}
+			else{dist=1;}			
+			m.getMp().travel(10*dist);
 			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
-				m.getMp().travel(-5);
+				m.getMp().travel(-14);
 			}
 		}
-		arm.rotate(-1200);		
+		arm.rotate(-130);		
 	}
+	
+	
 	//d can be negative to search the other way
 	public void search(Move m, int d){
 		int range = 10*d;
