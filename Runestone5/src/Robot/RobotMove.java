@@ -108,20 +108,18 @@ public class RobotMove implements Movements{
 		}
 		
 		//
-
 	@Override
 	public void _pickup(Move m) {
 		sonic.fetchSample(sonicSample, 0);
-		float dist = 1;
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
-			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);	
-			m.getMp().travel(10*dist);
+			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
+			m.getMp().travel(10);
 			if(Float.toString(sonicSample[0]).trim().contains("Infin")){
-				m.getMp().travel(-14);
+				m.getMp().travel(-9);
 			}
 		}
-		arm.rotate(-130);		
+		arm.rotate(-130);
 	}
 	
 	//d can be negative to search the other way
