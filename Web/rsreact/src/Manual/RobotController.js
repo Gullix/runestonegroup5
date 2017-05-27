@@ -46,7 +46,7 @@ class RobotController extends Component{
                     </div>
                 </div>
                 <div>
-                    <button id="victory" onClick={this.victoryToServer}>VICTORY</button>
+                    <button id="victory_button" onClick={this.victoryToServer.bind(this)}>VICTORY</button>
                 </div>
             </div>
 
