@@ -32,14 +32,10 @@ public class LineFollower {
 		chassis.setAcceleration(200, 20);
 		while(true){
 			//we used chassis because pilot stops after every command
-<<<<<<< HEAD
-			
 			/*if(cc.seeColor("WHITE")){
 				grayCount = 0;
-=======
 			grayCount = grayCount > 0 ? grayCount-1 : 0;
 			if(cc.seeColor("WHITE")){
->>>>>>> 9b0debbecf9ba400df2c7d4397f024e53a67c744
 				if(lastColorSeen!=0){
 					chassis.setVelocity(0, 0);
 					chassis.arc(speed, d*lastColorSeen);
@@ -49,7 +45,6 @@ public class LineFollower {
 				chassis.setVelocity(speed,0);
 			}
 			if(cc.seeColor("GREEN")){
-<<<<<<< HEAD
 				grayCount = 0;
 				chassis.setVelocity(speed, -1*angle*d);
 				lastColorSeen = 1;
@@ -57,13 +52,10 @@ public class LineFollower {
 			if(cc.seeColor("BLUE")){
 				grayCount = 0;
 				chassis.setVelocity(speed, angle*d);
-=======
-				chassis.setVelocity(speed, angle*d);
 				lastColorSeen = 1;
 			}
 			if(cc.seeColor("BLUE")){
 				chassis.setVelocity(speed, -angle*d);
->>>>>>> 9b0debbecf9ba400df2c7d4397f024e53a67c744
 				lastColorSeen = -1;
 			}
 			if(cc.seeColor("GRAY")){
