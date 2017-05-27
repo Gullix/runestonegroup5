@@ -137,6 +137,8 @@ def calculate_path(data, start, target):
 
 		node = parent_tree[node]
 
+	return path
+
 
 
 def bfs_tree(graph, start_node):
