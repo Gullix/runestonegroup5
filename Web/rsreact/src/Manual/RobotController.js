@@ -22,6 +22,15 @@ class RobotController extends Component{
 
     }
 
+    victoryToServer() {
+        var message = {
+            type_of_data: "victory",
+            data: null
+        };
+        this.props.wsSend(message);
+
+    }
+
 
     render(){
         return(
@@ -35,6 +44,9 @@ class RobotController extends Component{
                         <button id="backward_button"  className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"B","10")}> v </button>
                         <button id="right_button"     className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"R","10")}> &gt; </button>
                     </div>
+                </div>
+                <div>
+                    <button id="victory" onClick={this.victoryToServer}>VICTORY</button>
                 </div>
             </div>
 

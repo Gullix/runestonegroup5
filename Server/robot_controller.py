@@ -24,7 +24,7 @@ def get_command(data, socket):
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
-    update_robot_position(data,data["robot"]["last_command"])
+	update_robot_position(data, data["robot"]["last_command"])
 	data["robot"]["last_command"] = command
 	socket.send(bytes(command, "UTF-8"))
 
@@ -112,6 +112,10 @@ def command_new_package(data, package):
 
 	data["robot"]["final_location"] = final_location
 	data["robot"]["command_queue"] += commands
+
+def command_victory(data):
+
+	data["robot"]["command_queue"] += ["VICTORY"]
 
 
 

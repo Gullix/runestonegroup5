@@ -29,6 +29,8 @@ def process(data, typ, message):
 		rc.command_move_to_location(data, message)
 	elif typ == "new_storage_location":
 	    rc.command_move_package(data,message["from_location"],message["to_location"])
+	elif typ == "victory":
+		rc.command_victory(data)
 		
 
 def run_server(data):

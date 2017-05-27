@@ -13,10 +13,11 @@
 
 /* Style the buttons inside the tab */
 .tab {
+    font-size: inherit;
     text-align:center;
-    width:100px;
+    width:200px;
     border:1px solid #ccc;
-    height: 45px;
+    height: 50px;
     display: inline-block;
 }
 
