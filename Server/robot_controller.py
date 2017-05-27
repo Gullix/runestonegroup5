@@ -21,10 +21,10 @@ def get_command(data, socket):
 	"""
 	Called when the robot requests a command from the command Queue
 	"""
+	update_robot_position(data, data["robot"]["last_command"])
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
-	update_robot_position(data, data["robot"]["last_command"])
 	data["robot"]["last_command"] = command
 	socket.send(bytes(command, "UTF-8"))
 
@@ -137,7 +137,7 @@ def calculate_path(data, start, target):
 
 		node = parent_tree[node]
 
-	return path
+	return list(reversed(path))
 
 
 
