@@ -92,10 +92,8 @@ public class RobotMove implements Movements{
 		//
 
 	@Override
-	public void _pickup(Move m) {
-		
-			
-		
+	public void _pickup(Move m) {			
+		sonic.fetchSample(sonicSample, 0);
 		while(sonicSample[0] > 0.032){
 			sonic.fetchSample(sonicSample, 0);
 			LCD.drawString("Ultra = " + Float.toString(sonicSample[0]), 0, 1);
