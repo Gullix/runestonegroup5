@@ -21,7 +21,7 @@ def get_command(data, socket):
 	"""
 	Called when the robot requests a command from the command Queue
 	"""
-	update_robot_position(data, data["robot"]["last_command"])
+	update_robot_status(data, data["robot"]["last_command"])
 	while len(data["robot"]["command_queue"]) == 0:
 		pass
 	command = data["robot"]["command_queue"].pop(0)
@@ -208,7 +208,14 @@ def pos_valid(data, position):
 	if square == "b" or square not in data["map"]["square_types"]:
 		return False
 	return True
-def update_robot_position(data,command):
+def carrying_package(data,robot_pos):
+	for package in data["packages"]:
+		if (package["position"]["row"] == robot_pos["row"] && package["position"]["column"] == robot_pos["column"]):
+			return package["package_id"]
+
+
+
+def update_robot_status(data,command):
 	if (command == U):
 		data["robot"]["position"]["row"] -= 2
 	elif (command == D):
@@ -217,5 +224,9 @@ def update_robot_position(data,command):
 		data["robot"]["position"]["column"] -= 2
 	elif (command == R):
 		data["robot"]["position"]["column"] += 2
+	elif (command == PICK):
+		data["robot"]["carrying_package"] = carrying_package(data["robot"]["position"])
+	elif (command == DROP)
+		data["robot"]["has_package"] = None
 	
 
