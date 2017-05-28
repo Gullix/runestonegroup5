@@ -42,7 +42,7 @@ def command_remove_package(data, package_id,location_dropoff):
 def remove_package(data,package_id):
 	# Remove package, since it is now out of the warehouse
 	    
-	if data["packages"][package_id]:
+	if data["packages"].get(package_id,None):
 		del data["packages"][package_id]
 	else:
 		raise CommandError("Package does not exist")
