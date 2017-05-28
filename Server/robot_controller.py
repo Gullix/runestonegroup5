@@ -33,8 +33,9 @@ def get_command(data, socket):
 ########################################
 
 def command_remove_package(data, package_id,location_dropoff):
-	command_move_package(data, package_id, location_dropoff)
-	remove_package(data,package_id)
+	command_move_package(data, package_id, location_dropoff):
+	data["package"][package_id]["remove_after_drop"] += [True]
+	
     
 
 
@@ -214,13 +215,19 @@ def carrying_package(data,robot_pos):
 			data["packages"][package]["in_transit"] = True
 			return package
 	return None
-def new_package_position(data,package, position):
 
-	data["packages"][package]["in_transit"] = False
-	data["packages"][package]["position"]["row"] = position["row"]
-	data["packages"][package]["position"]["column"] = position["column"]
-	print(position)
-	print(package)
+def package_here(data,position):
+	for package in data["packages"]:
+		if (data["packages"][package]["position"]["row"] == position["row"] and data["packages"][package]["position"]["column"] == position["column"]  and data["packages"][package]["in_transit"] = False):			
+			return True
+	return False
+def package_being_dropped(data,package, position):
+	if (len(data["packages"][package]["remove_after_drop"]) > 0 and  data["packages"][package]["remove_after_drop"].pop(0))
+		remove_package(data,package)
+	else :
+		data["packages"][package]["in_transit"] = False
+		data["packages"][package]["position"]["row"] = position["row"]
+		data["packages"][package]["position"]["column"] = position["column"]
     
 
 def update_robot_status(data,command):
@@ -234,8 +241,8 @@ def update_robot_status(data,command):
 		data["robot"]["position"]["column"] += 2
 	elif (command == PICK):
 		data["robot"]["carrying_package"] = carrying_package(data,data["robot"]["position"])
-	elif (command == DROP): 
-		new_package_position(data,data["robot"]["carrying_package"],data["robot"]["position"])
+	elif (command == DROP):
+		package_being_dropped(data,data["robot"]["carrying_package"],data["robot"]["position"])
 		data["robot"]["carrying_package"] = None
 	
 
