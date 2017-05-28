@@ -32,7 +32,7 @@ def process(data, typ, message):
 		rc.command_victory(data)
 	elif typ == "move_package":
 		rc.command_move_package(data, message["package_id"], message["to_location"])
-	elif typ =="exctract_package"
+	elif typ =="exctract_package":
 	    rc.command_remove_package(data,message["package_id"],message["to_location"])
 
 		
