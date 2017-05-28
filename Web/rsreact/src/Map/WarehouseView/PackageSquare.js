@@ -3,7 +3,12 @@ require('./Grid.css');
 import Package from "./Package"
 class PackageSquare extends Component{
     displayInfo(){
-        console.log(this)
+        //console.log(this.props.packageInfo.package_id);
+        const obj = {
+            type_of_square: "Package",
+            package_id: this.props.packageInfo.package_id
+        };
+        this.props.squareOnClick(obj)
     }
     render(){
         return(

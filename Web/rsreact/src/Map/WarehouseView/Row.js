@@ -48,7 +48,7 @@ class Row extends Component {
     packageCheck(column_index) {
         let that = this;
         var pCheck = this.props.packages.map(function (pack, i) {
-            if (pack.position.row === that.props.rowIndex && pack.position.column === column_index) {
+            if (pack.position.row === that.props.rowIndex && pack.position.column === column_index && !pack.in_transit) {
                 return (
                     pack
                 )
@@ -66,6 +66,10 @@ class Row extends Component {
 
     }
 
+    squareInformation(obj){
+        this.props.squareOnClick(obj)
+    }
+
     render() {
         let that = this;
         var manySquares = this.props.rowItems.map(function (square, i) {
@@ -73,10 +77,10 @@ class Row extends Component {
             var styleObj = {
                 backgroundColor: design.square_color,
             };
-            var result = that.packageCheck(i)
+            var result = that.packageCheck(i);
             if (that.props.robotInfo.position.row === that.props.rowIndex && that.props.robotInfo.position.column === i) {
                 return (
-                    <RobotSquare key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} pos_column={i} square_text={that.props.square_text} robotInfo={that.props.robotInfo}>
+                    <RobotSquare squareOnClick={that.squareInformation.bind(that)} key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} pos_column={i} square_text={design.square_text} robotInfo={that.props.robotInfo}>
 
                 </RobotSquare>
                 )
@@ -84,13 +88,13 @@ class Row extends Component {
             }
             else if (result  !== null){
                 return(
-                    <PackageSquare key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} pos_column={i} square_text={that.props.square_text} packageInfo={result}/>
+                    <PackageSquare squareOnClick={that.squareInformation.bind(that)} key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} pos_column={i} square_text={design.square_text} packageInfo={result}/>
                 )
             }
 
             else {
                 return (
-                    <Square key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} square_text={that.props.square_text} pos_column={i} >
+                    <Square squareOnClick={that.squareInformation.bind(that)} key={i} squareType={square} styleObj={styleObj} pos_row={that.props.rowIndex} square_text={design.square_text} pos_column={i} >
 
                     </Square>)
             }

@@ -7,10 +7,18 @@ require('./MapOverview.css');
 import InformationOverview from "./WarehouseInfo/InformationOverview";
 
 class MapOverview extends Component{
-       squareOnClick(square){
-           if (true){
+    constructor(props){
+        super(props);
+        this.state={
+            squareClicked: null,
 
-           }
+        }
+    }
+       squareOnClick(square){
+            console.log(square);
+            this.setState({
+                squareClicked: square
+            });
        }
       render(){
 
@@ -18,7 +26,8 @@ class MapOverview extends Component{
 
               <div className="mapOverviewContainer">
                   <Grid rowSize={this.props.layout.rowSize} squareOnClick={this.squareOnClick.bind(this)}colSize={this.props.layout.colSize} rows={this.props.layout.rows} robotInfo={this.props.robotInfo} packages={this.props.packages}></Grid>
-                  <InformationOverview></InformationOverview>
+                  <InformationOverview squareClicked={this.state.squareClicked}></InformationOverview>
+
               </div>
 
           )

@@ -15,7 +15,7 @@ export function createWareHouse(rows){
 
 }
 export function largestLaneSize(lanes){
-    let max =0
+    let max = 0;
     for(var i=0;i<lanes.length; i++){
 
         if( lanes[0].length  > max){
@@ -110,7 +110,7 @@ export function robotInit(){
             row: 0,
             column: 0},
         orientation: "west",
-        has_package: false
+        carrying_package: null
     };
 }
 
@@ -118,15 +118,18 @@ export function packageListInit(){
     const package1={
         position:{ row:0, column: 2},
         package_id: "package1",
-    }
+        in_transit: false
+    };
     const package2={
         position:{ row:4, column: 4},
         package_id: "package2",
-    }
+        in_transit: false
+    };
     const package3={
         position:{ row:0, column: 0},
         package_id: "package3",
-    }
+        in_transit: false
+    };
     return [package1,package2,package3];
 }
 export function packageListHandler(plist){

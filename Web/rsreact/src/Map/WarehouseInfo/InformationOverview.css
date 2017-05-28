@@ -1,3 +1,6 @@
 .informationOverviewContainer{
-    background: white;
+    background: aliceblue;
+    width: 560px;
+    height: 100px;
+    padding: 1.5%;
 }

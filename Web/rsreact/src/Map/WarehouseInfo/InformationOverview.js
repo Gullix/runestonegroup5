@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 require('./InformationOverview.css');
-import SquareInformationWindow from "./SquareInformationWindow";
-import PackageInformationWindow from "./PackageInformationWindow";
-import RobotInformationWindow   from "./RobotInformationWindow";
+import InformationWindow from "./InformationWindow";
+
 class InformationOverview extends Component{
     render(){
         return(
             <div className="informationOverviewContainer">
-            <SquareInformationWindow/>
-            <PackageInformationWindow/>
-            <RobotInformationWindow/>
+            <InformationWindow squareClicked={this.props.squareClicked}/>
             </div>
 
         )

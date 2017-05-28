@@ -88,7 +88,7 @@ class WSocket extends Component{
             case('package_list'):
                 this.setState({
                     pl_message: obj.data
-            });
+                });
                 break;
 
             case('task_list'):
