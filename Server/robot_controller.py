@@ -227,7 +227,7 @@ def package_being_dropped(data,package_id, position):
 	print(data["packages"][package_id])
 	print(len(data["packages"][package_id]["remove_after_drop"]))
 	if (len(data["packages"][package_id]["remove_after_drop"]) > 0 and data["packages"][package_id]["remove_after_drop"].pop(0) == YES):
-		remove_package(data,package)
+		remove_package(data,package_id)
 	else :
 		data["packages"][package_id]["in_transit"] = False
 		data["packages"][package_id]["position"]["row"] = position["row"]
