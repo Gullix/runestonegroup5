@@ -221,14 +221,15 @@ def package_here(data,position):
 		if (data["packages"][package]["position"]["row"] == position["row"] and data["packages"][package]["position"]["column"] == position["column"] and (data["packages"][package]["in_transit"] == False)):			
 			return True
 	return False
-def package_being_dropped(data,package, position):
-	print(package)
-	if (len(data["packages"][package]["remove_after_drop"]) > 0 and  data["packages"][package]["remove_after_drop"].pop(0)):
+def package_being_dropped(data,package_id, position):
+	print(data["packages"][package_id])
+	print(len(data["packages"][package_id]["remove_after_drop"]))
+	if (len(data["packages"][package_id]["remove_after_drop"]) > 0 and data["packages"][package_id]["remove_after_drop"].pop(0)):
 		remove_package(data,package)
 	else :
-		data["packages"][package]["in_transit"] = False
-		data["packages"][package]["position"]["row"] = position["row"]
-		data["packages"][package]["position"]["column"] = position["column"]
+		data["packages"][package_id]["in_transit"] = False
+		data["packages"][package_id]["position"]["row"] = position["row"]
+		data["packages"][package_id]["position"]["column"] = position["column"]
     
 
 def update_robot_status(data,command):
