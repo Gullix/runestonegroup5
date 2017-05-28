@@ -33,7 +33,7 @@ def get_command(data, socket):
 ########################################
 
 def command_remove_package(data, package_id,location_dropoff):
-	command_move_package(data, package_id, location_dropoff):
+	command_move_package(data, package_id, location_dropoff)
 	data["package"][package_id]["remove_after_drop"] += [True]
 	
     
