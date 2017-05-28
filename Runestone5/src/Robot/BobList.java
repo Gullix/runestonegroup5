@@ -35,7 +35,8 @@ public class BobList extends ArrayList<String>{
 	}
 	
 	public static String _get(int i){
-		return commandPile.get(i);
+		if(BobList._size()>0) return commandPile.get(i);
+		else return "";
 	}
 	
 	public static String _toString(){
