@@ -218,11 +218,11 @@ def carrying_package(data,robot_pos):
 
 def package_here(data,position):
 	for package in data["packages"]:
-		if (data["packages"][package]["position"]["row"] == position["row"] and data["packages"][package]["position"]["column"] == position["column"]  and !(data["packages"][package]["in_transit"])):			
+		if (data["packages"][package]["position"]["row"] == position["row"] and data["packages"][package]["position"]["column"] == position["column"] and !data["packages"][package]["in_transit"]):			
 			return True
 	return False
 def package_being_dropped(data,package, position):
-	if (len(data["packages"][package]["remove_after_drop"]) > 0 and  data["packages"][package]["remove_after_drop"].pop(0))
+	if (len(data["packages"][package]["remove_after_drop"]) > 0 and  data["packages"][package]["remove_after_drop"].pop(0)):
 		remove_package(data,package)
 	else :
 		data["packages"][package]["in_transit"] = False
