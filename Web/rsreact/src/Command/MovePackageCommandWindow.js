@@ -12,7 +12,7 @@ class MovePackageCommandWindow extends Component{
             type_of_data: "move_package",
             data: {
                 package_id: selectedPackageId,
-                position: selectedStorage
+                to_location: selectedStorage
             }
         };
         this.props.sendCommand(message);
