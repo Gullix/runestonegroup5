@@ -12,7 +12,6 @@ async def interact(websock, path, data):
 	while True:
 		message = await websock.recv()
 		
-		print("Http: Received packet")
 		typ, message_data = jh.j_unpack(message)
 
 		if typ == "hello":

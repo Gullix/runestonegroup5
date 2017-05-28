@@ -17,11 +17,13 @@ def new_shared_dict():
 		"packages": {
 			"package1": {
 				"package_id": "package1",
-				"position": {"row": 0, "column": 4}
+				"position": {"row": 0, "column": 4,
+				"in_transit": False }
 			},
 			"package2": {
 				"package_id": "package2",
-				"position": {"row": 0, "column": 2}
+				"position": {"row": 0, "column": 2,
+				"in_transit": False}
 			}
 
 		},
