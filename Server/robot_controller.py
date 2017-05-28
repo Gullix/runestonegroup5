@@ -222,6 +222,7 @@ def package_here(data,position):
 			return True
 	return False
 def package_being_dropped(data,package, position):
+	print(package)
 	if (len(data["packages"][package]["remove_after_drop"]) > 0 and  data["packages"][package]["remove_after_drop"].pop(0)):
 		remove_package(data,package)
 	else :
