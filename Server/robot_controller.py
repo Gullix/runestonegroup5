@@ -82,6 +82,11 @@ def command_move_to_location(data, location_target):
 	data["robot"]["final_location"] = location_target
 	data["robot"]["command_queue"] += commands
 
+#TODO	
+def new_package(data,location_pickup):
+	zones = allocate_new_zone(data):
+
+
 
 	
 
@@ -176,7 +181,7 @@ def allocate_new_zone(data):
 	
 	available_zones = [
 		zone for zone in data["map"]["graph"].keys()
-		if zone.startswith("zone") and
+		if zone.startswith("z") and
 		   zone not in [package["location"] for package in data["packages"].values()]
 	]
 

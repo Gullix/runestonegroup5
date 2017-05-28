@@ -34,6 +34,10 @@ def process(data, typ, message):
 		rc.command_move_package(data, message["package_id"], message["to_location"])
 	elif typ =="extract_package":
 	    rc.command_remove_package(data,message["package_id"],message["to_location"])
+	elif typ == "new_package":
+		#todo
+		#rc.command_new_package(data,message["pickup_zone"])
+
 
 		
 
