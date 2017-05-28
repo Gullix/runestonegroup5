@@ -210,8 +210,8 @@ def pos_valid(data, position):
 	return True
 def carrying_package(data,robot_pos):
 	for package in data["packages"]:
-		if (data[package]["position"]["row"] == robot_pos["row"] and data[package]["position"]["column"] == robot_pos["column"]):
-			data[package]["in_transit"] = True
+		if (data["packages"][package]["position"]["row"] == robot_pos["row"] and data["packages"][package]["position"]["column"] == robot_pos["column"]):
+			data["packages"][package]["in_transit"] = True
 			return package
 	return None
 def update_package_status(data,robot_package):
