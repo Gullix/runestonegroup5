@@ -13,7 +13,7 @@ class NewPackageCommandWindow extends Component{
 
     makeNewPackageCommand(){
         if(this.validateForm()){
-            console.log(this.state)
+            console.log(this.state);
             let pickupLocation = this.refs.pickupOption.value;
             let message = {
                 type_of_data: "new_package",
