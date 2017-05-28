@@ -214,10 +214,13 @@ def carrying_package(data,robot_pos):
 			data["packages"][package]["in_transit"] = True
 			return package
 	return None
-def new_package_position(data,package,position):
+def new_package_position(data,package, position):
 
 	data["packages"][package]["in_transit"] = False
-	data["packages"][package]["position"] = position
+	data["packages"][package]["position"]["row"] = position["row"]
+	data["packages"][package]["position"]["column"] = position["column"]
+	print(position)
+	print(package)
     
 
 def update_robot_status(data,command):
