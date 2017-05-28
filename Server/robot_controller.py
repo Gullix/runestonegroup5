@@ -218,7 +218,7 @@ def carrying_package(data,robot_pos):
 
 def package_here(data,position):
 	for package in data["packages"]:
-		if (data["packages"][package]["position"]["row"] == position["row"] and (data["packages"][package]["position"]["column"] == position["column"] and (data["packages"][package]["in_transit"] == False)):			
+		if (data["packages"][package]["position"]["row"] == position["row"] and data["packages"][package]["position"]["column"] == position["column"] and (data["packages"][package]["in_transit"] == False)):			
 			return True
 	return False
 def package_being_dropped(data,package, position):
