@@ -27,9 +27,12 @@ def process(data, typ, message):
 	elif typ == "moveTo":
 		rc.command_move_to_location(data, message)
 	elif typ == "new_storage_location":
-	    rc.command_move_package(data,message["from_location"],message["to_location"])
+	    rc.command_new_storage_location(data,message["from_location"],message["to_location"])
 	elif typ == "victory":
 		rc.command_victory(data)
+	elif typ == "move_package":
+		rc.command_move_package(data, message["package_id"], message["to_location"])
+
 		
 
 def run_server(data):

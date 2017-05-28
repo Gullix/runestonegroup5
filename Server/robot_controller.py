@@ -53,7 +53,7 @@ def command_remove_package(data, package):
 
 
 
-def command_move_package(data, location_pickup, location_dropoff):
+def command_new_storage_location(data, location_pickup, location_dropoff):
 
 	#location_pickup = pos_to_zone(pos_pickup)
 	#location_dropoff = pos_to_zone(pos_dropoff)
@@ -116,6 +116,10 @@ def command_new_package(data, package):
 def command_victory(data):
 
 	data["robot"]["command_queue"] += ["VICTORY"]
+
+def command_move_package(data, package_id, location_dropoff):
+	location_pickup =pos_to_zone(data,data["packages"][package_id]["position"])
+	command_new_storage_location(data,location_pickup,location_dropoff)
 
 
 
