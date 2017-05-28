@@ -7,7 +7,7 @@ def new_shared_dict():
 			"last_target": None,
 			"direction": "F",
 			"position": {"row": 2, "column": 0},
-			"has_package": False,
+			"carrying_package": None,
 			"command_queue": [],
 			"state_queue": [],
 			"final_location": "s",
@@ -18,7 +18,12 @@ def new_shared_dict():
 			"package1": {
 				"package_id": "package1",
 				"position": {"row": 0, "column": 4}
+			},
+			"package2": {
+				"package_id": "package2",
+				"position": {"row": 0, "column": 2}
 			}
+
 		},
 		"map": {
 			"graph": {

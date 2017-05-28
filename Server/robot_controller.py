@@ -226,7 +226,7 @@ def update_robot_status(data,command):
 		data["robot"]["position"]["column"] += 2
 	elif (command == PICK):
 		data["robot"]["carrying_package"] = carrying_package(data["robot"]["position"])
-	elif (command == DROP)
+	elif (command == DROP):
 		data["robot"]["has_package"] = None
 	
 
