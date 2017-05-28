@@ -214,8 +214,10 @@ def carrying_package(data,robot_pos):
 			data["packages"][package]["in_transit"] = True
 			return package
 	return None
-def update_package_status(data,robot_package):
-	data["packages"][robot_package]["in_transit"] = False
+def new_package_position(data,package,position):
+
+	data["packages"][package]["in_transit"] = False
+	data["packages"][package]["position"] = position
     
 
 def update_robot_status(data,command):
@@ -230,7 +232,7 @@ def update_robot_status(data,command):
 	elif (command == PICK):
 		data["robot"]["carrying_package"] = carrying_package(data,data["robot"]["position"])
 	elif (command == DROP): 
-		update_package_status(data,data["robot"]["carrying_package"])
+		new_package_position(data,data["robot"]["carrying_package"],data["robot"]["position"])
 		data["robot"]["carrying_package"] = None
 	
 
