@@ -215,7 +215,7 @@ def carrying_package(data,robot_pos):
 			return package
 	return None
 def update_package_status(data,robot_package):
-	package[robot_package]["in_transit"] = False
+	data["packages"][robot_package]["in_transit"] = False
     
 
 def update_robot_status(data,command):
