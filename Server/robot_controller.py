@@ -32,24 +32,20 @@ def get_command(data, socket):
 # COMMAND IMPLEMENTATIONS
 ########################################
 
-def command_remove_package(data, package):
+def command_remove_package(data, package_id,location_dropoff):
+	command_move_package(data, package_id, location_dropoff):
+	remove_package(package_id)
+    
 
+
+
+def remove_package(data,package_id):
 	# Remove package, since it is now out of the warehouse
-	package_exists = package["packageID"] in [p["packageID"] for p in data["packages"]]	
+	package_exists = package_id in [p["package_id"] for p in data["packages"]]	
 	if package_exists:
-		del data["packages"][package["packageID"]]
+		del data["packages"][package][package_id]
 	else:
 		raise CommandError("Package does not exist")
-
-	# Make commands
-	commands  = []
-	commands += calculate_path(data, data["robot"]["final_location"], package["location"])
-	commands += [PICK]
-	commands += calculate_path(data, package["location"], START)
-	commands += [DROP]
-
-	data["robot"]["final_location"] = START
-	data["robot"]["command_queue"] += commands
 
 
 
