@@ -6,13 +6,13 @@ require('./InstructionWindow.css');
 class MovePackageCommandWindow extends Component{
 
     makeMovePackageCommand(){
-        let selectedPackage = this.refs.packageOption.value;
+        let selectedPackageId = this.refs.packageOption.value;
         let selectedStorage = this.refs.storageOption.value;
         let message = {
-            type_of_data: "movePackage",
+            type_of_data: "move_package",
             data: {
-                package: selectedPackage,
-                storage: selectedStorage
+                package_id: selectedPackageId,
+                position: selectedStorage
             }
         };
         this.props.sendCommand(message);
