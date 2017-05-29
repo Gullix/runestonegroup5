@@ -9,6 +9,7 @@ U = "U"
 D = "D"
 L = "L"
 R = "R"
+MANUAL = "MANUAL"
 DIRECTIONS = [U, D, L, R]
 COMMANDS = [PICK, DROP] + DIRECTIONS
 
@@ -29,6 +30,18 @@ def get_command(data, socket):
 	command = data["robot"]["command_queue"].pop(0)
 	data["robot"]["last_command"] = command
 	socket.send(bytes(command, "UTF-8"))
+	if command == MANUAL:
+		manual_mode(data, socket)
+
+def manual_mode(data, socket):
+	while True:
+		message = socket.recv(1024)
+		
+		command = data["robot"]["manual_command"]
+		robot_sock.send(bytes(command, 'utf-8'))
+
+		if command == "MANUAL_END":
+			break
 
 ########################################
 # COMMAND IMPLEMENTATIONS

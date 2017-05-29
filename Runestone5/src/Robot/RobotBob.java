@@ -147,6 +147,10 @@ public class RobotBob {
 						case("VICTORY"):
 							rm.Victory(new Move(str,pilot));
 						break;
+						
+						case("MANUAL"):
+							new ManualMode().run(mConnection, chassis);
+						break;
 
 					default: 
 						LCD.clearDisplay();

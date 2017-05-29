@@ -11,7 +11,8 @@ def new_shared_dict():
 			"command_queue": [],
 			"state_queue": [],
 			"final_location": "s",
-			"last_command": None
+			"last_command": None,
+			"manual_command": "X"
 			
 		},
 		"packages": {
