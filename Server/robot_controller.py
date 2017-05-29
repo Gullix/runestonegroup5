@@ -61,9 +61,11 @@ def command_move_to_location(data, location_target):
 	data["robot"]["command_queue"] += commands
 
 
-def command_new_package(data, pickup_zone):
+def command_new_package(data, new_package_specs):
 
 	# Create new package
+
+	pickup_zone = new_package_specs["from_location"]
 
 	package_id = "package{}".format(random.randint(1,100))
 	package_already_exists = package_id in data["packages"].keys()
@@ -77,6 +79,8 @@ def command_new_package(data, pickup_zone):
 		"remove_after_drop": [],
 		"in_transit": False
 	}
+
+	print(data["packages"])
 
 	dropoff_zone = allocate_new_zone(data)
 
@@ -104,7 +108,6 @@ def command_move_package(data, package_id, location_dropoff):
 	data["robot"]["final_location"] = location_dropoff
 	data["robot"]["command_queue"] += commands
 	data["packages"][package_id]["remove_after_drop"].append(NO)
-
 
 
 ########################################
@@ -177,17 +180,14 @@ def pos_to_zone(data, pos):
 
 
 def zone_to_pos(data, zone):
-	i = 0
-	
-	for r in data["map"]["rows"]:
-		j = 0
-		for c in r:
-
+	for i in range(len(data["map"]["rows"])):
+		for j in range(len(data["map"]["rows"][i])):
 			if data["map"]["rows"][i][j] == zone:
 				return {"row": i, "column": j}
-			j= j +1 
-				
-		i = i +1
+	print("EROROROROOR didnt find zone")
+	print(zone)
+	print("EROROROROOR didnt find zone")
+
 
 
 def carrying_package(data,robot_pos):
