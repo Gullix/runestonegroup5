@@ -66,14 +66,14 @@ def command_new_package(data, pickup_zone):
 	# Create new package
 
 	package_id = "package{}".format(random.randint(1,100))
-	package_already_exists = package_id in [p["package_id"] for p in data["packages"]]
+	package_already_exists = package_id in data["packages"].keys()
 	while package_already_exists:
 		package_id = "package{}".format(random.randint(1,100))
 		package_already_exists = package_id in [p["package_id"] for p in data["packages"]]
 
 	data["map"]["packages"][package_id] = {
 		"package_id": package_id,
-		"position": zone_to_pos(pickup_zone),
+		"position": zone_to_pos(data, pickup_zone),
 		"remove_after_drop": [],
 		"in_transit": False
 	}
