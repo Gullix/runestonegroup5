@@ -162,7 +162,7 @@ def allocate_new_zone(data):
 	available_zones = [
 		zone for zone in data["map"]["graph"].keys()
 		if zone.startswith("z") and
-		   zone not in [package["location"] for package in data["packages"].values()]
+		   zone not in [pos_to_zone(data, package["position"]) for package in data["packages"].values()]
 	]
 
 	return random.choice(available_zones)
