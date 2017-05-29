@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react';
 import TabWindow from "./TabWindow";
-import TaskWindow from "./TaskWindow";
 require('./InstructionOverview.css');
 import PropTypes from 'prop-types';
 
@@ -18,7 +17,6 @@ class InstructionOverview extends Component{
             <div className="instructionOverviewContainer"  >
 
                 <TabWindow wsSend={this.handleWS.bind(this)} wsMessage={this.props.wsMessage}  packages={this.props.packages} m_zones={this.props.m_zones} m_states={this.props.m_states} m_deliver_zones={this.props.m_deliver_zones}/>
-                <TaskWindow tasks={this.props.tasks} wsSend={this.handleWS.bind(this)}/>
             </div>
 
 
