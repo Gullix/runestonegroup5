@@ -11,7 +11,7 @@ PORT = 8001
 async def interact(websock, path, data):
 	while True:
 		message = await websock.recv()
-		
+
 		typ, message_data = jh.j_unpack(message)
 
 		if typ == "hello":
@@ -23,23 +23,16 @@ async def interact(websock, path, data):
 
 def process(data, typ, message):
 	if typ == "new_package":
-		rc.new_package(data, message)
+		rc.command_new_package(data, message)
 	elif typ == "moveTo":
 		rc.command_move_to_location(data, message)
-	elif typ == "new_storage_location":
-	    rc.command_new_storage_location(data,message["from_location"],message["to_location"])
 	elif typ == "victory":
 		rc.command_victory(data)
 	elif typ == "move_package":
 		rc.command_move_package(data, message["package_id"], message["to_location"])
 	elif typ =="extract_package":
 	    rc.command_remove_package(data,message["package_id"],message["to_location"])
-	elif typ == "new_package":
-		#todo
-		#rc.command_new_package(data,message["pickup_zone"])
 
-
-		
 
 def run_server(data):
 
