@@ -19,12 +19,6 @@ def new_shared_dict():
 		"packages": {
 			"package1": {
 				"package_id": "package1",
-				"position": {"row": 0, "column": 4},
-				"remove_after_drop": [],
-				"in_transit": False
-			},
-			"package2": {
-				"package_id": "package2",
 				"position": {"row": 0, "column": 2},
 				"remove_after_drop": [],
 				"in_transit": False

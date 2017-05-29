@@ -84,7 +84,7 @@ def command_new_package(data, new_package_specs):
 	package_already_exists = package_id in data["packages"].keys()
 	while package_already_exists:
 		package_id = "package{}".format(random.randint(1,100))
-		package_already_exists = package_id in [p["package_id"] for p in data["packages"]]
+		package_already_exists = package_id in data["packages"].keys()
 
 	data["packages"][package_id] = {
 		"package_id": package_id,
