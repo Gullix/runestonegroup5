@@ -58,7 +58,7 @@ class NewPackageCommandWindow extends Component{
                 <select className="instructionOption" ref="pickupOption" >
                     {pickupOption}
                 </select>
-                <button onClick={this.makeNewPackageCommand.bind(this)}>New package</button>
+                <button className="btn btn-primary" onClick={this.makeNewPackageCommand.bind(this)}>New package</button>
                 <form  onChange={this.handleInputChange.bind(this)}>
                     <input placeholder="Min temperature" type="number" name="min_temperature"  step="any" min="-273.15" max="30"/>
                     <input placeholder="Max temperature" type="number" name="max_temperature" step="any" min="-273.15" max="30"/>

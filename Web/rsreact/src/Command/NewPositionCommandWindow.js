@@ -30,7 +30,7 @@ class NewPositionCommandWindow extends Component{
                 <select className="instructionOption" ref="positionOption" onChange={this.handleOptionChange.bind(this)}>
                     {positionOption}
                 </select>
-                <button onClick={this.makeNewPositionCommand.bind(this)}>Send task</button>
+                <button className="btn btn-primary" onClick={this.makeNewPositionCommand.bind(this)}>Move robot to postition</button>
             </div>
 
         )

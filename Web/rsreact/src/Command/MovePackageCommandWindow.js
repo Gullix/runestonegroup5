@@ -48,7 +48,7 @@ class MovePackageCommandWindow extends Component{
                     <select className="instructionOption" ref="storageOption">
                         {storageOption}
                     </select>
-                    <button onClick={this.makeMovePackageCommand.bind(this)}>Send task</button>
+                    <button className="btn btn-primary" onClick={this.makeMovePackageCommand.bind(this)}>Move package</button>
                 </div>
 
             )

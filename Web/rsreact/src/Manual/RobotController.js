@@ -75,7 +75,7 @@ class RobotController extends Component{
         var styleObj={
             color: "white",
             verticalAlign: "middle"
-        }
+        };
         return(
             <div id="robotController">
                 <div id="toggle">
@@ -86,6 +86,7 @@ class RobotController extends Component{
                         <input type="checkbox" checked={this.state.manualMode} />
                         <div className="slider" />
                     </label>
+
                 </div>
                 <div>
                     <button id="wasdButton" className="btn btn-primary" onKeyPress={this.handleKeyPress.bind(this)} > Wasd mode</button>
@@ -101,9 +102,8 @@ class RobotController extends Component{
                 </div>
                 <button id="stop_button" className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"X")}>STOP</button>
                 </div>
-
                 <div>
-                    <button id="victory_button" onClick={this.victoryToServer.bind(this)}>VICTORY</button>
+                    <button id="victory_button" className="btn btn-primary" onClick={this.victoryToServer.bind(this)}>VICTORY</button>
                 </div>
             </div>
 
@@ -114,4 +114,4 @@ export default  RobotController
 RobotController.propTypes={
     wsMessage: PropTypes.string,
     wsSend: PropTypes.func
-}
+};

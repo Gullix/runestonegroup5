@@ -42,7 +42,7 @@ class ExtractPackageCommandWindow extends Component{
                 <select className="instructionOption" ref="storageOption">
                     {storageOption}
                 </select>
-                <button onClick={this.extractPackageCommand.bind(this)}>Send task</button>
+                <button className="btn btn-primary" onClick={this.extractPackageCommand.bind(this)}>Extract package</button>
             </div>
 
         )

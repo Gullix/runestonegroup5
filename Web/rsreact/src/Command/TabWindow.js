@@ -73,8 +73,8 @@ class TabWindow extends Component {
             <div className="TabWindowContainer">
                 <div className="tabsContainer" >
                     {this.renderTab(0, "Move Package") }
-                    {this.renderTab(1,"New position")}
-                    {this.renderTab(2,"New package")}
+                    {this.renderTab(1,"New robot position")}
+                    {this.renderTab(2,"Add new package")}
                     {this.renderTab(3,"Extract package")}
                 </div>
                 <div id="testid" className="tabContent">
