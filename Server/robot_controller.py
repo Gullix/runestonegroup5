@@ -38,7 +38,7 @@ def manual_mode(data, socket):
 		message = socket.recv(1024)
 		
 		command = data["robot"]["manual_command"]
-		robot_sock.send(bytes(command, 'utf-8'))
+		socket.send(bytes(command, 'utf-8'))
 
 		if command == "MANUAL_END":
 			break

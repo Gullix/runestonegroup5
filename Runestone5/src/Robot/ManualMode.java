@@ -15,6 +15,8 @@ public class ManualMode {
 
 	public void run(NXTConnection mConnection, Chassis chassis) {
 		
+		LCD.drawString("ENTER MANUAL MODE", 0, 1);
+		
 		boolean talkWithServer = true;
 		
 		while(talkWithServer) {
@@ -23,6 +25,9 @@ public class ManualMode {
 			byte[] sMessage = new byte[1024];
 			mConnection.read(sMessage, 1024);
 			String str = new String(sMessage, StandardCharsets.UTF_8);
+			
+			LCD.clear(2);
+			LCD.drawString(str, 0, 2);
 			
 			str = str.trim(); 
 			switch(str.trim()) {
@@ -58,7 +63,10 @@ public class ManualMode {
 				Delay.msDelay(1000);
 			}
 			
+			Delay.msDelay(100);
+			
 		}
+		LCD.drawString("EXIT MANUAL MODE", 0, 3);
 		
 	}
 	

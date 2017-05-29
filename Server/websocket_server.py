@@ -18,7 +18,13 @@ async def interact(websock, path, data):
 			await websock.send(jh.j_pack("all", data))
 			continue
 
-		if typ == "manual_on":
+		if typ == "manual_on" and not data["robot"]["is_manual"]:
+			if len(data["robot"]["command_queue"]) == 0:
+				data["robot"]["command_queue"].append("MANUAL")
+			elif data["robot"]["command_queue"][0] != "MANUAL":
+				data["robot"]["command_queue"].insert(0, "MANUAL")
+			data["robot"]["is_manual"] = True
+			print("enter manual mode")
 			while True:
 				message = await websock.recv()
 				typ, message_data = jh.j_unpack(message)
@@ -27,10 +33,13 @@ async def interact(websock, path, data):
 					await websock.send(jh.j_pack("all", data))
 				elif typ == "manual_off":
 					data["robot"]["manual_command"] = "MANUAL_END"
+					data["robot"]["is_manual"] = False
+					print("exit manual mode")
 					break
 				elif typ == "manual_command":
 					# Recieved is one of 4 chars: F, B, L, R, X
 					data["robot"]["manual_command"] = message_data
+					print(data["robot"]["manual_command"])
 			continue
 				
 
