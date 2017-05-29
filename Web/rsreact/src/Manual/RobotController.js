@@ -57,12 +57,12 @@ class RobotController extends Component{
                 this.robotMoveToServer("L")
                 break;
             case("s"):
-                this.robotMoveToServer("D")
+                this.robotMoveToServer("B)
                 break;
             case("d"):
                 this.robotMoveToServer("R")
                 break;
-            case(" "):
+            case("Q"):
                 this.robotMoveToServer("X")
                 break;
             default:
