@@ -77,28 +77,31 @@ class RobotController extends Component{
             verticalAlign: "middle"
         }
         return(
-            <div >
+            <div id="robotController">
+                <div id="toggle">
+                    <div id="toggleText">
+                        <span style={styleObj}>Manual toggle</span>
+                    </div>
+                    <label className="switch" onChange={this.toggleManual.bind(this)}>
+                        <input type="checkbox" checked={this.state.manualMode} />
+                        <div className="slider" />
+                    </label>
+                </div>
                 <div>
-                    <button  className=" btn btn-primary"onKeyPress={this.handleKeyPress.bind(this)} > Wasd mode</button>
+                    <button id="wasdButton" className="btn btn-primary" onKeyPress={this.handleKeyPress.bind(this)} > Wasd mode</button>
                 <div id="remoteContainer" >
                     <div id="topButtons">
-                        <button id="forward_button"   className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"F")}> ^ </button>
+                        <button id="forward_button"   className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"F")}> W </button>
                     </div>
                     <div id="bottom_buttons">
-                        <button id="left_button"      className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"L")}> &lt; </button>
-                        <button id="backward_button"  className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"B")}> v </button>
-                        <button id="right_button"     className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"R")}> &gt; </button>
+                        <button id="left_button"      className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"L")}> A </button>
+                        <button id="backward_button"  className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"B")}> S </button>
+                        <button id="right_button"     className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"R")}> D </button>
                     </div>
                 </div>
-                <button id="stop_button"      className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"X")}>STOP</button>
+                <button id="stop_button" className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"X")}>STOP</button>
                 </div>
-                <div>
-                <span style={styleObj}>Manual toggle</span>
-                <label className="switch" onChange={this.toggleManual.bind(this)}>
-                    <input type="checkbox" checked={this.state.manualMode} />
-                    <div className="slider" />
-                </label>
-                </div>
+
                 <div>
                     <button id="victory_button" onClick={this.victoryToServer.bind(this)}>VICTORY</button>
                 </div>
