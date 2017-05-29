@@ -48,6 +48,27 @@ class RobotController extends Component{
         this.props.wsSend(message);
 
     }
+    handleKeyPress(event){
+        switch(event.key){
+            case("w"):
+                this.robotMoveToServer("F")
+                break;
+            case("a"):
+                this.robotMoveToServer("L")
+                break;
+            case("s"):
+                this.robotMoveToServer("D")
+                break;
+            case("d"):
+                this.robotMoveToServer("R")
+                break;
+            case(" "):
+                this.robotMoveToServer("X")
+                break;
+            default:
+                break;
+        }
+    }
 
 
     render(){
@@ -56,9 +77,10 @@ class RobotController extends Component{
             verticalAlign: "middle"
         }
         return(
-            <div>
+            <div >
                 <div>
-                <div id="remoteContainer">
+                    <button  className=" btn btn-primary"onKeyPress={this.handleKeyPress.bind(this)} > Wasd mode</button>
+                <div id="remoteContainer" >
                     <div id="topButtons">
                         <button id="forward_button"   className="moveButton btn btn-primary" onClick={this.robotMoveToServer.bind(this,"F")}> ^ </button>
                     </div>
@@ -73,7 +95,7 @@ class RobotController extends Component{
                 <div>
                 <span style={styleObj}>Manual toggle</span>
                 <label className="switch" onChange={this.toggleManual.bind(this)}>
-                    <input type="checkbox" checked={this.state.manualMode}/>
+                    <input type="checkbox" checked={this.state.manualMode} />
                     <div className="slider" />
                 </label>
                 </div>
