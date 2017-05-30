@@ -7,6 +7,14 @@ connect like image
 led 12 light when data sending.
 button: to turn on / off send data.
 led 13 bluetooth state
+#####Arduino connect
+```
+bluetooth: 5v , grd, tx=10, rx=11
+button turn on/off:  5v, grd, 10k ohm, pin = 2
+led sensor: grd, 200ohm, pin = 13
+led bluetooth send: grd, 220ohm, pin = 12
+lcd : pin = 987654
+```
 
 send to server
 example:
