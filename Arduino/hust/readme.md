@@ -23,6 +23,11 @@ send temperature and humidity of 6 storage to server as
 TEMP1 60 HU1 5 TEMP2 65 HU2 6 TEMP3 65 HU3 6 TEMP4 65 HU4 6  TEMP5 65 HU5 6  TEMP6 65 HU6 6  
 ###
 
-####Python
-ls -lart 
+####server Python
+install blueman: sudo apt-get install blueman
+setup serial port by blueman
 get port of arduino bluetooth device
+example : /dev/comm0
+run: sudo python3 bluetooth.py
+
+press button on arduino to start sensor
